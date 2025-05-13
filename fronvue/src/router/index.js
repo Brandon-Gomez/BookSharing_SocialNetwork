@@ -8,9 +8,9 @@ import ProfileView from "../views/profile_view.vue"
 import EditProfileView from "../views/editprofile_view.vue"
 import PostView from "../views/post_view.vue"
 import EditPostView from "../views/editpost_view.vue"
-//import LikeView from "../views/like_view.vue"
-//import PdfPreviewView from "../views/pdfpreview_view.vue"
-// import FollowView from "../views/follow_view.vue"
+import LikeView from "../views/like_view.vue"
+import PdfPreviewView from "../views/pdfpreview_view.vue"
+import FollowView from "../views/follow_view.vue"
 import DashboardView from '../views/admin/dashboard_view.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
@@ -84,6 +84,21 @@ const routes = [
     path: '/reset-password',
     name: 'ResetPassword',
     component: ResetPassword,
+  },
+  {
+    path: '/pdf-preview',
+    name: 'PdfPreview',
+    component: PdfPreviewView,
+  },
+  {
+    path: '/likes',
+    name: 'LikeView',
+    component: LikeView,
+  },
+  {
+    path: '/follow',
+    name: 'FollowView',
+    component: FollowView,
   },
 ];
 const router = createRouter({

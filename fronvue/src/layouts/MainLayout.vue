@@ -2,7 +2,7 @@
   <div class="main-layout" :class="{ 'sidebar-open': isSidebarOpen }">
     <NavComponent v-if="isAuthenticated" @search="handleSearch" @sidebar-toggled="toggleSidebar" />
     <div class="layout-container">
-      <aside class="sidebar" v-if="isAuthenticated">
+      <aside v-if="isAuthenticated">
         <search-component v-if="showSearch" />
       </aside>
       <main class="content">
@@ -71,19 +71,19 @@ export default {
 </script>
 
 <style scoped>
-/* body {
+body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   overflow-y: auto;
-  background-image: url('@/assets/BACK.png');
+  background-image: url('@/assets/BACK.png') !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-} */
+}
 
-/* .main-layout {
+.main-layout {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -95,5 +95,5 @@ export default {
   box-sizing: border-box;
   margin-top: 0;
   overflow: hidden;
-} */
+}
 </style>

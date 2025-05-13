@@ -1,11 +1,5 @@
 <template>
-    <div class="admin-layout">
-        <div class="layout-container">
-            <main class="content">
-                <router-view />
-            </main>
-        </div>
-    </div>
+    <router-view />
 </template>
 
 <script>
