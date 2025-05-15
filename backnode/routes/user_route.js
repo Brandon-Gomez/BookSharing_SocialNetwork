@@ -13,5 +13,6 @@ router.post("/forgot-password", userController.generateResetToken);
 router.post("/reset-password", userController.resetPassword);
 router.put('/profile/:username/edit-account', userController.updateProfile);
 router.get('/search', userController.searchUserBy);
+router.get('/admin/users', verifyToken, userController.getAllUsers);
 
 export default router;

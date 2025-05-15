@@ -267,6 +267,17 @@ const searchUserBy = async (req, res) => {
       res.status(500).json({ message: 'Error fetching user profile' });
     }
   };
+
+    const getAllUsers = async (req, res) => {
+     try {
+            const users = await userModel.getAllUsers();
+            res.status(200).json(users);
+        }
+        catch (error) {
+            console.error('Error fetching users:', error);
+            res.status(500).json({ message: 'Error fetching users' });
+        }
+    }
   
 export const userController = {
     registerUser,
@@ -278,4 +289,5 @@ export const userController = {
     updateProfile,
     searchUserBy,
     getUserProfileWithPostCount,
+    getAllUsers
 }

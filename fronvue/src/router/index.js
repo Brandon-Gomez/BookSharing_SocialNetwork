@@ -12,13 +12,11 @@ import LikeView from "../views/like_view.vue"
 import PdfPreviewView from "../views/pdfpreview_view.vue"
 import FollowView from "../views/follow_view.vue"
 import DashboardView from '../views/admin/dashboard_view.vue';
-import MainLayout from '@/layouts/MainLayout.vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
+import UsersListView from '../views/admin/users-list_view.vue';
 
 const routes = [
   {
     path: '/',
-    component: MainLayout,
     meta: { requiresAdmin: false },
 
     children: [
@@ -55,7 +53,6 @@ const routes = [
   },
   {
     path: '/admin',
-    component: AdminLayout,
     meta: { requiresAuth: true, requiresAdmin: true },
     children: [
       {
@@ -63,6 +60,13 @@ const routes = [
         name: 'Dashboard',
         component: DashboardView,
       },
+      {
+
+        path: 'listusers',
+        name: 'Listusers',
+        component: UsersListView,
+
+      }
     ],
   },
   {

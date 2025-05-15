@@ -168,6 +168,12 @@ const isAdmin = async (userId) => {
   return result.rows[0].is_admin;
 }
 
+const getAllUsers = async () => {
+  const query = "SELECT * FROM users;";
+  const result = await db.query(query);
+  return result.rows;
+}
+
 export const userModel = {
   createUser,
   findUserByEmail,
@@ -182,4 +188,5 @@ export const userModel = {
   updatePhotoByUsername,
   getUserById,
   isAdmin,
+  getAllUsers,
 };
