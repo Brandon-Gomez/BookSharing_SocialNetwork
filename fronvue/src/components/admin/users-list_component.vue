@@ -46,6 +46,7 @@ export default {
     async fetchUsers() {
       try {
         const token = localStorage.getItem('authToken');
+        console.log('Token:', token); // Verifica si el token se obtiene correctamente
         if (token) {
           const response = await apiClient.get(`/admin/users`, {
             headers: {
@@ -66,15 +67,18 @@ export default {
       this.$router.push(`/admin/user-edit/${userId}`); // Redirige a la vista de edición de usuario
     },
     async deleteUser(userId) {
-      if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        try {
-          await apiClient.delete(`/users/${userId}`); // Asegúrate de que esta ruta exista en tu backend
-          this.users = this.users.filter(user => user.id !== userId); // Actualiza la lista local
-          alert('Usuario eliminado correctamente.');
-        } catch (error) {
-          console.error('Error al eliminar el usuario:', error);
-        }
+      const token = localStorage.getItem('authToken');
+      if (token && confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+        await apiClient.delete(`/admin/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        this.users = this.users.filter(user => user.id !== userId); // Actualiza la lista local
+        alert('Usuario eliminado correctamente.');
+
       }
+
     },
   },
   mounted() {

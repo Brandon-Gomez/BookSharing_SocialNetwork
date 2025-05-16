@@ -192,6 +192,19 @@ const createUserWithDetails = async ({
   return rows[0];
 };
 
+const deleteUser = async (userId) => {
+  const query = {
+    text: `
+        DELETE FROM users
+        WHERE id = $1
+        `,
+    values: [userId],
+  };
+
+  const { rowCount } = await db.query(query);
+  return rowCount > 0; 
+}
+
 export const userModel = {
   createUser,
   findUserByEmail,
@@ -207,5 +220,6 @@ export const userModel = {
   getUserById,
   isAdmin,
   getAllUsers,
-  createUserWithDetails
+  createUserWithDetails,
+  deleteUser,
 };

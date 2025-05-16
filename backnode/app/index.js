@@ -8,6 +8,8 @@ import likeRouter from '../routes/like_route.js'
 import followRouter from '../routes/follow_route.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { admin } from '../database/firebase.js';
+import adminRouter from '../routes/admin_route.js';
 
 const app = express();
 

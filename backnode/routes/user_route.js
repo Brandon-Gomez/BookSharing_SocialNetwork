@@ -15,5 +15,5 @@ router.put('/profile/:username/edit-account', userController.updateProfile);
 router.get('/search', userController.searchUserBy);
 router.get('/admin/users', verifyToken, userController.getAllUsers);
 router.post('/admin/users', verifyToken, userController.createUser);
-
+router.delete('/admin/users/:userId', verifyToken, userController.deleteUser);
 export default router;
