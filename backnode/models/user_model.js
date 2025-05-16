@@ -17,6 +17,8 @@ const createUser = async ({ email, password, username, termsAccepted }) => {
   return rows[0];
 };
 
+
+
 const findUserByEmail = async (email) => {
   const query = {
     text: `
@@ -174,6 +176,22 @@ const getAllUsers = async () => {
   return result.rows;
 }
 
+const createUserWithDetails = async ({
+ email, password, username, name, birthdate, description, is_admin
+}) => {
+  const query = {
+    text: `
+        INSERT INTO users (email, password, username, name, birthdate, description, is_admin)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING email, username, id
+        `,
+    values: [email, password, username, name, birthdate, description, is_admin],
+  };
+
+  const { rows } = await db.query(query);
+  return rows[0];
+};
+
 export const userModel = {
   createUser,
   findUserByEmail,
@@ -189,4 +207,5 @@ export const userModel = {
   getUserById,
   isAdmin,
   getAllUsers,
+  createUserWithDetails
 };

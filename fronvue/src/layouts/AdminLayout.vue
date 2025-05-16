@@ -39,8 +39,8 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <!-- <h6 class="collapse-header">Custom Components:</h6> -->
-                            <router-link class="collapse-item" to="/admin/listusers">Lista de usuarios</router-link>
-                            <a class="collapse-item" href="">Crear usuario</a>
+                            <router-link class="collapse-item" to="/admin/users-list">Lista de usuarios</router-link>
+                            <router-link class="collapse-item" to="/admin/user-create">Crear usuario</router-link>
                         </div>
                     </div>
                 </li>

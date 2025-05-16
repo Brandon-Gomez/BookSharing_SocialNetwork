@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Lista de Usuarios</h2>
       <button class="btn btn-primary" @click="createUser">Crear Usuario</button>
     </div>
@@ -30,7 +30,7 @@
       </tbody>
     </table>
   </div>
-    
+
 </template>
 
 <script>
@@ -48,11 +48,11 @@ export default {
         const token = localStorage.getItem('authToken');
         if (token) {
           const response = await apiClient.get(`/admin/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        this.users = response.data;
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          this.users = response.data;
         }
 
       } catch (error) {
@@ -60,10 +60,10 @@ export default {
       }
     },
     createUser() {
-      this.$router.push('/admin/create-user'); // Redirige a la vista de creación de usuario
+      this.$router.push('/admin/user-create'); // Redirige a la vista de creación de usuario
     },
     editUser(userId) {
-      this.$router.push(`/admin/edit-user/${userId}`); // Redirige a la vista de edición de usuario
+      this.$router.push(`/admin/user-edit/${userId}`); // Redirige a la vista de edición de usuario
     },
     async deleteUser(userId) {
       if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {

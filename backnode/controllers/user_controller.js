@@ -278,6 +278,25 @@ const searchUserBy = async (req, res) => {
             res.status(500).json({ message: 'Error fetching users' });
         }
     }
+
+    const createUser = async (req, res) => {
+        try {
+            const { email, password, username, name, birthdate, description, is_admin } = req.body;
+          
+            // Encriptar contraseña
+            const salt = await bcryptjs.genSalt(7);
+            const hashedPassword = await bcryptjs.hash(password, salt);
+
+            // Crear usuario
+            const newUser = await userModel.createUserWithDetails({ email, password: hashedPassword, username, name, birthdate, description, is_admin });
+
+            return res.status(201).json({ ok: true, msg: 'USUARIO CREADO', userId: newUser.id });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ ok: false, msg: 'ERROR SERVER CREATE USER' });
+        }
+    }
+
   
 export const userController = {
     registerUser,
@@ -289,5 +308,6 @@ export const userController = {
     updateProfile,
     searchUserBy,
     getUserProfileWithPostCount,
-    getAllUsers
+    getAllUsers,
+    createUser
 }
