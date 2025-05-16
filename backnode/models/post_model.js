@@ -111,16 +111,16 @@ const commentOnPost = async (postId, userId, comment) => {
   return result.rows[0];
 };
 
-const deletePostById = async (userId) => {
+const deletePostById = async (postId) => {
   const query = `
     DELETE 
     FROM posts
     WHERE id = $1;
   `;
-  await db.query(query, [userId]);
+  await db.query(query, [postId]);
 };
 
-const deletePostsUser = async (userId) => {
+const deletePostsByUserId = async (userId) => {
   const query = `
     DELETE 
     FROM posts
@@ -128,7 +128,6 @@ const deletePostsUser = async (userId) => {
   `;
   await db.query(query, [userId]);
 }
-
 
 export const postModel = {
   addPost,
@@ -141,5 +140,5 @@ export const postModel = {
   commentOnPost,
   countPostsByUser,
   deletePostById,
-  deletePostsUser
+  deletePostsByUserId
 };

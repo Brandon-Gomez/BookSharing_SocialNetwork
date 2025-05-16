@@ -2,12 +2,13 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Publicaciones</h2>
-            <button class="btn btn-primary" @click="createPost">Crear Publicación</button>
+            <button class="btn btn-primary" @click="createMyPost">Crear Publicación</button>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped align-middle">
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Imagen</th>
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Usuario</th>
@@ -17,13 +18,17 @@
             </thead>
             <tbody>
                 <tr v-for="(post, index) in posts" :key="post.id">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ post.title }}</td>
-                    <td>{{ post.description }}</td>
-                    <td>{{ post.username }}</td>
-                    <td>{{ formatDate(post.created_at) }}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm me-2" @click="editPost(post.id)">Editar</button>
+                    <td class="align-middle">{{ index + 1 }}</td>
+                    <td class="align-middle">
+                        <img :src="post.image" alt="Imagen de la publicación" class="img-thumbnail"
+                            style="width: 50px; height: auto;" />
+                    </td>
+                    <td class="align-middle">{{ post.title }}</td>
+                    <td class="align-middle">{{ post.description }}</td>
+                    <td class="align-middle">{{ post.username }}</td>
+                    <td class="align-middle">{{ formatDate(post.created_at) }}</td>
+                    <td class="align-middle">
+                        <button class="btn btn-warning btn-sm mr-3" @click="editPost(post.id)">Editar</button>
                         <button class="btn btn-danger btn-sm" @click="deletePost(post.id)">Eliminar</button>
                     </td>
                 </tr>
@@ -46,7 +51,7 @@ export default {
             try {
                 const token = localStorage.getItem('authToken');
                 if (token) {
-                    const response = await apiClient.get('/admin/posts', {
+                    const response = await apiClient.get('/posts', {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     this.posts = response.data;
@@ -55,7 +60,7 @@ export default {
                 console.error('Error al obtener las publicaciones:', error);
             }
         },
-        createPost() {
+        createMyPost() {
             this.$router.push('/admin/post-create');
         },
         editPost(postId) {
@@ -65,13 +70,15 @@ export default {
             const token = localStorage.getItem('authToken');
             if (token && confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
                 try {
-                    await apiClient.delete(`/admin/posts/${postId}`, {
+                    const response = await apiClient.delete(`/posts/${postId}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
+                    console.log('Publicación eliminada:', response.data);
                     this.posts = this.posts.filter(post => post.id !== postId);
                     alert('Publicación eliminada correctamente.');
                 } catch (error) {
                     console.error('Error al eliminar la publicación:', error);
+                    alert('Error al eliminar la publicación.');
                 }
             }
         },

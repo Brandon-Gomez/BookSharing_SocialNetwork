@@ -2,8 +2,9 @@ import { postModel } from "../models/post_model.js";
 import { userModel } from "../models/user_model.js";
 import { uploadBookToFirebase } from "./firebaseupload_controller.js";
 
-const createPost = async (req, res) => {
+const createMyPost = async (req, res) => {
   const { title, description } = req.body;
+
   const user = await userModel.findUserByEmail(req.email);
   const userId = user.id;
 
@@ -63,27 +64,27 @@ const editPost = async (req, res) => {
 };
 
 // Eliminar una publicación
-const deletePost = async (req, res) => {
-  const postId = req.params.id;
+// const deletePost = async (req, res) => {
+//   const postId = req.params.id;
 
-  try {
-    const user = await userModel.findUserByEmail(req.email);
-    const userId = user.id;
+//   try {
+//     const user = await userModel.findUserByEmail(req.email);
+//     const userId = user.id;
 
-    // Verificar si el usuario es el creador de la publicación
-    const post = await postModel.getPostById(postId);
-    if (!post || post.user_id !== userId) {
-      return res.status(403).json({ message: "No tienes permiso para eliminar esta publicación." });
-    }
+//     // Verificar si el usuario es el creador de la publicación
+//     const post = await postModel.getPostById(postId);
+//     if (!post || post.user_id !== userId) {
+//       return res.status(403).json({ message: "No tienes permiso para eliminar esta publicación." });
+//     }
 
-    // Eliminar la publicación de la base de datos
-    await postModel.deletePost(postId);
-    res.status(200).json({ message: "Publicación eliminada correctamente" });
-  } catch (error) {
-    console.error("Error al eliminar la publicación:", error);
-    res.status(500).json({ message: "Error al eliminar la publicación" });
-  }
-};
+//     // Eliminar la publicación de la base de datos
+//     await postModel.deletePost(postId);
+//     res.status(200).json({ message: "Publicación eliminada correctamente" });
+//   } catch (error) {
+//     console.error("Error al eliminar la publicación:", error);
+//     res.status(500).json({ message: "Error al eliminar la publicación" });
+//   }
+// };
 
 // Obtener todas las publicaciones
 const getAllPosts = async (req, res) => {
@@ -166,10 +167,21 @@ const getPostCountByUser = async (req, res) => {
 };
 
 const deletePostById = async (req, res) => {
+  const postId = req.params.id;
+  try {
+    await postModel.deletePostById(postId);
+    res.status(200).json({ message: "Publicación eliminada correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar la publicaciones:", error);
+    res.status(500).json({ message: "Error al eliminar la publicación" });
+  }
+};
+
+const deletePostsByUserId = async (req, res) => {
   const userId = req.params.userId;
   try {
     // Eliminar la publicación de la base de datos
-    await postModel.deletePostById(userId);
+    await postModel.deletePostsByUserId(userId);
     res.status(200).json({ message: "Publicaciónes eliminadas correctamente" });
   } catch (error) {
     console.error("Error al eliminar las publicaciones:", error);
@@ -177,22 +189,33 @@ const deletePostById = async (req, res) => {
   }
 };
 
-const deletePostsUser = async (req, res) => {
-  const userId = req.params.userId;
+
+// admin 
+const createPost = async (req, res) => {
+  const { title, description, userId } = req.body;
+
+  const imagePost = req.files?.images || [];
+  const pdf = req.files?.pdf || [];
+
   try {
-    // Eliminar la publicación de la base de datos
-    await postModel.deletePostsUser(userId);
-    res.status(200).json({ message: "Publicaciónes eliminadas correctamente" });
+    if (imagePost.length === 0 && pdf.length === 0) {
+      return res.status(400).json({ message: "Se requieren una imagen y un archivo PDF." });
+    }
+
+    const imageUrl = await uploadBookToFirebase(imagePost[0]); 
+    const pdfUrl = await uploadBookToFirebase(pdf[0]);
+
+    const newPost = await postModel.addPost(userId, title, description, imageUrl, pdfUrl);
+    res.status(201).json(newPost);
   } catch (error) {
-    console.error("Error al eliminar las publicaciones:", error);
-    res.status(500).json({ message: "Error al eliminar las publicaciones" });
+    console.error("Error al crear la publicación:", error);
+    res.status(500).json({ message: "Error al crear la publicación" });
   }
 };
 
 export const postController = {
-  createPost,
+  createMyPost,
   editPost,
-  deletePost,
   getAllPosts,
   getPostById,
   getPostsByUser,
@@ -200,5 +223,6 @@ export const postController = {
   commentOnPost,
   getPostCountByUser,
   deletePostById,
-  deletePostsUser
+  deletePostsByUserId,
+  createPost
 };

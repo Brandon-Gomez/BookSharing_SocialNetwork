@@ -112,7 +112,9 @@ export default {
                 this.$router.push("/admin/users-list");
             } catch (error) {
                 console.error("Error al actualizar el usuario:", error.response?.data || error);
-                alert("Error al actualizar el usuario. Verifica los datos e inténtalo de nuevo.");
+
+                this.$router.push("/admin/users-list");
+                // alert("Error al actualizar el usuario. Verifica los datos e inténtalo de nuevo.");
             }
         },
         cancel() {

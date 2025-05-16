@@ -8,10 +8,10 @@ const upload = multer({ storage });
 
 const router = Router();
 
-router.post("/posts", verifyToken, upload.fields([{ name: 'images', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]), postController.createPost);
+router.post("/posts", verifyToken, upload.fields([{ name: 'images', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]), postController.createMyPost);
 router.get("/posts", verifyToken, postController.getAllPosts);
 router.get("/posts/user/:userId", verifyToken, postController.getPostsByUser);
-router.delete("/posts/user/:userId", verifyToken, postController.deletePostsUser);
+router.delete("/posts/user/:userId", verifyToken, postController.deletePostsByUserId);
 router.get("/posts/:id", postController.getPostById);
 router.put("/posts/:id", verifyToken, upload.fields([{ name: 'images', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]), postController.editPost);
 router.delete("/posts/:id", verifyToken, postController.deletePostById);

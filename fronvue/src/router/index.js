@@ -15,7 +15,8 @@ import DashboardView from '../views/admin/dashboard_view.vue';
 import UsersListView from '../views/admin/users-list_view.vue';
 import UserCreateView from '../views/admin/user-create_view.vue';
 import UserEditView from '../views/admin/user-edit_view.vue';
-import PostsListView from '../views/admin/posts_list_view.vue';
+import PostsListView from '../views/admin/posts-list_view.vue';
+import PostCreateView from '../views/admin/post-create_view.vue';
 
 // Rutas para visitantes (no autenticados)
 const visitorRoutes = [
@@ -132,6 +133,12 @@ const adminRoutes = [
     path: '/admin/posts-list',
     name: 'PostsList',
     component: PostsListView,
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/admin/post-create',
+    name: 'PostCreate',
+    component: PostCreateView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
 

@@ -2,7 +2,7 @@
   <div class="container post-container my-4">
     <div class="container py-4">
       <h2 class="mb-4">Nueva Publicación</h2>
-      <form @submit.prevent="createPost">
+      <form @submit.prevent="createMyPost">
         <div class="mb-3">
           <label for="title" class="form-label">Título:</label>
           <input v-model="newPost.title" type="text" id="title" class="form-control"
@@ -58,34 +58,34 @@ export default {
     onPdfChange(event) {
       this.newPost.pdf_file = event.target.files[0]; // Asigna el PDF
     },
-    async createPost() {
-  try {
-    const token = localStorage.getItem('authToken');
-    
-    // Crear FormData y agregar los datos de la publicación
-    const formData = new FormData();
-    formData.append("title", this.newPost.title);
-    formData.append("description", this.newPost.description);
-    formData.append("images", this.newPost.images);
-    formData.append("pdf", this.newPost.pdf_file);
+    async createMyPost() {
+      try {
+        const token = localStorage.getItem('authToken');
 
-    // Enviar la solicitud con FormData
-    const response = await apiClient.post('/posts', formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data'
+        // Crear FormData y agregar los datos de la publicación
+        const formData = new FormData();
+        formData.append("title", this.newPost.title);
+        formData.append("description", this.newPost.description);
+        formData.append("images", this.newPost.images);
+        formData.append("pdf", this.newPost.pdf_file);
+
+        // Enviar la solicitud con FormData
+        const response = await apiClient.post('/posts', formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        // Actualizar la lista de publicaciones
+        console.log(response.data);
+        this.$router.push(`/profile/${this.profileData.username}`).then(() => {
+          window.location.reload();
+        });
+      } catch (error) {
+        console.error('Error creating post:', error);
       }
-    });
-
-    // Actualizar la lista de publicaciones
-    console.log(response.data);
-    this.$router.push(`/profile/${this.profileData.username}`).then(() => {
-      window.location.reload();
-    });
-  } catch (error) {
-    console.error('Error creating post:', error);
-  }
-},
+    },
   },
   mounted() {
     this.profileData = JSON.parse(localStorage.getItem('profileData'));
@@ -94,7 +94,6 @@ export default {
 </script>
 
 <style scoped>
-
 .post {
   border: 1px solid #ccc;
   padding: 10px;
