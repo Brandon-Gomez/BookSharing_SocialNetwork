@@ -72,7 +72,7 @@ export default {
             try {
                 const token = localStorage.getItem("authToken");
                 await apiClient.post(
-                    "/admin/users",
+                    "/users",
                     this.userData,
                     {
                         headers: {

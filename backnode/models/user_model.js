@@ -171,7 +171,7 @@ const isAdmin = async (userId) => {
 }
 
 const getAllUsers = async () => {
-  const query = "SELECT * FROM users;";
+  const query = "SELECT * FROM users ORDER BY id ASC";
   const result = await db.query(query);
   return result.rows;
 }
@@ -195,7 +195,8 @@ const createUserWithDetails = async ({
 const deleteUser = async (userId) => {
   const query = {
     text: `
-        DELETE FROM users
+        DELETE 
+        FROM users
         WHERE id = $1
         `,
     values: [userId],

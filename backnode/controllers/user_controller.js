@@ -354,14 +354,10 @@ const createUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-
-    // return console.log("DELETE USER");
-
     const { userId } = req.params;
 
-    // Eliminar usuario
     const deletedUser = await userModel.deleteUser(userId);
-
+    return res.status(200).json({ ok: true, msg: "USUARIO ELIMINADO", userId: deletedUser });
     if (!deletedUser) {
       return res.status(404).json({ ok: false, msg: "USUARIO NO ENCONTRADO" });
     }

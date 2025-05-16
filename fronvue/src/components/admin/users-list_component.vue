@@ -7,7 +7,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>#</th>
+          <th>ID</th>
           <th>Nombre</th>
           <th>Correo</th>
           <th>Usuario</th>
@@ -16,8 +16,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user, index) in users" :key="user.id">
-          <td>{{ index + 1 }}</td>
+        <tr v-for="(user) in users" :key="user.id">
+          <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.username }}</td>
@@ -48,7 +48,7 @@ export default {
         const token = localStorage.getItem('authToken');
         console.log('Token:', token); // Verifica si el token se obtiene correctamente
         if (token) {
-          const response = await apiClient.get(`/admin/users`, {
+          const response = await apiClient.get(`/users`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -69,7 +69,14 @@ export default {
     async deleteUser(userId) {
       const token = localStorage.getItem('authToken');
       if (token && confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        await apiClient.delete(`/admin/users/${userId}`, {
+
+        await apiClient.delete(`/posts/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        await apiClient.delete(`/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -111,6 +111,25 @@ const commentOnPost = async (postId, userId, comment) => {
   return result.rows[0];
 };
 
+const deletePostById = async (userId) => {
+  const query = `
+    DELETE 
+    FROM posts
+    WHERE id = $1;
+  `;
+  await db.query(query, [userId]);
+};
+
+const deletePostsUser = async (userId) => {
+  const query = `
+    DELETE 
+    FROM posts
+    WHERE user_id = $1;
+  `;
+  await db.query(query, [userId]);
+}
+
+
 export const postModel = {
   addPost,
   editPost,
@@ -121,4 +140,6 @@ export const postModel = {
   likePost,
   commentOnPost,
   countPostsByUser,
+  deletePostById,
+  deletePostsUser
 };

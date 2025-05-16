@@ -165,6 +165,30 @@ const getPostCountByUser = async (req, res) => {
   }
 };
 
+const deletePostById = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    // Eliminar la publicación de la base de datos
+    await postModel.deletePostById(userId);
+    res.status(200).json({ message: "Publicaciónes eliminadas correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar las publicaciones:", error);
+    res.status(500).json({ message: "Error al eliminar las publicaciones" });
+  }
+};
+
+const deletePostsUser = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    // Eliminar la publicación de la base de datos
+    await postModel.deletePostsUser(userId);
+    res.status(200).json({ message: "Publicaciónes eliminadas correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar las publicaciones:", error);
+    res.status(500).json({ message: "Error al eliminar las publicaciones" });
+  }
+};
+
 export const postController = {
   createPost,
   editPost,
@@ -175,4 +199,6 @@ export const postController = {
   likePost,
   commentOnPost,
   getPostCountByUser,
+  deletePostById,
+  deletePostsUser
 };

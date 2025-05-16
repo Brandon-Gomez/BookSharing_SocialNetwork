@@ -72,7 +72,7 @@ export default {
             try {
                 const token = localStorage.getItem("authToken");
                 const userId = this.$route.params.userId;
-                const response = await apiClient.get(`/admin/users/${userId}`, {
+                const response = await apiClient.get(`/users/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -100,7 +100,7 @@ export default {
                 if (!dataToSend.password) delete dataToSend.password;
 
                 await apiClient.put(
-                    `/admin/users/${userId}`,
+                    `/users/${userId}`,
                     dataToSend,
                     {
                         headers: {
