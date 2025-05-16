@@ -163,9 +163,9 @@ router.beforeEach((to, from, next) => {
   // }
 
   // Rutas que requieren autenticación
-  if (to.meta.requiresAuth && !token) {
-    return next({ name: 'Login' });
-  }
+  // if (to.meta.requiresAuth && !token) {
+  //   return next({ name: 'Login' });
+  // }
 
   // Rutas que requieren admin
   if (to.meta.requiresAdmin) {
