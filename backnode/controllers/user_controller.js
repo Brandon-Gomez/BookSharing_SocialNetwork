@@ -373,6 +373,52 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Obtener usuario por ID
+    const user = await userModel.getUserById(userId);
+
+    if (!user) {
+      return res.status(404).json({ ok: false, msg: "USUARIO NO ENCONTRADO" });
+    }
+
+    return res.status(200).json({ ok: true, msg: "USUARIO ENCONTRADO", user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ ok: false, msg: "ERROR SERVER GET USER" });
+  }
+};
+
+const updateUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    let { email, password, username, name, birthdate, description } = req.body;
+
+    // Solo encripta y agrega la contraseña si viene en el body
+    let dataToUpdate = { email, username, name, birthdate, description };
+
+    if (password && password.trim() !== "") {
+      const salt = await bcryptjs.genSalt(7);
+      const hashedPassword = await bcryptjs.hash(password, salt);
+      dataToUpdate.password = hashedPassword;
+    }
+
+    // Actualizar usuario
+    const updatedUser = await userModel.updateUserById(userId, dataToUpdate);
+
+    if (!updatedUser) {
+      return res.status(404).json({ ok: false, msg: "USUARIO NO ENCONTRADO" });
+    }
+
+    return res.status(200).json({ ok: true, msg: "USUARIO ACTUALIZADO" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ ok: false, msg: "ERROR SERVER UPDATE USER" });
+  }
+};
+
 export const userController = {
   registerUser,
   loginUser,
@@ -385,5 +431,7 @@ export const userController = {
   getUserProfileWithPostCount,
   getAllUsers,
   createUser,
-    deleteUser,
+  deleteUser,
+  getUserById,
+  updateUserById,
 };

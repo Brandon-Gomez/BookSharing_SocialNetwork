@@ -152,7 +152,7 @@ const searchUsers = async (query) => {
 
 const getUserById = async (userId) => {
   const query = `
-    SELECT id, username, email, profile_picture
+    SELECT *
     FROM users
     WHERE id = $1;
   `;
@@ -205,6 +205,63 @@ const deleteUser = async (userId) => {
   return rowCount > 0; 
 }
 
+const updateUserById = async (userId, data) => {
+  try {
+    // Construir dinámicamente la consulta y los valores
+    let fields = [];
+    let values = [];
+    let idx = 1;
+
+    if (data.email) {
+      fields.push(`email = $${idx++}`);
+      values.push(data.email);
+    }
+    if (data.password) {
+      fields.push(`password = $${idx++}`);
+      values.push(data.password);
+    }
+    if (data.username) {
+      fields.push(`username = $${idx++}`);
+      values.push(data.username);
+    }
+    if (data.name) {
+      fields.push(`name = $${idx++}`);
+      values.push(data.name);
+    }
+    if (data.birthdate) {
+      fields.push(`birthdate = $${idx++}`);
+      values.push(data.birthdate);
+    }
+    if (data.description) {
+      fields.push(`description = $${idx++}`);
+      values.push(data.description);
+    }
+
+    if (fields.length === 0) {
+      throw new Error("No hay campos para actualizar");
+    }
+
+    values.push(userId);
+
+    const query = `
+      UPDATE users SET ${fields.join(", ")}
+      WHERE id = $${idx}
+      RETURNING *
+    `;
+
+    const result = await db.query(query, values);
+
+    if (result.rowCount === 0) {
+      throw new Error("Usuario no encontrado para actualización");
+    }
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error en la actualización del usuario:", error);
+    throw error;
+  }
+};
+  
+
 export const userModel = {
   createUser,
   findUserByEmail,
@@ -222,4 +279,5 @@ export const userModel = {
   getAllUsers,
   createUserWithDetails,
   deleteUser,
+  updateUserById
 };

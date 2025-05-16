@@ -14,7 +14,7 @@ import FollowView from "../views/follow_view.vue";
 import DashboardView from '../views/admin/dashboard_view.vue';
 import UsersListView from '../views/admin/users-list_view.vue';
 import UserCreateView from '../views/admin/user-create_view.vue';
-// import UserEditView from '../views/admin/user-edit_view.vue';
+import UserEditView from '../views/admin/user-edit_view.vue';
 
 // Rutas para visitantes (no autenticados)
 const visitorRoutes = [
@@ -119,13 +119,13 @@ const adminRoutes = [
     component: UserCreateView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
-  // {
-  //   path: '/admin/user-edit/:userId',
-  //   name: 'UserEdit',
-  //   component: UserEditView,
-  //   meta: { requiresAuth: true, requiresAdmin: true },
-  //   props: true
-  // }
+  {
+    path: '/admin/user-edit/:userId',
+    name: 'UserEdit',
+    component: UserEditView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+    props: true
+  }
 ];
 
 // Unimos todas las rutas
