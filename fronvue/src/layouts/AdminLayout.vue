@@ -19,7 +19,7 @@
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active">
-                    <router-link class="nav-link" to="/admin">
+                    <router-link class="nav-link" to="/admin/dashboard">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span class="ml-2">Dashboard</span></router-link>
                 </li>

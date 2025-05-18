@@ -19,14 +19,14 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                    Earnings (Monthly)
+                    Total Books Shared
                   </div>
                   <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    $40,000
+                    56
                   </div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  <i class="fas fa-book fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -40,14 +40,14 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    Earnings (Annual)
+                    Total Users
                   </div>
                   <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    $215,000
+                    589
                   </div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  <i class="fas fa-users fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    Tasks
+                    Total Books Read
                   </div>
                   <div class="row no-gutters align-items-center">
                     <div class="col-auto">
@@ -92,7 +92,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                    Pending Requests
+                    Total Comments
                   </div>
                   <div class="h5 mb-0 font-weight-bold text-gray-800">
                     18
@@ -358,19 +358,112 @@
 </template>
 
 <script>
-// import apiClient from '@/services/ApiService';
+import Chart from 'chart.js';
 
 export default {
+  mounted() {
+    // Gráfico de líneas: Libros compartidos por mes
+    const areaCtx = document.getElementById('myAreaChart');
+    if (areaCtx) {
+      new Chart(areaCtx, {
+        type: 'line',
+        data: {
+          labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+          datasets: [{
+            label: 'Libros compartidos',
+            data: [34, 45, 60, 52, 70, 80],
+            backgroundColor: 'rgba(54, 185, 204, 0.1)',
+            borderColor: '#36b9cc',
+            borderWidth: 2,
+            pointBackgroundColor: '#36b9cc'
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: 'Libros compartidos por mes'
+          }
+        }
+      });
+    }
 
-  components: {
-  },
-
-  data() {
-    return {
-    };
-  },
-  methods: {
-
-  },
+    // Gráfico de pastel: Distribución de usuarios por actividad
+    const pieCtx = document.getElementById('myPieChart');
+    if (pieCtx) {
+      new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Solo comparten', 'Solo leen', 'Comparten y leen'],
+          datasets: [{
+            data: [25, 40, 35],
+            backgroundColor: ['#4e73df', '#1cc88a', '#f6c23e'],
+          }]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: 'Distribución de usuarios por actividad'
+          }
+        }
+      });
+    }
+  }
 };
 </script>
+
+<style type="text/css" scoped>
+@keyframes chartjs-render-animation {
+  from {
+    opacity: .99
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+.chartjs-render-monitor {
+  animation: chartjs-render-animation 1ms
+}
+
+.chartjs-size-monitor,
+.chartjs-size-monitor-expand,
+.chartjs-size-monitor-shrink {
+  position: absolute;
+  direction: ltr;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: -1
+}
+
+.chartjs-size-monitor-expand>div {
+  position: absolute;
+  width: 1000000px;
+  height: 1000000px;
+  left: 0;
+  top: 0
+}
+
+.chartjs-size-monitor-shrink>div {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0
+}
+
+.chart-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0 auto;
+}
+</style>
