@@ -19,6 +19,7 @@ import AdminPostsListView from '../views/admin/posts-list_view.vue';
 import AdminPostCreateView from '../views/admin/post-create_view.vue';
 import AdminPostEditView from '../views/admin/post-edit_view.vue';
 import AdminCategoriesList from '../views/admin/categories-list_view.vue';
+import Page404 from '../views/404_view.vue';
 
 // Rutas para visitantes (no autenticados)
 const visitorRoutes = [
@@ -163,7 +164,11 @@ const routes = [
   ...userRoutes,
   ...adminRoutes,
   // Redirección por defecto
-  // { path: '/:pathMatch(.*)*', redirect: '/' }
+  { path: '/:pathMatch(.*)*', 
+    name: 'Page404',
+    component: Page404,
+    meta: { requiresAuth: false, requiresAdmin: false }
+   }
 ];
 
 const router = createRouter({
