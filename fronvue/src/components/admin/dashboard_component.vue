@@ -71,8 +71,8 @@
                     </div>
                     <div class="col">
                       <div class="progress progress-sm mr-2">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50"
-                          aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" :style="{ width: per_books_read + '%' }"
+                          aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
@@ -204,6 +204,7 @@ export default {
       total_users: 0,
       per_books_read: 0,
       total_posts: 0,
+      books_per_month: [],
 
     };
   },
@@ -220,7 +221,7 @@ export default {
         this.total_posts = response.data.total_posts;
         this.per_books_read = Math.round(response.data.per_books_read * 100) / 100;
         this.total_users = response.data.total_users;
-
+        this.books_per_month = response.data.posts_per_month;
 
       }
     } catch (error) {
@@ -228,16 +229,21 @@ export default {
     }
 
 
-    // Gráfico de líneas: Libros compartidos por mes
+    // Gráfico de líneas: Libros compartidos por mes (solo año actual)
     const areaCtx = document.getElementById('myAreaChart');
     if (areaCtx) {
+
+      // Etiquetas y datos
+      const labels = this.books_per_month.map(item => item.month.trim());
+      const data = this.books_per_month.map(item => parseInt(item.total, 10));
+
       new Chart(areaCtx, {
         type: 'line',
         data: {
-          labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+          labels: labels,
           datasets: [{
             label: 'Libros compartidos',
-            data: [34, 45, 60, 52, 70, 80],
+            data: data,
             backgroundColor: 'rgba(54, 185, 204, 0.1)',
             borderColor: '#36b9cc',
             borderWidth: 2,
@@ -248,7 +254,7 @@ export default {
           responsive: true,
           title: {
             display: true,
-            text: 'Libros compartidos por mes'
+            text: 'Libros compartidos por mes (Año actual)'
           }
         }
       });
