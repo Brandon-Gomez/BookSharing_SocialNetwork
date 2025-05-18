@@ -11,12 +11,13 @@ import EditPostView from "../views/editpost_view.vue";
 import LikeView from "../views/like_view.vue";
 import PdfPreviewView from "../views/pdfpreview_view.vue";
 import FollowView from "../views/follow_view.vue";
-import DashboardView from '../views/admin/dashboard_view.vue';
-import UsersListView from '../views/admin/users-list_view.vue';
-import UserCreateView from '../views/admin/user-create_view.vue';
-import UserEditView from '../views/admin/user-edit_view.vue';
-import PostsListView from '../views/admin/posts-list_view.vue';
-import PostCreateView from '../views/admin/post-create_view.vue';
+import AdminDashboardView from '../views/admin/dashboard_view.vue';
+import AdminUsersListView from '../views/admin/users-list_view.vue';
+import AdminUserCreateView from '../views/admin/user-create_view.vue';
+import AdminUserEditView from '../views/admin/user-edit_view.vue';
+import AdminPostsListView from '../views/admin/posts-list_view.vue';
+import AdminPostCreateView from '../views/admin/post-create_view.vue';
+import AdminPostEditView from '../views/admin/post-edit_view.vue';
 
 // Rutas para visitantes (no autenticados)
 const visitorRoutes = [
@@ -105,42 +106,49 @@ const userRoutes = [
 const adminRoutes = [
   {
     path: '/admin/dashboard',
-    name: 'Dashboard',
-    component: DashboardView,
+    name: 'AdminDashboard',
+    component: AdminDashboardView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/users-list',
-    name: 'UsersList',
-    component: UsersListView,
+    name: 'AdminUsersList',
+    component: AdminUsersListView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/user-create',
-    name: 'UserCreate',
-    component: UserCreateView,
+    name: 'AdminUserCreate',
+    component: AdminUserCreateView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/user-edit/:userId',
-    name: 'UserEdit',
-    component: UserEditView,
+    name: 'AdminUserEdit',
+    component: AdminUserEditView,
     meta: { requiresAuth: true, requiresAdmin: true },
     props: true
   },
   // post
   {
     path: '/admin/posts-list',
-    name: 'PostsList',
-    component: PostsListView,
+    name: 'AdminPostsList',
+    component: AdminPostsListView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/post-create',
-    name: 'PostCreate',
-    component: PostCreateView,
+    name: 'AdminPostCreate',
+    component: AdminPostCreateView,
     meta: { requiresAuth: true, requiresAdmin: true }
   },
+  {
+    path: '/admin/post-edit/:postId',
+    name: 'AdminPostEdit',
+    component: AdminPostEditView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+    props: true
+  }
 
 ];
 

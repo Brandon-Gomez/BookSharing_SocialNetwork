@@ -377,18 +377,29 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
+// import apiClient from '@/services/ApiService';
 export default {
     name: 'AdminLayout',
-    beforeCreate() {
+    async beforeCreate() {
         // Simula una función para verificar si el usuario es administrador
-
+        // const token = localStorage.getItem('authToken');
+        // if (!token) {
+        //     this.$router.push('/login');
+        //     return;
+        // }
+        // try {
+        //     await apiClient.get('/admin/verifyAdmin', {}, {
+        //         headers: { Authorization: `Bearer ${token}` }
+        //     });
+        // } catch (error) {
+        //     console.error('Error verifying admin:', error);
+        //     this.$router.push('/login');
+        // }
     },
     methods: {
-
     },
 };
 </script>
