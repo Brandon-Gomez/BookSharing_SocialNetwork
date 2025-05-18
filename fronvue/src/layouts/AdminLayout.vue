@@ -63,6 +63,13 @@
                         </div>
                     </div>
                 </li>
+                <!-- Nav Item - Categories Collapse Menu -->
+                <li class="nav-item">
+
+                    <router-link class="nav-link" to="/admin/categories-list"><i
+                            class="fas fa-fw fa-list mr-2"></i>Categorias</router-link>
+
+                </li>
 
                 <!-- Divider -->
                 <hr class="sidebar-divider" />

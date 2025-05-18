@@ -190,9 +190,10 @@ const getPostsPerLast6Months = async () => {
 
 const getPostsPaginated = async (offset, limit) => {
   const query = `
-    SELECT posts.*, users.username
+    SELECT posts.*, users.username, categories.*
     FROM posts
     JOIN users ON posts.user_id = users.id
+    JOIN categories ON posts.category_id = categories.id
     ORDER BY posts.id ASC
     LIMIT $2 OFFSET $1
   `;

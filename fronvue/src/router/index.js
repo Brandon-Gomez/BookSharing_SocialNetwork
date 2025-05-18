@@ -18,6 +18,7 @@ import AdminUserEditView from '../views/admin/user-edit_view.vue';
 import AdminPostsListView from '../views/admin/posts-list_view.vue';
 import AdminPostCreateView from '../views/admin/post-create_view.vue';
 import AdminPostEditView from '../views/admin/post-edit_view.vue';
+import AdminCategoriesList from '../views/admin/categories-list_view.vue';
 
 // Rutas para visitantes (no autenticados)
 const visitorRoutes = [
@@ -148,7 +149,12 @@ const adminRoutes = [
     component: AdminPostEditView,
     meta: { requiresAuth: true, requiresAdmin: true },
     props: true
-  }
+  },
+  {
+  path: '/admin/categories-list',
+  name: 'AdminCategoriesList',
+  component: AdminCategoriesList
+}
 ];
 
 // Unimos todas las rutas

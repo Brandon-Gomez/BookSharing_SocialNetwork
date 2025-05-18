@@ -10,6 +10,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { admin } from '../database/firebase.js';
 import adminRouter from '../routes/admin_route.js';
+import categoryRoutes from '../routes/category_route.js';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api', postRouter);
 app.use('/api', likeRouter);
 app.use('/api', followRouter); 
 app.use('/api', adminRouter); 
+app.use('/api', categoryRoutes);
 
 app.use('/static/books', express.static(path.join(__dirname, '../uploads/book')));
 app.use('/static/profiles', express.static(path.join(__dirname, '../uploads/profile')));
