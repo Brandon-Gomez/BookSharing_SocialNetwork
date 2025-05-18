@@ -1,7 +1,9 @@
 <template>
-    <div class="container">
-        <h2>Categorías</h2>
-        <button class="btn btn-primary mb-3" @click="showForm = true; editCategory = null;">Nueva Categoría</button>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Lista de Categorías</h2>
+            <button class="btn btn-primary " @click="showForm = true; editCategory = null;">Crear Categoría</button>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -28,6 +30,7 @@
         <div v-if="showForm" class="modal-backdrop">
             <div class="modal-content p-4">
                 <h4>{{ editCategory ? 'Editar' : 'Nueva' }} Categoría</h4>
+
                 <form @submit.prevent="save">
                     <div class="mb-2">
                         <input v-model="form.name" class="form-control" placeholder="Nombre" required />

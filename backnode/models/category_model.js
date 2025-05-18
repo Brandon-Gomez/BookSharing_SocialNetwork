@@ -31,10 +31,24 @@ const deleteCategory = async (id) => {
   await db.query("DELETE FROM categories WHERE id = $1", [id]);
 };
 
+const getPostCountByCategory = async () => {
+  const query = `
+    SELECT c.name AS category, COUNT(p.id) AS total
+    FROM categories c
+    LEFT JOIN posts p ON p.category_id = c.id
+    GROUP BY c.id, c.name
+    ORDER BY c.id;
+  `;
+  const result = await db.query(query);
+  return result.rows;
+};
+
 export const categoryModel = {
   getAllCategories,
   getCategoryById,
   createCategory,
   updateCategory,
   deleteCategory,
+  getPostCountByCategory
+
 };

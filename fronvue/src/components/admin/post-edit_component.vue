@@ -1,36 +1,39 @@
 <template>
-    <div class="container mt-4">
-        <h2>Editar Publicación</h2>
-        <form @submit.prevent="updatePost" class="mt-4" v-if="postData">
-            <div class="form-group mb-3">
-                <label for="title">Título</label>
-                <input type="text" id="title" v-model="postData.title" class="form-control" required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="description">Descripción</label>
-                <textarea id="description" v-model="postData.description" class="form-control" required></textarea>
-            </div>
-            <div class="form-group mb-3">
-                <label for="image">Imagen actual</label>
-                <div v-if="postData.image">
-                    <img :src="postData.image" alt="Imagen actual" class="img-thumbnail mb-2"
-                        style="max-width: 200px;" />
+    <div class="container-fluid mt-4">
+        <div class="w-50">
+            <h2>Editar Publicación</h2>
+            <form @submit.prevent="updatePost" class="my-4" v-if="postData">
+                <div class="form-group mb-3">
+                    <label for="title">Título</label>
+                    <input type="text" id="title" v-model="postData.title" class="form-control" required />
                 </div>
-                <input type="file" id="image" @change="onImageChange" class="form-control" accept="image/*" />
-            </div>
-            <div class="form-group mb-3">
-                <label for="pdf">Archivo PDF actual</label>
-                <div v-if="postData.pdf_file">
-                    <a :href="postData.pdf_file" target="_blank">Ver PDF</a>
+                <div class="form-group mb-3">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" v-model="postData.description" class="form-control" required></textarea>
                 </div>
-                <input type="file" id="pdf" @change="onPdfChange" class="form-control" accept="application/pdf" />
+                <div class="form-group mb-3">
+                    <label for="image">Imagen actual</label>
+                    <div v-if="postData.image">
+                        <img :src="postData.image" alt="Imagen actual" class="img-thumbnail mb-2"
+                            style="max-width: 200px;" />
+                    </div>
+                    <input type="file" id="image" @change="onImageChange" class="form-control" accept="image/*" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="pdf">Archivo PDF actual</label>
+                    <div v-if="postData.pdf_file">
+                        <a :href="postData.pdf_file" target="_blank">Ver PDF</a>
+                    </div>
+                    <input type="file" id="pdf" @change="onPdfChange" class="form-control" accept="application/pdf" />
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <button type="button" class="btn btn-secondary ml-3" @click="cancel">Cancelar</button>
+            </form>
+            <div v-else>
+                <p>Cargando publicación...</p>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            <button type="button" class="btn btn-secondary ml-3" @click="cancel">Cancelar</button>
-        </form>
-        <div v-else>
-            <p>Cargando publicación...</p>
         </div>
+
     </div>
 </template>
 

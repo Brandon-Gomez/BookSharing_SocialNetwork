@@ -148,9 +148,9 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary">
-                Revenue Sources
+                Categorias de Publicaciones
               </h6>
-              <div class="dropdown no-arrow">
+              <!-- <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -163,29 +163,18 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-              </div>
+              </div> -->
             </div>
             <!-- Card Body -->
             <div class="card-body">
-              <div class="chart-pie pt-4 pb-2">
-                <canvas id="myPieChart"></canvas>
+              <div class=" pt-4 pb-2">
+                <canvas id="myPieChart" width="600" height="600"></canvas>
               </div>
-              <div class="mt-4 text-center small">
-                <span class="mr-2">
-                  <i class="fas fa-circle text-primary"></i> Direct
-                </span>
-                <span class="mr-2">
-                  <i class="fas fa-circle text-success"></i> Social
-                </span>
-                <span class="mr-2">
-                  <i class="fas fa-circle text-info"></i> Referral
-                </span>
-              </div>
+
             </div>
           </div>
         </div>
       </div>
-
 
     </div>
   </div>
@@ -204,13 +193,15 @@ export default {
       per_books_read: 0,
       total_posts: 0,
       books_per_month: [],
+      posts_by_category: [],
 
     };
   },
 
   async mounted() {
+    const token = localStorage.getItem('authToken');
+
     try {
-      const token = localStorage.getItem('authToken');
       if (token) {
         const response = await apiClient.get('/admin/dashboard', {
           headers: { Authorization: `Bearer ${token}` }
@@ -224,6 +215,15 @@ export default {
       }
     } catch (error) {
       console.error('Error:', error);
+    }
+
+    try {
+      const res = await apiClient.get('/admin/categories/post-count', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      this.posts_by_category = res.data;
+    } catch (e) {
+      console.error('Error cargando posts por categoría', e);
     }
 
 
@@ -245,7 +245,7 @@ export default {
             backgroundColor: 'rgba(54, 185, 204, 0.1)',
             borderColor: '#36b9cc',
             borderWidth: 2,
-            pointBackgroundColor: '#36b9cc'
+            pointBackgroundColor: '#36b9cc',
           }]
         },
         options: {
@@ -260,22 +260,28 @@ export default {
 
     // Gráfico de pastel: Distribución de usuarios por actividad
     const pieCtx = document.getElementById('myPieChart');
-    if (pieCtx) {
+    if (pieCtx && this.posts_by_category.length > 0) {
+      const labels = this.posts_by_category.map(item => item.category);
+      const data = this.posts_by_category.map(item => parseInt(item.total, 10));
       new Chart(pieCtx, {
         type: 'pie',
         data: {
-          labels: ['Solo comparten', 'Solo leen', 'Comparten y leen'],
+          labels: labels,
           datasets: [{
-            data: [25, 40, 35],
-            backgroundColor: ['#4e73df', '#1cc88a', '#f6c23e'],
+            data: data,
+            backgroundColor: [
+              '#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc',
+              '#858796', '#fd7e14', '#20c997', '#6f42c1', '#343a40'
+            ],
+
           }]
         },
         options: {
           responsive: true,
           title: {
             display: true,
-            text: 'Distribución de usuarios por actividad'
-          }
+            text: 'Posts por Categoría'
+          },
         }
       });
     }

@@ -33,10 +33,16 @@ const deleteCategory = async (req, res) => {
   res.json({ message: "Categoría eliminada" });
 };
 
+const getPostCountByCategory = async (req, res) => {
+  const data = await categoryModel.getPostCountByCategory();
+  res.json(data);
+};
+
 export const categoryController = {
   getAllCategories,
   getCategoryById,
   createCategory,
   updateCategory,
   deleteCategory,
+  getPostCountByCategory,
 };

@@ -1,7 +1,7 @@
 <template>
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         <h2>Crear Publicación</h2>
-        <form @submit.prevent="createPost" class="mt-4">
+        <form @submit.prevent="createPost" class="mt-4 w-50">
             <div class="form-group mb-3">
                 <label for="title">Título</label>
                 <input type="text" id="title" v-model="postData.title" class="form-control"

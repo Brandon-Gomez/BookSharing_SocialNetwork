@@ -224,13 +224,13 @@ const incrementPostViews = async (req, res) => {
   }
 };
 
-export const getPostsPaginated = async (req, res) => {
+const getPostsPaginated = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
   const offset = (page - 1) * limit;
 
   try {
-    const posts = await postModel.getPostsPaginated(offset, limit);
+    const posts = await postModel.getPostsPaginated(limit, offset); // <-- Cambia el orden aquí
     const totalPosts = await postModel.countTotalPosts();
     const totalPages = Math.ceil(totalPosts / limit);
 
@@ -244,7 +244,6 @@ export const getPostsPaginated = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
-  
 };
 
 export const postController = {

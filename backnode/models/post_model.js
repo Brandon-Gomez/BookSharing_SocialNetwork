@@ -188,16 +188,29 @@ const getPostsPerLast6Months = async () => {
   return result.rows;
 };
 
-const getPostsPaginated = async (offset, limit) => {
+const getPostsPaginated = async (limit, offset) => {
   const query = `
-    SELECT posts.*, users.username, categories.*
+    SELECT 
+      posts.id AS post_id,
+      posts.title,
+      posts.description,
+      posts.user_id,
+      posts.image,
+      posts.pdf_file,
+      posts.created_at,
+      posts.updated_at,
+      posts.views,
+      posts.category_id,
+      users.username,
+      categories.name AS category_name,
+      categories.description AS category_description
     FROM posts
     JOIN users ON posts.user_id = users.id
     JOIN categories ON posts.category_id = categories.id
     ORDER BY posts.id ASC
-    LIMIT $2 OFFSET $1
+    LIMIT $1 OFFSET $2
   `;
-  const result = await db.query(query, [offset, limit]);
+  const result = await db.query(query, [limit, offset]);
   return result.rows;
 };
 
