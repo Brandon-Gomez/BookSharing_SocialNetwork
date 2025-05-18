@@ -36,6 +36,7 @@
 
 <script>
 import apiClient from "@/services/ApiService";
+import eventBus from "@/eventBus.js";
 
 export default {
     data() {
@@ -81,11 +82,14 @@ export default {
                         "Content-Type": "multipart/form-data"
                     }
                 });
-                alert("Publicación actualizada exitosamente");
-                this.$router.push("/admin/posts-list");
+                this.$router.push({
+                    path: "/admin/posts-list",
+                    query: { alert: "Publicación actualizada exitosamente", type: "success" }
+                });
             } catch (error) {
+                // Muestra la alerta en la misma vista si falla
+                eventBus.emit('alert', { message: "Error al actualizar la publicación.", type: "danger" });
                 console.error("Error al actualizar la publicación:", error.response?.data || error);
-                alert("Error al actualizar la publicación.");
             }
         },
         cancel() {

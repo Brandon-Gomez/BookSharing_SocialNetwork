@@ -37,6 +37,7 @@
 
 <script>
 import apiClient from "@/services/ApiService";
+import eventBus from "@/eventBus.js";
 
 export default {
     data() {
@@ -91,11 +92,14 @@ export default {
                         }
                     }
                 );
-                alert("Publicación creada exitosamente");
-                this.$router.push("/admin/posts-list");
+                // Redirige y pasa la alerta por query
+                this.$router.push({
+                    path: "/admin/posts-list",
+                    query: { alert: "Publicación creada exitosamente", type: "success" }
+                });
             } catch (error) {
-                console.error("Error al crear la publicación:", error.response?.data || error);
-                alert("Error al crear la publicación. Verifica los datos e inténtalo de nuevo.");
+                // Muestra la alerta en la misma vista si falla
+                eventBus.emit('alert', { message: "Error al crear la publicación. Verifica los datos e inténtalo de nuevo.", type: "danger" });
             }
         },
         cancel() {

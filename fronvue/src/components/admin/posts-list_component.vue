@@ -39,6 +39,7 @@
 
 <script>
 import apiClient from '@/services/ApiService';
+import eventBus from "@/eventBus.js";
 
 export default {
     data() {
@@ -70,15 +71,13 @@ export default {
             const token = localStorage.getItem('authToken');
             if (token && confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
                 try {
-                    const response = await apiClient.delete(`/posts/${postId}`, {
+                    await apiClient.delete(`/posts/${postId}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
-                    console.log('Publicación eliminada:', response.data);
-                    this.posts = this.posts.filter(post => post.id !== postId);
-                    alert('Publicación eliminada correctamente.');
+                    this.fetchPosts();
+                    eventBus.emit('alert', { message: "Publicación eliminada correctamente.", type: "success" });
                 } catch (error) {
-                    console.error('Error al eliminar la publicación:', error);
-                    alert('Error al eliminar la publicación.');
+                    eventBus.emit('alert', { message: "Error al eliminar la publicación.", type: "danger" });
                 }
             }
         },
