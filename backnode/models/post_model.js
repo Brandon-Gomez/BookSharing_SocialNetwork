@@ -191,8 +191,20 @@ const getPostsPerMonthCurrentYear = async () => {
   const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   return meses.map((mes) => ({
     month: mes,
-    total: row[mes.toLowerCase()] || 0
+    totalPosts: row[mes.toLowerCase()] || 0
   }));
+};
+
+const getPostsPaginated = async (offset, limit) => {
+  const query = `
+    SELECT posts.*, users.username
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    ORDER BY posts.id ASC
+    LIMIT $2 OFFSET $1
+  `;
+  const result = await db.query(query, [offset, limit]);
+  return result.rows;
 };
 
 export const postModel = {
@@ -210,5 +222,6 @@ export const postModel = {
   incrementPostViews,
   countTotalPosts,
   calculateReadPercentage,
-  getPostsPerMonthCurrentYear
+  getPostsPerMonthCurrentYear,
+  getPostsPaginated
 };

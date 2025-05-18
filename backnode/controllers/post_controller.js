@@ -224,6 +224,29 @@ const incrementPostViews = async (req, res) => {
   }
 };
 
+export const getPostsPaginated = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const offset = (page - 1) * limit;
+
+  try {
+    const posts = await postModel.getPostsPaginated(offset, limit);
+    const totalPosts = await postModel.countTotalPosts();
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    return res.status(200).json({
+      page,
+      totalPages,
+      totalPosts,
+      posts
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+  
+};
+
 export const postController = {
   createMyPost,
   editPost,
@@ -236,5 +259,6 @@ export const postController = {
   deletePostById,
   deletePostsByUserId,
   createPost,
-  incrementPostViews
+  incrementPostViews,
+  getPostsPaginated
 };

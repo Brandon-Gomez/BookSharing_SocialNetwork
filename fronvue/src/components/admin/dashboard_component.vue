@@ -210,7 +210,6 @@ export default {
   },
 
   async mounted() {
-    // total_posts: '3', per_books_read: 66.66666666666666, total_users: '2'}
     try {
       const token = localStorage.getItem('authToken');
       if (token) {

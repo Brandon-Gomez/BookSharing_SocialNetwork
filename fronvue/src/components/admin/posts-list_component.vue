@@ -7,7 +7,7 @@
         <table class="table table-striped align-middle">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th>Imagen</th>
                     <th>Título</th>
                     <th>Descripción</th>
@@ -18,8 +18,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(post, index) in posts" :key="post.id">
-                    <td class="align-middle">{{ index + 1 }}</td>
+                <tr v-if="posts.length === 0">
+                    <td colspan="8" class="text-center">No hay publicaciones disponibles</td>
+                </tr>
+
+                <tr v-for="(post) in posts" :key="post.id">
+                    <td class="align-middle">{{ post.id }}</td>
                     <td class="align-middle">
                         <img :src="post.image" alt="Imagen de la publicación" class="img-thumbnail"
                             style="width: 50px; height: auto;" />
@@ -36,57 +40,77 @@
                 </tr>
             </tbody>
         </table>
+        <!-- Agrega esto después de la tabla -->
+        <div class="d-flex justify-content-center my-4">
+            <button class="btn btn-secondary mx-1" :disabled="page === 1" @click="prevPage">Anterior</button>
+            <span class="mx-2 align-self-center">Página {{ page }} de {{ totalPages }}</span>
+            <button class="btn btn-secondary mx-1" :disabled="page === totalPages" @click="nextPage">Siguiente</button>
+        </div>
     </div>
 </template>
 
 <script>
 import apiClient from '@/services/ApiService';
-import eventBus from "@/eventBus.js";
+import eventBus from '@/eventBus';
 
 export default {
     data() {
         return {
             posts: [],
+            page: 1,
+            limit: 20,
+            totalPages: 0
         };
     },
     methods: {
         async fetchPosts() {
             try {
-                const token = localStorage.getItem('authToken');
-                if (token) {
-                    const response = await apiClient.get('/posts', {
-                        headers: { Authorization: `Bearer ${token}` }
-                    });
-                    this.posts = response.data;
-                }
+                const res = await apiClient.get(`/posts/paginated?page=${this.page}&limit=${this.limit}`);
+                console.log(res.data);
+                this.posts = res.data.posts;
+                this.totalPages = res.data.totalPages;
             } catch (error) {
-                console.error('Error al obtener las publicaciones:', error);
+                console.error('Error fetching posts:', error);
             }
         },
-        createMyPost() {
-            this.$router.push('/admin/post-create');
+        nextPage() {
+            if (this.page < this.totalPages) {
+                this.page++;
+                this.fetchPosts();
+            }
         },
+        prevPage() {
+            if (this.page > 1) {
+                this.page--;
+                this.fetchPosts();
+            }
+        },
+        formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString();
+        },
+
         editPost(postId) {
-            this.$router.push(`/admin/post-edit/${postId}`);
+            this.$router.push(`/admin/post-edit/${postId}`); // Redirige a la vista de edición de usuario
         },
+
         async deletePost(postId) {
             const token = localStorage.getItem('authToken');
             if (token && confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
                 try {
                     await apiClient.delete(`/posts/${postId}`, {
-                        headers: { Authorization: `Bearer ${token}` }
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
                     });
-                    this.fetchPosts();
-                    eventBus.emit('alert', { message: "Publicación eliminada correctamente.", type: "success" });
+                    this.fetchPosts(); // Recarga la lista
+                    eventBus.emit('alert', { message: "Publicación eliminada correctamente", type: "success" });
                 } catch (error) {
-                    eventBus.emit('alert', { message: "Error al eliminar la publicación.", type: "danger" });
+                    console.error('Error deleting post:', error);
                 }
             }
         },
-        formatDate(dateString) {
-            if (!dateString) return '';
-            return new Date(dateString).toLocaleDateString();
-        }
     },
     mounted() {
         this.fetchPosts();
