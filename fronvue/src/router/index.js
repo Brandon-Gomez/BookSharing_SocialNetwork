@@ -149,7 +149,6 @@ const adminRoutes = [
     meta: { requiresAuth: true, requiresAdmin: true },
     props: true
   }
-
 ];
 
 // Unimos todas las rutas

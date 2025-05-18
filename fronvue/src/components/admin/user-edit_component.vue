@@ -40,7 +40,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
-            <button type="button" class="btn btn-secondary ms-2" @click="cancel">
+            <button type="button" class="btn btn-secondary ml-3" @click="cancel">
                 Cancelar
             </button>
         </form>

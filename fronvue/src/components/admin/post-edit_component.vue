@@ -26,7 +26,7 @@
                 <input type="file" id="pdf" @change="onPdfChange" class="form-control" accept="application/pdf" />
             </div>
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            <button type="button" class="btn btn-secondary ms-2" @click="cancel">Cancelar</button>
+            <button type="button" class="btn btn-secondary ml-3" @click="cancel">Cancelar</button>
         </form>
         <div v-else>
             <p>Cargando publicación...</p>
