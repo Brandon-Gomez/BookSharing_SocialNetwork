@@ -40,7 +40,7 @@
             <h3 class="post-title">{{ post.title }}</h3>
             <p class="post-description">{{ post.description }}</p>
             <div class="d-flex justify-content-between align-items-center">
-              <PdfPreviewComponent v-if="post.pdf_file" :pdfUrl="post.pdf_file" />
+              <PdfPreviewComponent v-if="post.pdf_file" :pdfUrl="post.pdf_file" :postId="post.id" />
               <LikeComponent :postId="String(post.id)" />
             </div>
           </div>

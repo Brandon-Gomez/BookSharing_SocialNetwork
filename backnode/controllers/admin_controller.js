@@ -4,6 +4,18 @@ import { userModel } from "../models/user_model.js";
 import { postModel } from "../models/post_model.js";
   
 const dashboard = async (req,res) => {
+
+    // const posts = await postModel.find({ author: user._id }).populate("author", "username");
+    const total_posts = await postModel.countTotalPosts();
+    const per_books_read  = await postModel.calculateReadPercentage();
+    const total_users = await userModel.countTotalUsers();
+
+    return res.status(200).json({
+        // posts,
+        total_posts,
+        per_books_read,
+        total_users,
+    });
    
 }
 

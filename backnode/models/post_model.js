@@ -129,6 +129,44 @@ const deletePostsByUserId = async (userId) => {
   await db.query(query, [userId]);
 }
 
+const incrementPostViews = async (postId) => {
+  const query = `
+    UPDATE posts
+    SET views = views + 1
+    WHERE id = $1
+    RETURNING *;
+  `;
+  const result = await db.query(query, [postId]);
+  return result.rows[0];
+}
+
+const countTotalPosts = async () => {
+  const query = `
+    SELECT COUNT(*) AS total_posts
+    FROM posts;
+  `;
+  const result = await db.query
+(query);
+  return result.rows[0].total_posts; // Retorna el conteo total de publicaciones
+}
+
+// calcular el porcentaje sobre el total de libros que han sido leidos almenos una vez
+const calculateReadPercentage = async () => {
+  const query = `
+    SELECT COUNT(*) AS total_read
+    FROM posts
+    WHERE views > 0; 
+  `;
+  const result = await db.query(query);
+  const totalRead = result.rows[0].total_read;
+
+  const totalPosts = await countTotalPosts();
+
+  if (totalPosts === 0) return 0; // Evitar división por cero
+
+  return (totalRead / totalPosts) * 100; // Retorna el porcentaje de libros leídos
+}
+
 export const postModel = {
   addPost,
   editPost,
@@ -140,5 +178,8 @@ export const postModel = {
   commentOnPost,
   countPostsByUser,
   deletePostById,
-  deletePostsByUserId
+  deletePostsByUserId,
+  incrementPostViews,
+  countTotalPosts,
+  calculateReadPercentage
 };

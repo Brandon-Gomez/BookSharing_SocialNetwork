@@ -12,6 +12,7 @@
                     <th>Título</th>
                     <th>Descripción</th>
                     <th>Usuario</th>
+                    <th>Cant. Lecturas</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
                 </tr>
@@ -26,6 +27,7 @@
                     <td class="align-middle">{{ post.title }}</td>
                     <td class="align-middle">{{ post.description }}</td>
                     <td class="align-middle">{{ post.username }}</td>
+                    <td class="align-middle">{{ post.views }}</td>
                     <td class="align-middle">{{ formatDate(post.created_at) }}</td>
                     <td class="align-middle">
                         <button class="btn btn-warning btn-sm mr-3" @click="editPost(post.id)">Editar</button>

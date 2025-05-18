@@ -18,5 +18,6 @@ router.delete("/posts/:id", verifyToken, postController.deletePostById);
 router.post("/posts/:id/like", verifyToken, postController.likePost);
 router.post("/posts/:id/comment", verifyToken, postController.commentOnPost);
 router.get('/posts/count/:userId', postController.getPostCountByUser);
+router.put("/posts/:id/views", postController.incrementPostViews);
 
 export default router;

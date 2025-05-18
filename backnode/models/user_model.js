@@ -278,7 +278,16 @@ const findUserById = async (userId) => {
   } = await db.query(query);
   return rows[0];
 }
-  
+
+const countTotalUsers = async () => {
+  const query = `
+        SELECT COUNT(*) AS total_users
+        FROM users;
+    `;
+  const result = await
+    db.query(query);
+  return result.rows[0].total_users;
+}
 
 export const userModel = {
   findUserById,
@@ -298,5 +307,6 @@ export const userModel = {
   getAllUsers,
   createUserWithDetails,
   deleteUser,
-  updateUserById
+  updateUserById,
+  countTotalUsers
 };

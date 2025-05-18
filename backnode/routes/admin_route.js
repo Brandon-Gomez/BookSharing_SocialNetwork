@@ -6,8 +6,9 @@ import { userController } from "../controllers/user_controller.js"; // Asegúrat
 const router = Router()
 
 router.get('/admin/verifyAdmin', verifyToken, adminController.verifyAdmin);
-router.get('/dashboard',verifyToken, adminController.dashboard);
+router.get('/admin/dashboard', verifyToken, adminController.dashboard);
 router.get('/posts', verifyToken, postController.getAllPosts); 
 router.get('/admin/post-edit/:id', verifyToken, postController.getPostById);
+
 
 export default router;

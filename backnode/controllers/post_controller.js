@@ -213,6 +213,17 @@ const createPost = async (req, res) => {
   }
 };
 
+const incrementPostViews = async (req, res) => {
+  const postId = req.params.id;
+  try {
+    const updatedPost = await postModel.incrementPostViews(postId);
+    return res.status(200).json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const postController = {
   createMyPost,
   editPost,
@@ -224,5 +235,6 @@ export const postController = {
   getPostCountByUser,
   deletePostById,
   deletePostsByUserId,
-  createPost
+  createPost,
+  incrementPostViews
 };
