@@ -35,6 +35,7 @@
 
 <script>
 import apiClient from '@/services/ApiService';
+import eventBus from '@/eventBus';
 
 export default {
   data() {
@@ -81,9 +82,9 @@ export default {
             Authorization: `Bearer ${token}`
           }
         });
-        this.users = this.users.filter(user => user.id !== userId); // Actualiza la lista local
-        alert('Usuario eliminado correctamente.');
 
+        this.fetchUsers(); // Recarga la lista
+        eventBus.emit('alert', { message: "Usuario eliminado correctamente", type: "success" });
       }
 
     },

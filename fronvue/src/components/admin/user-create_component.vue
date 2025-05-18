@@ -80,11 +80,19 @@ export default {
                         }
                     }
                 );
-                alert("Usuario creado exitosamente");
-                this.$router.push("/admin/users-list"); // Redirige a la lista de usuarios
+                this.$router.push({
+                    path: "/admin/users-list",
+                    query: { alert: "Usuario creado exitosamente", type: "success" }
+                });
+                // Redirige a la lista de usuarios
             } catch (error) {
-                console.error("Error al crear el usuario:", error.response?.data || error);
-                alert("Error al crear el usuario. Verifica los datos e inténtalo de nuevo.");
+                // Manejo de errores
+               
+                this.$router.push({
+                    path: "/admin/users-list",
+                    query: { alert: "Error al crear el usuario", type: "danger" }
+                });
+              
             }
         },
         cancel() {

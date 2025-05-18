@@ -108,13 +108,17 @@ export default {
                         }
                     }
                 );
-                alert("Usuario actualizado exitosamente");
-                this.$router.push("/admin/users-list");
-            } catch (error) {
-                console.error("Error al actualizar el usuario:", error.response?.data || error);
 
-                this.$router.push("/admin/users-list");
-                // alert("Error al actualizar el usuario. Verifica los datos e inténtalo de nuevo.");
+                this.$router.push({
+                    path: "/admin/users-list",
+                    query: { alert: "Usuario actualizado exitosamente", type: "success" }
+                });
+            } catch (error) {
+                // Manejo de errores
+                this.$router.push({
+                    path: "/admin/users-list",
+                    query: { alert: "Error al actualizar el usuario", type: "danger" }
+                });
             }
         },
         cancel() {

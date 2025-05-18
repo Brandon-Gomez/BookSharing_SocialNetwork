@@ -1,5 +1,9 @@
 <template>
     <div>
+
+        <AlertComponent v-if="alert.visible" :message="alert.message" :type="alert.type" :visible="alert.visible"
+            @close="alert.visible = false" class="alert-fixed-bottom-right" />
+
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -329,9 +333,24 @@
 </template>
 
 <script>
+import AlertComponent from "@/components/alert_component.vue";
+import eventBus from "@/eventBus.js";
+
 // import apiClient from '@/services/ApiService';
 export default {
     name: 'AdminLayout',
+    data() {
+        return {
+            alert: {
+                visible: false,
+                message: '',
+                type: 'success', // success, danger, warning, info
+            },
+        };
+    },
+    components: {
+        AlertComponent,
+    },
     async beforeCreate() {
         // Simula una función para verificar si el usuario es administrador
         // const token = localStorage.getItem('authToken');
@@ -348,7 +367,47 @@ export default {
         //     this.$router.push('/login');
         // }
     },
-    methods: {
+    mounted() {
+        // se usa querys para alertas de otras vistas
+        if (this.$route.query.alert) {
+            this.alert = {
+                visible: true,
+                message: this.$route.query.alert,
+                type: this.$route.query.type || "success"
+            };
+            // Limpia la query para que no se repita al navegar
+            this.$router.replace({ query: null });
+        }
+        // se usa eventbus para alertas de la misma vista
+        eventBus.on('alert', (payload) => {
+            this.alert = {
+                visible: true,
+                message: payload.message,
+                type: payload.type || "success"
+            };
+        });
     },
+
+    watch: {
+        'alert.visible'(val) {
+            if (val) {
+                setTimeout(() => {
+                    this.alert.visible = false;
+                }, 7000);
+            }
+        }
+    },
+
 };
 </script>
+
+<style>
+.alert-fixed-bottom-right {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    min-width: 300px;
+    max-width: 90vw;
+}
+</style>
