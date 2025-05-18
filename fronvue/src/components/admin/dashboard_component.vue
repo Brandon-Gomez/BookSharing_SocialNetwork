@@ -118,7 +118,7 @@
               <h6 class="m-0 font-weight-bold text-primary">
                 Libros Compartidos por Mes
               </h6>
-              <div class="dropdown no-arrow">
+              <!-- <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -131,7 +131,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-              </div>
+              </div> -->
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -198,7 +198,6 @@ import apiClient from '@/services/ApiService';
 
 export default {
 
-
   data() {
     return {
       total_users: 0,
@@ -234,7 +233,7 @@ export default {
 
       // Etiquetas y datos
       const labels = this.books_per_month.map(item => item.month.trim());
-      const data = this.books_per_month.map(item => parseInt(item.total, 10));
+      const data = this.books_per_month.map(item => parseInt(item.totalposts, 10));
 
       new Chart(areaCtx, {
         type: 'line',

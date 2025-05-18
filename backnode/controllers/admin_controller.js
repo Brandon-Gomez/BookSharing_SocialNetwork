@@ -9,7 +9,7 @@ const dashboard = async (req,res) => {
     const total_posts = await postModel.countTotalPosts();
     const per_books_read  = await postModel.calculateReadPercentage();
     const total_users = await userModel.countTotalUsers();
-    const posts_per_month =  await postModel.getPostsPerMonthCurrentYear();
+    const posts_per_month =  await postModel.getPostsPerLast6Months();
     
     return res.status(200).json({
         total_posts,

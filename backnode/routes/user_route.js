@@ -16,6 +16,7 @@ router.get('/search', userController.searchUserBy);
 router.get('/users', verifyToken, userController.getAllUsers);
 router.post('/users', verifyToken, userController.createUser);
 router.delete('/users/:userId', verifyToken, userController.deleteUser);
+router.get('/users/paginated', verifyToken, userController.getUsersPaginated);
 router.get('/users/:userId', verifyToken, userController.getUserById);
 router.put('/users/:userId', verifyToken, userController.updateUserById);
 export default router;

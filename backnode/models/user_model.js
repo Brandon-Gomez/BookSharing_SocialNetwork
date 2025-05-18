@@ -280,14 +280,22 @@ const findUserById = async (userId) => {
 }
 
 const countTotalUsers = async () => {
+  const query = `SELECT COUNT(*) AS total FROM users;`;
+  const result = await db.query(query);
+  return parseInt(result.rows[0].total, 10);
+};
+
+const getUsersPaginated = async (offset, limit) => {
   const query = `
-        SELECT COUNT(*) AS total_users
-        FROM users;
-    `;
-  const result = await
-    db.query(query);
-  return result.rows[0].total_users;
-}
+    SELECT *
+    FROM users
+    ORDER BY id ASC
+    LIMIT $2 OFFSET $1
+  `;
+  const result = await db.query(query, [offset, limit]);
+  return result.rows;
+};
+
 
 export const userModel = {
   findUserById,
@@ -308,5 +316,6 @@ export const userModel = {
   createUserWithDetails,
   deleteUser,
   updateUserById,
-  countTotalUsers
+  countTotalUsers,
+  getUsersPaginated,
 };

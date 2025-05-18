@@ -29,6 +29,12 @@
         </tr>
       </tbody>
     </table>
+    <!-- Paginador -->
+    <div class="d-flex justify-content-center my-4">
+      <button class="btn btn-secondary mx-1" :disabled="page === 1" @click="prevPage">Anterior</button>
+      <span class="mx-2 align-self-center">Página {{ page }} de {{ totalPages }}</span>
+      <button class="btn btn-secondary mx-1" :disabled="page === totalPages" @click="nextPage">Siguiente</button>
+    </div>
   </div>
 
 </template>
@@ -41,6 +47,9 @@ export default {
   data() {
     return {
       users: [],
+      page: 1,
+      limit: 20,
+      totalPages: 0
     };
   },
   methods: {
@@ -49,16 +58,27 @@ export default {
         const token = localStorage.getItem('authToken');
         console.log('Token:', token); // Verifica si el token se obtiene correctamente
         if (token) {
-          const response = await apiClient.get(`/users`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+          const res = await apiClient.get(`/users/paginated?page=${this.page}&limit=${this.limit}`, {
+            headers: { Authorization: `Bearer ${token}` }
           });
-          this.users = response.data;
+          this.users = res.data.users;
+          this.totalPages = res.data.totalPages;
         }
 
       } catch (error) {
         console.error('Error al obtener los usuarios:', error);
+      }
+    },
+    nextPage() {
+      if (this.page < this.totalPages) {
+        this.page++;
+        this.fetchUsers();
+      }
+    },
+    prevPage() {
+      if (this.page > 1) {
+        this.page--;
+        this.fetchUsers();
       }
     },
     createUser() {

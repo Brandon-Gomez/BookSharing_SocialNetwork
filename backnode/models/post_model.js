@@ -167,32 +167,25 @@ const calculateReadPercentage = async () => {
   return (totalRead / totalPosts) * 100; // Retorna el porcentaje de libros leídos
 }
 
-const getPostsPerMonthCurrentYear = async () => {
-  const year = new Date().getFullYear();
+const getPostsPerLast6Months = async () => {
   const sql = `
+     WITH months AS (
+      SELECT to_char(date_trunc('month', CURRENT_DATE) - INTERVAL '1 month' * (n), 'Mon') AS month,
+             to_char(date_trunc('month', CURRENT_DATE) - INTERVAL '1 month' * (n), 'YYYY-MM') AS year_month,
+             date_trunc('month', CURRENT_DATE) - INTERVAL '1 month' * (n) AS month_start
+      FROM generate_series(0, 5) AS n
+    )
     SELECT
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 1 THEN 1 ELSE 0 END) AS Ene,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 2 THEN 1 ELSE 0 END) AS Feb,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 3 THEN 1 ELSE 0 END) AS Mar,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 4 THEN 1 ELSE 0 END) AS Abr,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 5 THEN 1 ELSE 0 END) AS May,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 6 THEN 1 ELSE 0 END) AS Jun,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 7 THEN 1 ELSE 0 END) AS Jul,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 8 THEN 1 ELSE 0 END) AS Ago,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 9 THEN 1 ELSE 0 END) AS Sep,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 10 THEN 1 ELSE 0 END) AS Oct,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 11 THEN 1 ELSE 0 END) AS Nov,
-      SUM(CASE WHEN EXTRACT(MONTH FROM created_at) = 12 THEN 1 ELSE 0 END) AS Dic
-    FROM posts
-    WHERE EXTRACT(YEAR FROM created_at) = $1
+      m.month,
+      COALESCE(COUNT(p.id), 0) AS totalPosts
+    FROM months m
+    LEFT JOIN posts p
+      ON date_trunc('month', p.created_at) = m.month_start
+    GROUP BY m.month, m.year_month, m.month_start
+    ORDER BY m.year_month
   `;
-  const result = await db.query(sql, [year]);
-  const row = result.rows[0];
-  const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  return meses.map((mes) => ({
-    month: mes,
-    totalPosts: row[mes.toLowerCase()] || 0
-  }));
+  const result = await db.query(sql);
+  return result.rows;
 };
 
 const getPostsPaginated = async (offset, limit) => {
@@ -222,6 +215,6 @@ export const postModel = {
   incrementPostViews,
   countTotalPosts,
   calculateReadPercentage,
-  getPostsPerMonthCurrentYear,
+  getPostsPerLast6Months,
   getPostsPaginated
 };
