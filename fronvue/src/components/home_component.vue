@@ -76,59 +76,12 @@
     <main class="page-wrapper">
       <!-- Navbar 3 Level (Light)-->
       <header class="shadow-sm">
-        <!-- Topbar-->
-        <div class="topbar topbar-dark bg-dark">
-          <div class="container">
-            <div class="topbar-text dropdown d-md-none"><a class="topbar-link dropdown-toggle" href="#"
-                data-bs-toggle="dropdown">Useful links</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="tel:00331697720"><i class="ci-support text-muted me-2"></i>(00) 33
-                    169 7720</a></li>
-                <li><a class="dropdown-item" href="order-tracking.html"><i class="ci-location text-muted me-2"></i>Order
-                    tracking</a></li>
-              </ul>
-            </div>
-            <div class="topbar-text text-nowrap d-none d-md-inline-block"><i class="ci-support"></i><span
-                class="text-muted me-1">Support</span><a class="topbar-link" href="tel:00331697720">(00) 33 169
-                7720</a></div>
-            <div class="tns-carousel tns-controls-static d-none d-md-block">
-              <div class="tns-carousel-inner"
-                data-carousel-options="{&quot;mode&quot;: &quot;gallery&quot;, &quot;nav&quot;: false}">
-                <div class="topbar-text">Free shipping for order over $200</div>
-                <div class="topbar-text">We return money within 30 days</div>
-                <div class="topbar-text">Friendly 24/7 customer support</div>
-              </div>
-            </div>
-            <div class="ms-3 text-nowrap"><a class="topbar-link me-4 d-none d-md-inline-block"
-                href="order-tracking.html"><i class="ci-location"></i>Order tracking</a>
-              <div class="topbar-text dropdown disable-autohide"><a class="topbar-link dropdown-toggle" href="#"
-                  data-bs-toggle="dropdown"><img class="me-2" src="img/flags/en.png" width="20" alt="English">Eng /
-                  $</a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li class="dropdown-item">
-                    <select class="form-select form-select-sm">
-                      <option value="usd">$ USD</option>
-                      <option value="eur">€ EUR</option>
-                      <option value="ukp">£ UKP</option>
-                      <option value="jpy">¥ JPY</option>
-                    </select>
-                  </li>
-                  <li><a class="dropdown-item pb-1" href="#"><img class="me-2" src="img/flags/fr.png" width="20"
-                        alt="Français">Français</a></li>
-                  <li><a class="dropdown-item pb-1" href="#"><img class="me-2" src="img/flags/de.png" width="20"
-                        alt="Deutsch">Deutsch</a></li>
-                  <li><a class="dropdown-item" href="#"><img class="me-2" src="img/flags/it.png" width="20"
-                        alt="Italiano">Italiano</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+       
         <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
         <div class="navbar-sticky bg-light">
           <div class="navbar navbar-expand-lg navbar-light">
             <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0" href="index.html"><img
-                  src="img/logo-dark.png" width="142" alt="Cartzilla"></a><a
+                  src="../../dist/img/LogoRM.b5d6692e.png" width="142" alt="Cartzilla"></a><a
                 class="navbar-brand d-sm-none flex-shrink-0 me-2" href="index.html"><img src="img/logo-icon.png"
                   width="74" alt="Cartzilla"></a>
               <div class="input-group d-none d-lg-flex mx-4">
@@ -230,7 +183,9 @@
               </div>
             </div>
           </div>
-          <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
+          <!-- Menu movil -->
+           <!-- esconde solo pantallas de menor a 1024px -->
+          <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2 d-lg-none ">
             <div class="container">
               <div class="collapse navbar-collapse" id="navbarCollapse">
                 <!-- Search-->
@@ -238,10 +193,10 @@
                     class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
                   <input class="form-control rounded-start" type="text" placeholder="Search for books">
                 </div>
-                <!-- Departments menu-->
-                <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2">
+                <!-- Departments menu movil-->
+                <ul class="navbar-nav navbar-mega-nav pe-lg-2 me-lg-2 ">
                   <li class="nav-item dropdown"><a class="nav-link dropdown-toggle ps-lg-0" href="#"
-                      data-bs-toggle="dropdown"><i class="ci-view-grid me-2"></i>Departments</a>
+                      data-bs-toggle="dropdown"><i class="ci-view-grid me-2"></i>Categorias</a>
                     <div class="dropdown-menu px-2 pb-4">
                       <div class="d-flex flex-wrap flex-sm-nowrap">
                         <div class="mega-dropdown-column pt-3 pt-sm-4 px-2 px-lg-3">
