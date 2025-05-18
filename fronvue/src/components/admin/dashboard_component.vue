@@ -261,8 +261,9 @@ export default {
     // Gráfico de pastel: Distribución de usuarios por actividad
     const pieCtx = document.getElementById('myPieChart');
     if (pieCtx && this.posts_by_category.length > 0) {
+      console.log(this.posts_by_category);
       const labels = this.posts_by_category.map(item => item.category);
-      const data = this.posts_by_category.map(item => parseInt(item.total, 10));
+      const data = this.posts_by_category.map(item => parseInt(item.total, 11));
       new Chart(pieCtx, {
         type: 'pie',
         data: {
@@ -271,7 +272,8 @@ export default {
             data: data,
             backgroundColor: [
               '#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc',
-              '#858796', '#fd7e14', '#20c997', '#6f42c1', '#343a40'
+              '#858796', '#fd7e14', '#20c997', '#6f42c1', '#343a40',
+              '#f8f9fc', '#007bff', '#6610f2', '#e83e8c', '#dc3545',
             ],
 
           }]

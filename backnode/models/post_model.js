@@ -1,26 +1,26 @@
 import { db } from "../database/connection_db.js";
 
 // Crear una nueva publicación
-const addPost = async (userId, title, description, imageUrl, pdfUrl) => {
+const addPost = async (userId, title, description, imageUrl, pdfUrl, category_id) => {
   const query = `
-        INSERT INTO posts (user_id, title, description, image, pdf_file)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO posts (user_id, title, description, image, pdf_file, category_id, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, NOW())
         RETURNING *;
     `;
-  const values = [userId, title, description, imageUrl, pdfUrl];
+  const values = [userId, title, description, imageUrl, pdfUrl,category_id];
   const result = await db.query(query, values);
   return result.rows[0];
 };
 
 // Editar una publicación
-const editPost = async (postId, title, description, imageUrl, pdfUrl) => {
+const editPost = async (postId, title, description, imageUrl, pdfUrl, category_id) => {
   const query = `
     UPDATE posts
-    SET title = $1, description = $2, image = $3, pdf_file = $4, updated_at = NOW()
-    WHERE id = $5
+    SET title = $1, description = $2, image = $3, pdf_file = $4, category_id = $5 ,updated_at = NOW()
+    WHERE id = $6
     RETURNING *;
   `;
-  const values = [title, description, imageUrl, pdfUrl, postId];
+  const values = [title, description, imageUrl, pdfUrl, category_id, postId];
   const result = await db.query(query, values);
   return result;
 };

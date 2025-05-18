@@ -3,7 +3,7 @@ import { userModel } from "../models/user_model.js";
 import { uploadBookToFirebase } from "./firebaseupload_controller.js";
 
 const createMyPost = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, category_id } = req.body;
 
   const user = await userModel.findUserByEmail(req.email);
   const userId = user.id;
@@ -19,7 +19,7 @@ const createMyPost = async (req, res) => {
     const imageUrl = await uploadBookToFirebase(imagePost[0]); 
     const pdfUrl = await uploadBookToFirebase(pdf[0]);
 
-    const newPost = await postModel.addPost(userId, title, description, imageUrl, pdfUrl);
+    const newPost = await postModel.addPost(userId, title, description, imageUrl, pdfUrl, category_id);
     res.status(201).json(newPost);
   } catch (error) {
     console.error("Error al crear la publicación:", error);
@@ -30,13 +30,9 @@ const createMyPost = async (req, res) => {
 // Editar una publicación
 const editPost = async (req, res) => {
   const postId = req.params.id;
-  const { title, description } = req.body;
+  const { title, description,category_id } = req.body;
   const imagePost = req.files?.images || [];
   const pdf = req.files?.pdf || [];
-
-  console.log('Received data:', { postId, title, description });
-
-  console.log('Received files:', req.files);
 
   try {
     // Obtenemos el post existente para acceder a los valores actuales
@@ -52,7 +48,7 @@ const editPost = async (req, res) => {
     if (pdf.length > 0) {
       pdfUrl = await uploadBookToFirebase(pdf[0]);
     }
-    const updatedPost = await postModel.editPost(postId, title, description, imageUrls, pdfUrl);
+    const updatedPost = await postModel.editPost(postId, title, description, imageUrls, pdfUrl, category_id);
     if (!updatedPost) {
       return res.status(404).json({ message: "Post not found" });
     }
@@ -192,7 +188,7 @@ const deletePostsByUserId = async (req, res) => {
 
 // admin 
 const createPost = async (req, res) => {
-  const { title, description, userId } = req.body;
+  const { title, description,category_id, userId } = req.body;
 
   const imagePost = req.files?.images || [];
   const pdf = req.files?.pdf || [];
@@ -205,7 +201,7 @@ const createPost = async (req, res) => {
     const imageUrl = await uploadBookToFirebase(imagePost[0]); 
     const pdfUrl = await uploadBookToFirebase(pdf[0]);
 
-    const newPost = await postModel.addPost(userId, title, description, imageUrl, pdfUrl);
+    const newPost = await postModel.addPost(userId, title, description, imageUrl, pdfUrl, category_id);
     res.status(201).json(newPost);
   } catch (error) {
     console.error("Error al crear la publicación:", error);

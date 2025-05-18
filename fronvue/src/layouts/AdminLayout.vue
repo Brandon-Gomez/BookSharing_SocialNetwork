@@ -10,7 +10,7 @@
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
-                <router-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
+                <router-link class="sidebar-brand d-flex align-items-center justify-content-center" to="/">
                     <div class="sidebar-brand-text mx-3">Readmate <sup>Admin</sup></div>
                 </router-link>
 

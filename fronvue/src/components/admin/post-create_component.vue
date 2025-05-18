@@ -21,6 +21,13 @@
                 <input type="file" id="pdf" @change="onPdfChange" class="form-control" accept="application/pdf" />
             </div>
             <div class="form-group mb-3">
+                <label for="category">Categoría</label>
+                <select id="category" v-model="postData.category_id" class="form-control" required>
+                    <option value="" disabled>Selecciona una categoría</option>
+                    <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
                 <label for="user">Usuario</label>
                 <select id="user" v-model="postData.user_id" class="form-control" required>
                     <option value="" disabled>Selecciona un usuario</option>
@@ -45,14 +52,29 @@ export default {
             postData: {
                 title: "",
                 description: "",
-                user_id: ""
+                user_id: "",
+                category_id: "",
             },
             image: null,
             pdf: null,
-            users: []
+            users: [],
+            categories: [],
         };
     },
     methods: {
+        async fetchCategories() {
+            try {
+                const token = localStorage.getItem("authToken");
+                const response = await apiClient.get("admin/categories", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                this.categories = response.data;
+            } catch (error) {
+                console.error("Error al obtener las categorías:", error.response?.data || error);
+            }
+        },
         onImageChange(event) {
             this.image = event.target.files[0];
         },
@@ -78,6 +100,7 @@ export default {
                 const formData = new FormData();
                 formData.append("title", this.postData.title);
                 formData.append("description", this.postData.description);
+                formData.append("category_id", this.postData.category_id);
                 formData.append("user_id", this.postData.user_id);
                 if (this.image) formData.append("images", this.image);
                 if (this.pdf) formData.append("pdf", this.pdf);
@@ -108,6 +131,7 @@ export default {
     },
     mounted() {
         this.fetchUsers();
+        this.fetchCategories();
     }
 };
 </script>

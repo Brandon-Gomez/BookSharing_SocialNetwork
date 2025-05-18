@@ -12,6 +12,13 @@
                     <textarea id="description" v-model="postData.description" class="form-control" required></textarea>
                 </div>
                 <div class="form-group mb-3">
+                    <label for="category">Categoría</label>
+                    <select id="category" v-model="postData.category_id" class="form-control" required>
+                        <option value="" disabled>Selecciona una categoría</option>
+                        <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
                     <label for="image">Imagen actual</label>
                     <div v-if="postData.image">
                         <img :src="postData.image" alt="Imagen actual" class="img-thumbnail mb-2"
@@ -44,9 +51,16 @@ import eventBus from "@/eventBus.js";
 export default {
     data() {
         return {
-            postData: null,
+            postData: {
+                title: "",
+                description: "",
+                user_id: "",
+                category_id: "",
+            },
             image: null,
             pdf: null,
+            categories: [],
+
         };
     },
     methods: {
@@ -63,6 +77,19 @@ export default {
                 alert("Error al obtener la publicación.");
             }
         },
+        async fetchCategories() {
+            try {
+                const token = localStorage.getItem("authToken");
+                const response = await apiClient.get("admin/categories", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                this.categories = response.data;
+            } catch (error) {
+                console.error("Error al obtener las categorías:", error.response?.data || error);
+            }
+        },
         onImageChange(event) {
             this.image = event.target.files[0];
         },
@@ -76,6 +103,7 @@ export default {
                 const formData = new FormData();
                 formData.append("title", this.postData.title);
                 formData.append("description", this.postData.description);
+                formData.append("category_id", this.postData.category_id);
                 if (this.image) formData.append("images", this.image);
                 if (this.pdf) formData.append("pdf", this.pdf);
 
@@ -101,6 +129,7 @@ export default {
     },
     mounted() {
         this.fetchPost();
+        this.fetchCategories();
     }
 };
 </script>

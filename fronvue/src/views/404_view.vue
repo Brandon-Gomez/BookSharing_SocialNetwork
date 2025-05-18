@@ -12,8 +12,8 @@
                             <div class="col-12 col-lg-6 text-center text-lg-start">
                                 <img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="../assets/404.png" alt="">
                                 <h2 class="text-800 fw-bolder mb-3">Pagina perdida!</h2>
-                                <p class="text-900 mb-5">Pero no se preocupe. Estamos buscando por todas
-                                    partes <br class="d-none d-sm-block">mientras esperas seguro.</p>
+                                <p class="text-900 mb-5">La página que busca no existe.<br
+                                        class="d-none d-sm-block">Verifique la URL o vuelva a la pagina de inicio</p>
                                 <RouterLink class="btn btn-lg btn-primary" to="/">Ir a inicio</RouterLink>
                             </div>
                         </div>
