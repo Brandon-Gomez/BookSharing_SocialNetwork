@@ -23,8 +23,8 @@ import apiClient from '../services/ApiService';
 export default {
   data() {
     return {
-      email: 'salinasgomez16@gmail.com',
-      password: 'BrandonGomez12345***',
+      email: '2@gmail.com',
+      password: '2',
       // codigo: '',
     };
   },
@@ -43,6 +43,8 @@ export default {
 
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('isAdmin', is_admin);
+        localStorage.setItem('username', response.data.username);
+
         if (is_admin) {
           this.$router.push(`/admin/dashboard`).then(() => {
             window.location.reload();
@@ -54,7 +56,7 @@ export default {
         }
 
       } catch (error) {
-        console.error('Error en el login:', error.response.data);
+        console.error('Error en el login:', error.response);
       }
     }
   },

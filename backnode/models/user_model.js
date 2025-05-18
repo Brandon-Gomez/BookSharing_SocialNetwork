@@ -237,6 +237,10 @@ const updateUserById = async (userId, data) => {
       fields.push(`description = $${idx++}`);
       values.push(data.description);
     }
+    if (data.is_admin !== undefined) {
+      fields.push(`is_admin = $${idx++}`);
+      values.push(data.is_admin);
+    }
 
     if (fields.length === 0) {
       throw new Error("No hay campos para actualizar");
@@ -261,9 +265,23 @@ const updateUserById = async (userId, data) => {
     throw error;
   }
 };
+
+const findUserById = async (userId) => {
+  const query = {
+    text: `
+        SELECT * FROM users
+        WHERE id = $1
+        `,
+    values: [userId],
+  };
+  const { rows
+  } = await db.query(query);
+  return rows[0];
+}
   
 
 export const userModel = {
+  findUserById,
   createUser,
   findUserByEmail,
   validatePassword,

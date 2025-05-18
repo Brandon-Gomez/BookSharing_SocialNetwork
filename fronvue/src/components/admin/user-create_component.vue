@@ -52,6 +52,7 @@
 
 <script>
 import apiClient from "@/services/ApiService";
+import eventBus from "@/eventBus.js";
 
 export default {
     data() {
@@ -69,6 +70,7 @@ export default {
     },
     methods: {
         async createUser() {
+
             try {
                 const token = localStorage.getItem("authToken");
                 await apiClient.post(
@@ -84,15 +86,13 @@ export default {
                     path: "/admin/users-list",
                     query: { alert: "Usuario creado exitosamente", type: "success" }
                 });
-                // Redirige a la lista de usuarios
             } catch (error) {
-                // Manejo de errores
-               
-                this.$router.push({
-                    path: "/admin/users-list",
-                    query: { alert: "Error al crear el usuario", type: "danger" }
-                });
-              
+
+                if (error.response.status === 403 || error.response.status === 401)
+                    this.$router.push("/login");
+                else
+                    eventBus.emit('alert', { message: "Error al crear el usuario.", type: "danger" });
+
             }
         },
         cancel() {

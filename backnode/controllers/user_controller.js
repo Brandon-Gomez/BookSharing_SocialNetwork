@@ -390,10 +390,10 @@ const getUserById = async (req, res) => {
 const updateUserById = async (req, res) => {
   try {
     const { userId } = req.params;
-    let { email, password, username, name, birthdate, description } = req.body;
+    let { email, password, username, name, birthdate, description, is_admin } = req.body;
 
     // Solo encripta y agrega la contraseña si viene en el body
-    let dataToUpdate = { email, username, name, birthdate, description };
+    let dataToUpdate = { email, username, name, birthdate, description, is_admin };
 
     if (password && password.trim() !== "") {
       const salt = await bcryptjs.genSalt(7);

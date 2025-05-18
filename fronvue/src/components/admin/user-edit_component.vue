@@ -34,7 +34,7 @@
             </div>
             <div class="form-group mb-3">
                 <label for="is_admin">Rol</label>
-                <select id="is_admin" v-model="userData.is_admin" class="form-control">
+                <select id="is_admin" v-model="userData.is_admin" class="form-control" v-on:select="userData.is_admin">
                     <option :value="false">Usuario</option>
                     <option :value="true">Administrador</option>
                 </select>
@@ -60,7 +60,7 @@ export default {
                 name: "",
                 birthdate: "",
                 description: "",
-                is_admin: false,
+                is_admin: "",
             },
         };
     },
