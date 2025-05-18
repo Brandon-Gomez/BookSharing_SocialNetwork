@@ -16,7 +16,7 @@
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
-              <div class="row no-gutters align-items-center">
+              <div class="row align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                     Total Libros Compartidos
@@ -37,7 +37,7 @@
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
-              <div class="row no-gutters align-items-center">
+              <div class="row align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                     Total Usuarios
@@ -58,12 +58,12 @@
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
-              <div class="row no-gutters align-items-center">
+              <div class="row align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                     Porcentaje Libros Leídos
                   </div>
-                  <div class="row no-gutters align-items-center">
+                  <div class="row align-items-center">
                     <div class="col-auto">
                       <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                         {{ per_books_read }}%
@@ -89,7 +89,7 @@
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-warning shadow h-100 py-2">
             <div class="card-body">
-              <div class="row no-gutters align-items-center">
+              <div class="row align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                     Total Comments
@@ -115,7 +115,7 @@
           <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">
+              <h6 class="m-0 font-weight-bold text-gray-800">
                 Libros Compartidos por Mes
               </h6>
               <!-- <div class="dropdown no-arrow">
@@ -147,7 +147,7 @@
           <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">
+              <h6 class="m-0 font-weight-bold text-gray-800">
                 Categorias de Publicaciones
               </h6>
               <!-- <div class="dropdown no-arrow">
