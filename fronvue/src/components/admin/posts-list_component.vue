@@ -42,19 +42,16 @@
                 </tr>
             </tbody>
         </table>
-        <!-- Agrega esto después de la tabla -->
-        <div class="d-flex justify-content-center my-4">
-            <button class="btn btn-secondary mx-1" :disabled="page === 1" @click="prevPage">Anterior</button>
-            <span class="mx-2 align-self-center">Página {{ page }} de {{ totalPages }}</span>
-            <button class="btn btn-secondary mx-1" :disabled="page === totalPages" @click="nextPage">Siguiente</button>
-        </div>
-
     </div>
+    
+    <pagination v-model="page" :totalPages="totalPages" @update:modelValue="onPageChange" />
+
 </template>
 
 <script>
 import apiClient from '@/services/ApiService';
 import eventBus from '@/eventBus';
+import pagination from '@/components/pagination_component.vue';
 
 export default {
     data() {
@@ -65,28 +62,29 @@ export default {
             totalPages: 0
         };
     },
+    components: {
+        pagination
+    },
     methods: {
         async fetchPosts() {
             try {
-                const res = await apiClient.get(`/posts/paginated?page=${this.page}&limit=${this.limit}`);
-                console.log(res.data);
+                const token = localStorage.getItem("authToken");
+                const res = await apiClient.get(`/posts?page=${this.page}&limit=${this.limit}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
                 this.posts = res.data.posts;
                 this.totalPages = res.data.totalPages;
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
         },
-        nextPage() {
-            if (this.page < this.totalPages) {
-                this.page++;
-                this.fetchPosts();
-            }
-        },
-        prevPage() {
-            if (this.page > 1) {
-                this.page--;
-                this.fetchPosts();
-            }
+        onPageChange(n) {
+            this.page = n;
+            this.fetchPosts();
         },
         formatDate(dateStr) {
             if (!dateStr) return '';

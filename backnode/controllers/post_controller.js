@@ -226,9 +226,9 @@ const getPostsPaginated = async (req, res) => {
   const offset = (page - 1) * limit;
 
   try {
-    const posts = await postModel.getPostsPaginated(limit, offset); // <-- Cambia el orden aquí
+    const posts = await postModel.getPostsPaginated(limit, offset);
     const totalPosts = await postModel.countTotalPosts();
-    const totalPages = Math.ceil(totalPosts / limit);
+    const totalPages = Math.ceil(totalPosts / limit) - 1;
 
     return res.status(200).json({
       page,

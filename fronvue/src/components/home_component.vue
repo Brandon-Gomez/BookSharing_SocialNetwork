@@ -1,4 +1,57 @@
 <template>
+
+
+  <!--
+DATA
+posts
+: 
+Array(20)
+0
+: 
+category_description
+: 
+"Historias futuristas o especulativas con elementos tecnológicos o espaciales."
+category_id
+: 
+17
+category_name
+: 
+"Ciencia ficción"
+created_at
+: 
+"2025-01-28T05:00:00.000Z"
+description
+: 
+"Una aventura épica en tierras desconocidas."
+image
+: 
+null
+pdf_file
+: 
+null
+post_id
+: 
+7
+title
+: 
+"Amor en tiempos difíciles"
+total_likes
+: 
+"0"
+updated_at
+: 
+"2025-01-28T05:00:00.000Z"
+user_id
+: 
+443
+username
+: 
+"user443"
+views
+: 
+68 -->
+
+
   <MainLayout>
 
     <div class="bg-secondary py-4">
@@ -24,29 +77,35 @@
       <div class="pt-5 mt-md-2">
         <!-- Nuevo grid de artículos -->
         <div class="library-grid">
-          <article class="library-item" v-for="n in 15" :key="n">
+          <article class="library-item" v-for="(post) in posts" :key="post.post_id">
             <div class="card">
-              <a class="blog-entry-thumb" href="blog-single.html">
+              <a class="blog-entry-thumb" href="#">
                 <img class="card-img-top"
                   src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
                   alt="Post">
               </a>
               <div class="card-body">
                 <h2 class="h6 blog-entry-title">
-                  <a href="blog-single.html">Cien años de soledad" de Gabriel García Márquez</a>
+                  <a href="#">
+
+                    {{ post.title }}
+
+                  </a>
                 </h2>
-                <a class=" btn-tag me-2 mb-2" href="#">Realismo Mágico</a>
+                <a class=" btn-tag me-2 mb-2" href="#">{{ post.category_name }}</a>
               </div>
               <div class="card-footer d-flex align-items-center fs-xs">
                 <a class="blog-entry-meta-link" href="#">
 
-                  Cynthia Gomez
+                  {{ post.username }}
                 </a>
                 <div class="ms-auto text-nowrap">
-                  <a class="blog-entry-meta-link text-nowrap" href="#">Jul 23</a>
+                  <a class="blog-entry-meta-link text-nowrap" href="#">
+                    {{ new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: '2-digit' }) }}
+                  </a>
                   <span class="blog-entry-meta-divider mx-2"></span>
                   <a class="blog-entry-meta-link text-nowrap" href="blog-single.html#comments">
-                    <i class="ci-heart"></i>19
+                    <i class="ci-heart"></i>{{ post.total_likes }}
                   </a>
                 </div>
               </div>
@@ -54,24 +113,8 @@
           </article>
         </div>
         <!-- Pagination-->
-        <nav class="d-flex justify-content-between pt-2" aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#"><i class="ci-arrow-left me-2"></i>Ant</a></li>
-          </ul>
-          <ul class="pagination">
-            <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
-            <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span
-                  class="visually-hidden">(current)</span></span></li>
-            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">2</a></li>
-            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">3</a></li>
-            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">4</a></li>
-            <li class="page-item d-none d-sm-block"><a class="page-link" href="#">5</a></li>
-          </ul>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#" aria-label="Next">Sig<i
-                  class="ci-arrow-right ms-2"></i></a></li>
-          </ul>
-        </nav>
+        <Pagination v-model="page" :totalPages="totalPages" @update:modelValue="onPageChange" />
+
       </div>
     </div>
 
@@ -81,38 +124,59 @@
 <script>
 import apiClient from "@/services/ApiService";
 import MainLayout from "@/layouts/MainLayout.vue";
+import Pagination from "@/components/pagination_component.vue";
 
 export default {
   data() {
     return {
       isAuth: true,
       posts: [],
+      page: 1,
+      limit: 15,
+      totalPages: 0
     };
   },
   components: {
     MainLayout,
+    Pagination
+
   },
   methods: {
-    async getAllPosts() {
+
+    async getPostsPaginated() {
       try {
         const token = localStorage.getItem("authToken");
         if (!token) {
           this.isAuth = false;
           return;
         }
-        const response = await apiClient.get(`/posts`, {
+        const response = await apiClient.get(`/posts?page=${this.page}&limit=${this.limit}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        this.posts = response.data;
+        console.log("Response data:", response.data);
+        this.posts = response.data.posts;
+        this.totalPages = response.data.totalPages;
       } catch (error) {
-        console.error("Error getting posts:", error);
+        // redirect to login if token is invalid
+        if (error.response && error.response.data.message === "Token is invalid") {
+          this.isAuth = false;
+          localStorage.removeItem("authToken");
+          this.$router.push({ name: "login" });
+        } else {
+          console.error("Error fetching posts:", error);
+        }
       }
     },
+    onPageChange(n) {
+      this.page = n;
+      this.getPostsPaginated();
+    },
   },
+
   mounted() {
-    this.getAllPosts();
+    this.getPostsPaginated();
   },
 };
 </script>

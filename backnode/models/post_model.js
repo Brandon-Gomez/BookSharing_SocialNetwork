@@ -37,11 +37,22 @@ const deletePost = async (postId) => {
 // Obtener todas las publicaciones
 const getAllPosts = async () => {
   const query = `
-        SELECT posts.*, users.username
-        FROM posts
-        JOIN users ON posts.user_id = users.id
-        ORDER BY posts.created_at DESC;
-    `;
+    SELECT 
+      posts.*,
+      users.username, 
+      categories.name AS category_name, 
+      categories.description AS category_description,
+      COALESCE(likes_count.total_likes, 0) AS total_likes
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    JOIN categories ON posts.category_id = categories.id
+    LEFT JOIN (
+      SELECT post_id, COUNT(*) AS total_likes
+      FROM likes
+      GROUP BY post_id
+    ) AS likes_count ON posts.id = likes_count.post_id
+    ORDER BY posts.created_at DESC;
+  `;
   const result = await db.query(query);
   return result.rows;
 };
@@ -203,10 +214,16 @@ const getPostsPaginated = async (limit, offset) => {
       posts.category_id,
       users.username,
       categories.name AS category_name,
-      categories.description AS category_description
+      categories.description AS category_description,
+      COALESCE(likes_count.total_likes, 0) AS total_likes
     FROM posts
     JOIN users ON posts.user_id = users.id
     JOIN categories ON posts.category_id = categories.id
+    LEFT JOIN (
+      SELECT post_id, COUNT(*) AS total_likes
+      FROM likes
+      GROUP BY post_id
+    ) AS likes_count ON posts.id = likes_count.post_id
     ORDER BY posts.id ASC
     LIMIT $1 OFFSET $2
   `;
