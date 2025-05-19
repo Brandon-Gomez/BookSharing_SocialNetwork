@@ -19,6 +19,7 @@ import AdminPostsListView from '../views/admin/posts-list_view.vue';
 import AdminPostCreateView from '../views/admin/post-create_view.vue';
 import AdminPostEditView from '../views/admin/post-edit_view.vue';
 import AdminCategoriesList from '../views/admin/categories-list_view.vue';
+
 import Page404 from '../views/404_view.vue';
 
 // Rutas para visitantes (no autenticados)
@@ -72,7 +73,7 @@ const userRoutes = [
     props: true
   },
   {
-    path: '/posts',
+    path: '/posts/:postId',
     name: 'PostView',
     component: PostView,
     meta: { requiresAuth: true, requiresAdmin: false }

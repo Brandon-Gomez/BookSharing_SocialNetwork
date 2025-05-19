@@ -141,9 +141,9 @@
         <div class="navbar-sticky bg-light">
           <div class="navbar navbar-expand-lg navbar-light py-0">
             <div class="container">
-              <a class="navbar-brand d-none d-sm-block flex-shrink-0 py-0" href="index.html"><img
+              <a class="navbar-brand d-none d-sm-block flex-shrink-0 py-0" href="/"><img
                   src="../../dist/img/LogoRM.b5d6692e.png" width="142" alt="Readmate" /></a><a
-                class="navbar-brand d-sm-none flex-shrink-0 me-2" href="index.html"><img
+                class="navbar-brand d-sm-none flex-shrink-0 me-2" href="/"><img
                   src="../../dist/img/LogoRM.b5d6692e.png" width="74" alt="Readmate" /></a>
               <div class="input-group d-none d-lg-flex mx-4">
                 <input class="form-control rounded-end pe-5" type="text" placeholder="Buscar un libro.." /><i

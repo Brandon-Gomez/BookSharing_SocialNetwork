@@ -79,26 +79,25 @@ views
         <div class="library-grid">
           <article class="library-item" v-for="(post) in posts" :key="post.post_id">
             <div class="card">
-              <a class="blog-entry-thumb" href="#">
+
+              <RouterLink class="blog-entry-thumb" :to="`posts/${post.post_id}`">
                 <img class="card-img-top"
                   src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
                   alt="Post">
-              </a>
+
+              </RouterLink>
               <div class="card-body">
                 <h2 class="h6 blog-entry-title">
                   <a href="#">
-
                     {{ post.title }}
-
                   </a>
                 </h2>
                 <a class=" btn-tag me-2 mb-2" href="#">{{ post.category_name }}</a>
               </div>
               <div class="card-footer d-flex align-items-center fs-xs">
-                <a class="blog-entry-meta-link" href="#">
-
+                <RouterLink class="blog-entry-meta-link" :to="`/profile/${post.username}`">
                   {{ post.username }}
-                </a>
+                </RouterLink>
                 <div class="ms-auto text-nowrap">
                   <a class="blog-entry-meta-link text-nowrap" href="#">
                     {{ new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: '2-digit' }) }}
