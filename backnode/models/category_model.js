@@ -1,8 +1,14 @@
 import { db } from "../database/connection_db.js";
 
 const getAllCategories = async () => {
-  const result = await db.query("SELECT * FROM categories ORDER BY id ASC");
-  console.log(result);
+  const query = `
+    SELECT c.*, COUNT(p.id) AS post_count
+    FROM categories c
+    LEFT JOIN posts p ON p.category_id = c.id
+    GROUP BY c.id
+    ORDER BY c.id ASC
+  `;
+  const result = await db.query(query);
   return result.rows;
 };
 

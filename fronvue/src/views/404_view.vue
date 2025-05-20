@@ -17,7 +17,7 @@
                                             class="d-none d-sm-block">Verifique la URL o vuelva a la pagina de inicio
                                     </p>
                                     <RouterLink class="btn btn-lg btn-primary" to="/">Ir a inicio<i
-                                            class="ci ci-arrow-right "></i>
+                                            class="ci ci-arrow-right ml-2"></i>
                                     </RouterLink>
                                 </div>
                             </div>

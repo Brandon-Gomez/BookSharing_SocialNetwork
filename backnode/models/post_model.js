@@ -72,11 +72,23 @@ const getPostsByUser = async (userId) => {
 // Obtener una publicación por ID
 const getPostById = async (postId) => {
   const query = `
-        SELECT posts.*, users.username
-        FROM posts
-        JOIN users ON posts.user_id = users.id
-        WHERE posts.id = $1;
-    `;
+    SELECT 
+      posts.*, 
+      users.username,
+      users.id AS user_id,
+      categories.name AS category_name,
+      categories.description AS category_description,
+      COALESCE(likes_count.total_likes, 0) AS total_likes
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    JOIN categories ON posts.category_id = categories.id
+    LEFT JOIN (
+      SELECT post_id, COUNT(*) AS total_likes
+      FROM likes
+      GROUP BY post_id
+    ) AS likes_count ON posts.id = likes_count.post_id
+    WHERE posts.id = $1;
+  `;
   const result = await db.query(query, [postId]);
   return result.rows[0];
 };
@@ -231,6 +243,48 @@ const getPostsPaginated = async (limit, offset) => {
   return result.rows;
 };
 
+// las 5 publicacionas mas vistas de la semana solo necesito el id, el username, el titulo y la imagen
+const getTop5PostsOfWeek = async () => {
+  const query = `
+    SELECT 
+      posts.id AS post_id,
+      posts.title,
+      posts.image,
+      users.username
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    WHERE posts.created_at >= NOW() - INTERVAL '7 days'
+    ORDER BY posts.views DESC
+    LIMIT 5;
+  `;
+  const result = await db.query(query);
+  return result.rows;
+};
+
+const getNextPost = async (postId) => {
+  const query = `
+    SELECT *
+    FROM posts
+    WHERE id > $1
+    ORDER BY id ASC
+    LIMIT 1;
+  `;
+  const result = await db.query(query, [postId]);
+  return result.rows[0];
+};
+
+const getPrevPost = async (postId) => {
+  const query = `
+    SELECT *
+    FROM posts
+    WHERE id < $1
+    ORDER BY id DESC
+    LIMIT 1;
+  `;
+  const result = await db.query(query, [postId]);
+  return result.rows[0];
+};
+
 export const postModel = {
   addPost,
   editPost,
@@ -247,5 +301,8 @@ export const postModel = {
   countTotalPosts,
   calculateReadPercentage,
   getPostsPerLast6Months,
-  getPostsPaginated
+  getPostsPaginated,
+  getTop5PostsOfWeek,
+  getNextPost,
+  getPrevPost,
 };

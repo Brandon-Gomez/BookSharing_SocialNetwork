@@ -211,6 +211,9 @@ const createPost = async (req, res) => {
 
 const incrementPostViews = async (req, res) => {
   const postId = req.params.id;
+  if (isNaN(postId)) {
+  return res.status(400).json({ error: "postId inválido" });
+  }
   try {
     const updatedPost = await postModel.incrementPostViews(postId);
     return res.status(200).json(updatedPost);
@@ -242,6 +245,46 @@ const getPostsPaginated = async (req, res) => {
   }
 };
 
+const getTop5PostsOfWeek = async (req, res) => {
+  try {
+    const posts = await postModel.getTop5PostsOfWeek();
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+}
+};
+
+const getNextPost = async (req, res) => {
+  const postId = req.params.id;
+  try {
+    const nextPost = await postModel.getNextPost(postId);
+    if (!nextPost) {
+      return res.status(404).json({ message: "No hay siguiente publicación" });
+    }
+    return res.status(200).json(nextPost);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getPrevPost = async (req, res) => {
+
+  const postId = req.params.id;
+  try {
+    const prevPost = await postModel.getPrevPost(postId);
+    if (!prevPost) {
+      return res.status(404).json({ message: "No hay publicación anterior" });
+    }
+    return res.status(200).json(prevPost);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+
 export const postController = {
   createMyPost,
   editPost,
@@ -255,5 +298,8 @@ export const postController = {
   deletePostsByUserId,
   createPost,
   incrementPostViews,
-  getPostsPaginated
+  getPostsPaginated,
+  getTop5PostsOfWeek,
+  getNextPost,
+  getPrevPost
 };

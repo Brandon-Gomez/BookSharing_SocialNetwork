@@ -1,57 +1,5 @@
 <template>
 
-
-  <!--
-DATA
-posts
-: 
-Array(20)
-0
-: 
-category_description
-: 
-"Historias futuristas o especulativas con elementos tecnológicos o espaciales."
-category_id
-: 
-17
-category_name
-: 
-"Ciencia ficción"
-created_at
-: 
-"2025-01-28T05:00:00.000Z"
-description
-: 
-"Una aventura épica en tierras desconocidas."
-image
-: 
-null
-pdf_file
-: 
-null
-post_id
-: 
-7
-title
-: 
-"Amor en tiempos difíciles"
-total_likes
-: 
-"0"
-updated_at
-: 
-"2025-01-28T05:00:00.000Z"
-user_id
-: 
-443
-username
-: 
-"user443"
-views
-: 
-68 -->
-
-
   <MainLayout>
 
     <div class="bg-secondary py-4">
@@ -60,10 +8,8 @@ views
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start"
               style="background-color: unset;">
-              <li class="breadcrumb-item"><a class="text-nowrap" href="index.html"><i class="ci-home"></i>Home</a></li>
-              <li class="breadcrumb-item text-nowrap"><a href="#">Blog</a>
-              </li>
-              <li class="breadcrumb-item text-nowrap active" aria-current="page">Grid no sidebar</li>
+              <li aria-current="page" class="breadcrumb-item active"><a class="text-nowrap" href="#"><i
+                    class="ci-home"></i>Home</a></li>
             </ol>
           </nav>
         </div>
@@ -84,15 +30,15 @@ views
                 <img class="card-img-top"
                   src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
                   alt="Post">
-
               </RouterLink>
               <div class="card-body">
                 <h2 class="h6 blog-entry-title">
-                  <a href="#">
+                  <RouterLink :to="`/posts/${post.post_id}`">
                     {{ post.title }}
-                  </a>
+                  </RouterLink>
                 </h2>
-                <a class=" btn-tag me-2 mb-2" href="#">{{ post.category_name }}</a>
+
+                <a class=" btn-tag me-2 mb-2" :href="`/category/${post.category_id}`">{{ post.category_name }}</a>
               </div>
               <div class="card-footer d-flex align-items-center fs-xs">
                 <RouterLink class="blog-entry-meta-link" :to="`/profile/${post.username}`">
@@ -145,27 +91,17 @@ export default {
     async getPostsPaginated() {
       try {
         const token = localStorage.getItem("authToken");
-        if (!token) {
-          this.isAuth = false;
-          return;
-        }
         const response = await apiClient.get(`/posts?page=${this.page}&limit=${this.limit}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Response data:", response.data);
         this.posts = response.data.posts;
         this.totalPages = response.data.totalPages;
       } catch (error) {
         // redirect to login if token is invalid
-        if (error.response && error.response.data.message === "Token is invalid") {
-          this.isAuth = false;
-          localStorage.removeItem("authToken");
-          this.$router.push({ name: "login" });
-        } else {
-          console.error("Error fetching posts:", error);
-        }
+        localStorage.removeItem("authToken");
+        this.$router.push("/login");
       }
     },
     onPageChange(n) {
