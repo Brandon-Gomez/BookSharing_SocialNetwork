@@ -3,16 +3,7 @@
   <MainLayout>
 
     <div class="bg-secondary py-4">
-      <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
-        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start"
-              style="background-color: unset;">
-              <li aria-current="page" class="breadcrumb-item active"><a class="text-nowrap" href="#"><i
-                    class="ci-home"></i>Home</a></li>
-            </ol>
-          </nav>
-        </div>
+      <div class="container d-lg-flex justify-content-start py-2 py-lg-3">
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
           <h1 class="h3 mb-0">Explora</h1>
         </div>
@@ -25,7 +16,10 @@
         <div class="library-grid">
           <article class="library-item" v-for="(post) in posts" :key="post.post_id">
             <div class="card">
-
+              <button data-v-336ea70c="" class="btn-wishlist btn-sm position-absolute" type="button"
+                data-bs-toggle="tooltip" data-bs-placement="left" title="Me gusta"
+                style="top: 0.5rem; right: 0.5rem; z-index: 2; background: rgba(255, 255, 255, 0.7); border-radius: 50%;"><i
+                  data-v-336ea70c="" class="ci-heart"></i></button>
               <RouterLink class="blog-entry-thumb" :to="`posts/${post.post_id}`">
                 <img class="card-img-top"
                   src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
@@ -70,7 +64,6 @@
 import apiClient from "@/services/ApiService";
 import MainLayout from "@/layouts/MainLayout.vue";
 import Pagination from "@/components/pagination_component.vue";
-
 export default {
   data() {
     return {
@@ -83,7 +76,7 @@ export default {
   },
   components: {
     MainLayout,
-    Pagination
+    Pagination,
 
   },
   methods: {

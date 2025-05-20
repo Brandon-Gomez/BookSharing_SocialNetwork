@@ -223,16 +223,25 @@ const incrementPostViews = async (req, res) => {
   }
 };
 
+// backnode/controllers/post_controller.js
+
 const getPostsPaginated = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
   const offset = (page - 1) * limit;
+  const categoryId = req.query.category_id || null;
 
   try {
-    const posts = await postModel.getPostsPaginated(limit, offset);
-    const totalPosts = await postModel.countTotalPosts();
-    const totalPages = Math.ceil(totalPosts / limit) - 1;
+    const posts = await postModel.getPostsPaginated(limit, offset, categoryId);
 
+    // Cambia aquí: cuenta solo los posts de la categoría si hay filtro
+    let totalPosts;
+    if (categoryId) {
+      totalPosts = await postModel.countPostsByCategory(categoryId);
+    } else {
+      totalPosts = await postModel.countTotalPosts();
+    }
+    const totalPages = Math.ceil(totalPosts / limit) - 1;
     return res.status(200).json({
       page,
       totalPages,

@@ -1,20 +1,11 @@
 <template>
-    {{ post }}
     <div>
         <div class="bg-secondary py-4">
             <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start"
-                            style="background-color: unset">
-                            <li class="breadcrumb-item">
-                                <a class="text-nowrap" href="/"><i class="ci-home"></i>Inicio</a>
-                            </li>
-                            <li class="breadcrumb-item text-nowrap active" aria-current="page">
-                                Ver libro
-                            </li>
-                        </ol>
-                    </nav>
+                    <breadcrumb_component
+                        :items="[{ label: 'Inicio', to: '/' }, { label: 'Libros', to: '/posts' }, { label: post.title }]"
+                        theme="breadcrumb-dark" />
                 </div>
 
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start align-self-center">
@@ -38,13 +29,13 @@
                                 {{ post.username }}
                             </a><span class="blog-entry-meta-divider"></span><a class="blog-entry-meta-link" href="#">{{
                                 post.created_at
-                                }}</a>
+                            }}</a>
                         </div>
                         <div class="fs-sm mb-2">
-                            <a class="blog-entry-meta-link text-nowrap mr-3" href="#comments" data-scroll=""><i
-                                    class="ci-eye"></i>{{ post.views }}</a>
-                            <a class="blog-entry-meta-link text-nowrap mr-3" href="#comments" data-scroll=""><i
-                                    class="ci-heart"></i>{{ post.total_likes }}</a>
+                            <p class="blog-entry-meta-link text-nowrap mr-3" data-scroll=""><i class="ci-eye"></i>{{
+                                post.views }}</p>
+                            <p class="blog-entry-meta-link text-nowrap mr-3" data-scroll=""><i class="ci-heart"></i>{{
+                                post.total_likes }}</p>
                         </div>
                     </div>
                     <!-- Gallery-->
@@ -65,12 +56,13 @@
                     </p>
 
                     <!-- ver pdf button -->
-                    <!-- <div class="mt-3 me-3"><a class="btn-tag mb-2" href="#">Ver PDF</a></div> -->
 
                     <!-- Post tags + sharing-->
                     <div class="d-flex flex-wrap justify-content-between pb-4 mb-1">
                         <div class="mt-2 me-3">
                             <PdfPreview v-if="post.pdf_file" :pdfUrl="post.pdf_file" :postId="post.id" />
+                            <button class="btn-wishlist btn-sm ml-3" type="button" data-bs-toggle="tooltip"
+                                data-bs-placement="left" title="Añadir a favoritos"><i class="ci-heart"></i></button>
                         </div>
                         <div class="mt-3">
                             <span
@@ -141,7 +133,7 @@
                                                                 <span>{{ cat.name }}</span>
                                                                 <span class="fs-xs text-muted ms-3">{{
                                                                     cat.post_count
-                                                                    }}</span>
+                                                                }}</span>
                                                             </RouterLink>
                                                         </li>
                                                     </ul>
@@ -162,12 +154,12 @@
                                                             <div class="ps-3">
                                                                 <h6 class="blog-entry-title fs-sm mb-0">
                                                                     <a :href="`/posts/${post.post_id}`">{{ post.title
-                                                                        }}</a>
+                                                                    }}</a>
                                                                 </h6>
                                                                 <span class="fs-ms text-muted">
                                                                     por
                                                                     <span class="blog-entry-meta-link">{{ post.username
-                                                                        }}</span>
+                                                                    }}</span>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -196,6 +188,7 @@
 <script>
 import apiClient from "../services/ApiService.js";
 import PdfPreview from "@/components/pdfpreview_component.vue";
+import breadcrumb_component from "./breadcrumb_component.vue";
 
 export default {
     data() {
@@ -304,8 +297,7 @@ export default {
 
     },
 
-
-    components: { PdfPreview },
+    components: { PdfPreview, breadcrumb_component },
 
     methods: {
         btnCompartir() {

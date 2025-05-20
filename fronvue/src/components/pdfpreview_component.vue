@@ -1,6 +1,6 @@
 <template>
-  <button @click="viewPdf" class="btn btn-primary">
-    Ver PDF 📄
+  <button @click="viewPdf" class="btn btn-secondary btn-sm">
+    Ver PDF <i class="ci ci-link"></i>
   </button>
 </template>
 

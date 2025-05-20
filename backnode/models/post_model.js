@@ -211,8 +211,8 @@ const getPostsPerLast6Months = async () => {
   return result.rows;
 };
 
-const getPostsPaginated = async (limit, offset) => {
-  const query = `
+const getPostsPaginated = async (limit, offset, category_id = null) => {
+  let query = `
     SELECT 
       posts.id AS post_id,
       posts.title,
@@ -236,10 +236,19 @@ const getPostsPaginated = async (limit, offset) => {
       FROM likes
       GROUP BY post_id
     ) AS likes_count ON posts.id = likes_count.post_id
-    ORDER BY posts.id ASC
-    LIMIT $1 OFFSET $2
   `;
-  const result = await db.query(query, [limit, offset]);
+
+  let params = [];
+  if (category_id) {
+    query += ` WHERE posts.category_id = $3`;
+    params = [limit, offset, category_id];
+  } else {
+    params = [limit, offset];
+  }
+
+  query += ` ORDER BY posts.id ASC LIMIT $1 OFFSET $2`;
+
+  const result = await db.query(query, params);
   return result.rows;
 };
 
@@ -285,6 +294,18 @@ const getPrevPost = async (postId) => {
   return result.rows[0];
 };
 
+// backnode/models/post_model.js
+
+const countPostsByCategory = async (categoryId) => {
+  const query = `
+    SELECT COUNT(*) AS total_posts
+    FROM posts
+    WHERE category_id = $1;
+  `;
+  const result = await db.query(query, [categoryId]);
+  return result.rows[0].total_posts;
+};
+
 export const postModel = {
   addPost,
   editPost,
@@ -305,4 +326,5 @@ export const postModel = {
   getTop5PostsOfWeek,
   getNextPost,
   getPrevPost,
+  countPostsByCategory
 };

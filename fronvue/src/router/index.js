@@ -19,6 +19,7 @@ import AdminPostsListView from '../views/admin/posts-list_view.vue';
 import AdminPostCreateView from '../views/admin/post-create_view.vue';
 import AdminPostEditView from '../views/admin/post-edit_view.vue';
 import AdminCategoriesList from '../views/admin/categories-list_view.vue';
+import CategoryView from '../views/category_view.vue';
 
 import Page404 from '../views/404_view.vue';
 
@@ -102,7 +103,14 @@ const userRoutes = [
     name: 'FollowView',
     component: FollowView,
     meta: { requiresAuth: true, requiresAdmin: false }
-  }
+  },
+  {
+    path: '/category/:categoryId',
+    name: 'CategoryView',
+    component: CategoryView,
+    props: true
+  },
+
 ];
 
 // Rutas para administradores
