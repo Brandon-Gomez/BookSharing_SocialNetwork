@@ -18,28 +18,25 @@
           <div class="ps-3">
             <h3 class="text-light fs-lg mb-0">{{ userData.name }}</h3>
             <span class="d-block text-light fs-ms opacity-60 py-1"
-              >@{{ userData.username }}</span
+              >@{{ userData.username }}</span>
+            <span class="d-block text-light fs-ms py-1 w-75" style="max-width: 450px">
+              {{ userData.description }}</span
             >
+
           </div>
         </div>
         <!-- Desktop version -->
-        <div class="d-none d-sm-flex">
-          <div class="text-sm-end me-4">
-            <div class="text-light fs-base">
-              {{ posts.length }}
-              <span class="text-muted fs-base pl-1">Publicaciones</span>
+        <div class="d-none d-sm-flex"> 
+          <div class="text-sm-end me-2">
+            <div class="text-light fs-base mr-2">{{ posts.length }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
             </div>
           </div>
-          <div class="text-sm-end me-4">
-            <div class="text-light fs-base">
-              {{ follows.followers
-              }}<span class="text-muted fs-base pl-1">Seguidores</span>
+          <div class="text-sm-end me-2">
+            <div class="text-light fs-base mr-2">{{ follows.followers }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
             </div>
           </div>
-          <div class="text-sm-end">
-            <div class="text-light fs-base">
-              {{ follows.following
-              }}<span class="text-muted fs-base pl-1">Seguidos</span>
+          <div class="text-sm-end me-2">
+            <div class="text-light fs-base mr-2">{{ follows.following }}<span class="text-light fs-ms opacity-60 py-1  ml-2">Publicaciones</span>
             </div>
           </div>
         </div>
@@ -47,15 +44,16 @@
         <div class="d-flex d-sm-none w-100 justify-content-around my-3">
           <div class="text-center">
             <div class="text-light fs-6 fw-bold">{{ posts.length }}</div>
-            <div class="text-muted fs-xs">Publicaciones</div>
+            <div class="text-light fs-ms opacity-60 py-1">Publicaciones</div>
           </div>
+          
           <div class="text-center">
             <div class="text-light fs-6 fw-bold">{{ follows.followers }}</div>
-            <div class="text-muted fs-xs">Seguidores</div>
+            <div class="text-light fs-ms opacity-60 py-1">Seguidores</div>
           </div>
           <div class="text-center">
             <div class="text-light fs-6 fw-bold">{{ follows.following }}</div>
-            <div class="text-muted fs-xs">Seguidos</div>
+            <div class="text-light fs-ms opacity-60 py-1">Seguidos</div>
           </div>
         </div>
 

@@ -33,7 +33,7 @@
                 <div class="form-group mb-3">
                     <label for="description">Descripción</label>
                     <textarea id="description" v-model="userData.description" class="form-control form-control-sm"
-                        placeholder="Descripción"></textarea>
+                        placeholder="Descripción" maxlength="150"></textarea>
                 </div>
                 <div class="form-group mb-3">
                     <label for="is_admin">Rol</label>

@@ -237,7 +237,7 @@ const updateUserById = async (userId, data) => {
       fields.push(`birthdate = $${idx++}`);
       values.push(data.birthdate);
     }
-    if (data.description) {
+    if (data.description !== undefined) {
       fields.push(`description = $${idx++}`);
       values.push(data.description);
     }
