@@ -83,7 +83,6 @@ const userRoutes = [
     path: '/posts/:postId/edit-post',
     name: 'EditPost',
     component: EditPostView,
-    meta: { requiresAuth: true, requiresAdmin: false },
     props: true
   },
   {

@@ -70,7 +70,7 @@
                 href="#account-menu"
                 data-bs-toggle="collapse"
                 aria-expanded="true"
-                ><i class="ci-menu me-2"></i>Account menu</a
+                ><i class="ci-menu me-2"></i>Menu de cuenta</a
               >
             </div>
             <div class="bg-white rounded-3 shadow-lg pt-1 mb-lg-0">
@@ -113,16 +113,13 @@
                         Información personal
                       </a>
                     </li>
-                    <li class="d-lg-none border-top mb-0">
-                      <a
-                        class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="#"
-                        @click="logout"
-                      >
+                     <li class="border-top mb-0">
+                      <a type="button" class="nav-link-style d-flex align-items-center px-4 py-3" @click="logout">
                         <i class="ci-sign-out opacity-60 me-2"></i>
                         Cerrar sesión
                       </a>
                     </li>
+                  
                   </ul>
                 </div>
               </div>
@@ -335,7 +332,6 @@ export default {
           "Error al obtener el usuario:",
           error.response?.data || error
         );
-        alert("Error al obtener los datos del usuario.");
       }
     },
     async updateUser() {

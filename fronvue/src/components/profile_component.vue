@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <div class="page-title-overlap bg-dark pt-4">
       <div
         class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2"
@@ -28,7 +29,7 @@
         <!-- Desktop version -->
         <div class="d-none d-sm-flex"> 
           <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">{{ posts.length }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
+            <div class="text-light fs-base mr-2">{{ countPosts }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
             </div>
           </div>
           <div class="text-sm-end me-2">
@@ -43,7 +44,7 @@
         <!-- Mobile version -->
         <div class="d-flex d-sm-none w-100 justify-content-around my-3">
           <div class="text-center">
-            <div class="text-light fs-6 fw-bold">{{ posts.length }}</div>
+            <div class="text-light fs-6 fw-bold">{{ countPosts }}</div>
             <div class="text-light fs-ms opacity-60 py-1">Publicaciones</div>
           </div>
           
@@ -71,7 +72,7 @@
                 href="#account-menu"
                 data-bs-toggle="collapse"
                 aria-expanded="true"
-                ><i class="ci-menu me-2"></i>Account menu</a
+                ><i class="ci-menu me-2"></i>Menu de cuenta</a
               >
             </div>
             <div class="bg-white rounded-3 shadow-lg pt-1 mb-lg-0">
@@ -139,7 +140,7 @@
               Publicaciones
             </h2>
             <!-- grid books -->
-            <div class="container mb-2 mb-md-4 library-grid py-3">
+            <div v-if="posts.length > 0" class="container mb-2 mb-md-4 library-grid py-3">
               <article
                 class="library-item"
                 v-for="post in posts"
@@ -228,9 +229,12 @@
                 </div>
               </article>
             </div>
+            <div v-else>
+              <p class="text-center mt-4">No hay publicaciones para mostrar.</p>
+            </div>
             <!-- Pagination-->
-            <pagination_component
-              v-model="page"
+            <pagination_component 
+              v-model="page" v-if="posts.length > 0"
               :totalPages="totalPages"
               @update:modelValue="onPageChange"
             />
@@ -271,6 +275,7 @@ export default {
         followers: 0,
         following: 0,
       },
+      countPosts: 0,
       profileImageFile: null,
       profilePhoto: null, // Para la vista previa
       posts: [],
@@ -323,6 +328,11 @@ export default {
           );
           this.follows.following = resFollowing.data.followingCount || 0;
         }
+          // cantidad de publicaciones
+          const res = await apiClient.get(`/posts/count/${user.id}`);
+          this.countPosts = res.data.post_count;
+
+        
       } catch (error) {
         console.error(
           "Error al obtener el usuario:",

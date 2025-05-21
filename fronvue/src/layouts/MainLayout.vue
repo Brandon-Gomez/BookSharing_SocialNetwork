@@ -192,58 +192,20 @@
           ></button>
         </div>
         <div class="offcanvas-body">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
-                >Dropdown</a
-              >
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action link</a></li>
-                <li class="dropdown">
-                  <a
-                    class="dropdown-item dropdown-toggle"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                    >Dropdown</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action link</a></li>
-                    <li>
-                      <a class="dropdown-item" href="#">Another action</a>
+          <ul class="navbar-nav w-100 justify-content-around">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Inicio</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/category/15">Categorias</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/likes">Favoritos</a>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link" :href="`/profile/${username}`">Mi Perfil</a>
                     </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Yet another link</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li class="dropdown-divider"></li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-                >Disabled</a
-              >
-            </li>
-          </ul>
+                </ul>
         </div>
       </div>
 
@@ -326,7 +288,6 @@
             </div>
           </div>
           <!-- Menu movil -->
-          <!-- esconde solo pantallas de menor a 1024px -->
           <div
             class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2 d-lg-none"
           >
@@ -337,17 +298,14 @@
                     <a class="nav-link" href="/">Inicio</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/catalogo">Catálogo</a>
+                    <a class="nav-link" href="/category/15">Categorias</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/favoritos">Favoritos</a>
+                    <a class="nav-link" href="/likes">Favoritos</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/perfil">Mi Perfil</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/contacto">Contacto</a>
-                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link" :href="`/profile/${username}`">Mi Perfil</a>
+                    </li>
                 </ul>
               </div>
             </div>
@@ -391,102 +349,7 @@
               ></a>
             </div>
           </div>
-          <!-- Mobile dropdown menu (visible on screens below md)-->
-          <div class="col-12 d-md-none text-center mb-4 pb-2">
-            <div class="btn-group dropdown d-block mx-auto mb-3">
-              <button
-                class="btn btn-outline-light border-light dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-              >
-                Categories
-              </button>
-              <ul class="dropdown-menu my-1">
-                <li><a class="dropdown-item" href="#">Photos</a></li>
-                <li><a class="dropdown-item" href="#">Graphics</a></li>
-                <li><a class="dropdown-item" href="#">UI Design</a></li>
-                <li><a class="dropdown-item" href="#">Web Themes</a></li>
-                <li><a class="dropdown-item" href="#">Fonts</a></li>
-                <li><a class="dropdown-item" href="#">Add-Ons</a></li>
-              </ul>
-            </div>
-            <div class="btn-group dropdown d-block mx-auto">
-              <button
-                class="btn btn-outline-light border-light dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-              >
-                For members
-              </button>
-              <ul class="dropdown-menu my-1">
-                <li><a class="dropdown-item" href="#">Licenses</a></li>
-                <li><a class="dropdown-item" href="#">Return policy</a></li>
-                <li><a class="dropdown-item" href="#">Payment methods</a></li>
-                <li><a class="dropdown-item" href="#">Become a vendor</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Become an affiliate</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Marketplace benefits</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- Desktop menu (visible on screens above md)-->
-          <div
-            class="col-md-3 d-none d-md-block text-center text-md-start mb-4"
-          >
-            <div class="widget widget-links widget-light pb-2">
-              <h3 class="widget-title text-light">Categorias</h3>
-              <ul class="widget-list">
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Photos</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Graphics</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">UI Design</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Web Themes</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Fonts</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Add-Ons</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            class="col-md-3 d-none d-md-block text-center text-md-start mb-4"
-          >
-            <div class="widget widget-links widget-light pb-2">
-              <h3 class="widget-title text-light">For members</h3>
-              <ul class="widget-list">
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Licenses</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Return policy</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Payment methods</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Become a vendor</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Become an affiliate</a>
-                </li>
-                <li class="widget-list-item">
-                  <a class="widget-list-link" href="#">Marketplace benefits</a>
-                </li>
-              </ul>
-            </div>
-          </div>
+       
         </div>
       </div>
     </footer>
@@ -570,12 +433,10 @@ export default {
           // Si el token es válido y no ha expirado, el usuario está autenticado
           this.isAuthenticated = true;
         } catch (error) {
-          // Si ocurre algún error al verificar o decodificar el token, el usuario no está autenticado
-          this.isAuthenticated = false;
-          localStorage.removeItem("authToken"); // Limpiar token inválido
+          localStorage.removeItem("authToken");
         }
       } else {
-        this.isAuthenticated = false;
+        this.$router.push('/login');
       }
 
     },
