@@ -332,11 +332,11 @@
               Lee, comparte, construye comunidad.
             </p>
             <h6 class="d-inline-block pe-3 me-3 border-end border-light">
-              <span class="text-primary">2,521 </span
+              <span class="text-primary">589 </span
               ><span class="fw-normal text-white">Lectores</span>
             </h6>
             <h6 class="d-inline-block pe-3 me-3 border-light">
-              <span class="text-primary">65,478 </span
+              <span class="text-primary">336 </span
               ><span class="fw-normal text-white">Libros</span>
             </h6>
             <div class="widget mt-4 text-md-nowrap text-center text-md-start">
@@ -349,7 +349,54 @@
               ></a>
             </div>
           </div>
-       
+         
+          <!-- Desktop menu (visible on screens above md)-->
+          <div
+            class="col-md-3 d-none d-md-block text-center text-md-start mb-4"
+          >
+            <div class="widget widget-links widget-light pb-2">
+              <h3 class="widget-title text-light">Categorias</h3>
+              <ul class="widget-list">
+                <li class="widget-list-item">
+                  <router-link class="widget-list-link" :to="'/category/16'">Ficción</router-link>
+                </li>
+                <li class="widget-list-item">
+                  <router-link class="widget-list-link" :to="'/category/17'">No ficción</router-link>
+                </li>
+                <li class="widget-list-item">
+                  <router-link class="widget-list-link" :to="'/category/18'">Ciencia ficción</router-link>
+                </li>
+                <li class="widget-list-item">
+                  <router-link class="widget-list-link" :to="'/category/19'">Fantasía</router-link>
+                </li>
+                <li class="widget-list-item">
+                  <router-link class="widget-list-link" :to="'/category/20'">Misterio/Thriller</router-link>
+                </li>
+                <li class="widget-list-item">
+                  <router-link class="widget-list-link" :to="'/category/21'">Aventura</router-link>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="col-md-3 d-none d-md-block text-center text-md-start mb-4"
+          >
+            <div class="widget widget-links widget-light pb-2">
+              <h3 class="widget-title text-light">Para miembros</h3>
+              <ul class="widget-list">
+                <li class="widget-list-item">
+                  <a class="widget-list-link" href="#">Licencias</a>
+                </li>
+                <li class="widget-list-item">
+                  <a class="widget-list-link" href="#">Politica de datos</a>
+                </li>
+                <li class="widget-list-item">
+                  <a class="widget-list-link" href="#">Sobre nosotros</a>
+                </li>
+               
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
@@ -418,6 +465,7 @@ export default {
       // Obtener el token del localStorage
       const token = localStorage.getItem("authToken");
        this.username = localStorage.getItem("username");
+
       if (token) {
         try {
           // Validar si el token aún es válido (opcional, puedes decodificarlo)
