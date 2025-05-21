@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <main class="main" id="top">
       <div class="container-fluid px-0">
@@ -7,7 +6,6 @@
           <div class="col-lg-6 position-relative d-none d-lg-block" :style="`background-image: url(${require('@/assets/bg-bib.jpg')}); background-size: cover; background-position: center;`">
             <div class="bg-holder ">
             </div> 
-            <!--/.bg-holder-->
           </div>
           <div class="col-lg-6">
             <div class="row flex h-100 g-0 px-4 px-sm-0 align-items-center">

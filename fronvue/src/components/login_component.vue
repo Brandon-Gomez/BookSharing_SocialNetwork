@@ -6,7 +6,6 @@
           <div class="col-lg-6 position-relative d-none d-lg-block" :style="`background-image: url(${require('@/assets/bg-bib.jpg')}); background-size: cover; background-position: center;`">
             <div class="bg-holder ">
             </div> 
-            <!--/.bg-holder-->
           </div>
           <div class="col-lg-6">
             <div class="row flex h-100 g-0 px-4 px-sm-0 align-items-center">
@@ -19,10 +18,7 @@
                   <p class="text-700">Sigue donde lo dejaste</p>
                 </div>
                 <form  @submit.prevent="handleLogin">
-                  <!-- <div class="mb-3 text-start">
-                    <label class="form-label" for="name">Name</label>
-                    <input class="form-control" id="name" type="text" placeholder="Name">
-                  </div> -->
+                 
                   <div class="mb-3 text-start">
                     <label class="form-label" for="email">Email</label>
                     <input class="form-control" name="" id="email" type="email" placeholder="name@example.com" v-model="loginEmail">
@@ -33,10 +29,6 @@
                     <input class="form-control" id="email" type="password" placeholder="Contraseña" v-model="loginPassword">
                   </div>
                 
-                  <!-- <div class="form-check mb-3"> -->
-                    <!-- <input class="form-check-input" id="termsService" type="checkbox"> -->
-                    <!-- <label class="form-label fs--1 text-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label> -->
-                  <!-- </div> -->
                   <button class="btn btn-primary w-100 mb-3">Iniciar sesión</button>
                   <div class="text-center"><a class="fs--1 " href="/register">¿No tienes cuenta? Registrate</a></div>
                 </form>
