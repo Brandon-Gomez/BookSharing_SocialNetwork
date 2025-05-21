@@ -306,6 +306,30 @@ const countPostsByCategory = async (categoryId) => {
   return result.rows[0].total_posts;
 };
 
+const getPostsByUserPaginated = async (userId, limit, offset) => {
+  const query = `
+    SELECT 
+      posts.*,
+      users.username,
+      categories.name AS category_name,
+      categories.description AS category_description,
+      COALESCE(likes_count.total_likes, 0) AS total_likes
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    JOIN categories ON posts.category_id = categories.id
+    LEFT JOIN (
+      SELECT post_id, COUNT(*) AS total_likes
+      FROM likes
+      GROUP BY post_id
+    ) AS likes_count ON posts.id = likes_count.post_id
+    WHERE posts.user_id = $1
+    ORDER BY posts.created_at DESC
+    LIMIT $2 OFFSET $3
+  `;
+  const result = await db.query(query, [userId, limit, offset]);
+  return result.rows;
+};
+
 export const postModel = {
   addPost,
   editPost,
@@ -326,5 +350,6 @@ export const postModel = {
   getTop5PostsOfWeek,
   getNextPost,
   getPrevPost,
-  countPostsByCategory
+  countPostsByCategory,
+  getPostsByUserPaginated
 };

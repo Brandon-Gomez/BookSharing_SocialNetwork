@@ -8,21 +8,17 @@
             <form @submit.prevent="updateProfile">
 
               <div class="form-group col-lg-6 col-md-6 col-sm-12 d-flex flex-column mb-4 file-input">
-                <input type="file" class="form-control-file" id="imagesInput" name="imagesInput"
-                  @change="handleFileUpload">
+                <input type="file" class="form-control-file" id="profileImageInput" @change="handleFileUpload">
                 <div class="file-input-preview">
-                  <div v-if="profilePhoto.length">
-                    <div v-for="(file, index) in profilePhoto" :key="index" class="preview-item">
-                      <img :src="file.previewURL" alt="Preview" class="preview-image">
-                      <span class="preview-filename">{{ file.name }}</span>
-                    </div>
+                  <div v-if="profilePhoto">
+                    <img :src="profilePhoto" alt="Preview" class="preview-image">
                   </div>
                   <div v-else>
                     <div class="placeholder-text">Selecciona una imagen</div>
                   </div>
                 </div>
                 <label class="btn btn-primary btn-rp fw-bold mt-3 fs-5 text-capitalize file-input-button"
-                  for="imagesInput">
+                  for="profileImageInput">
                   <span class="bi bi-upload me-2"></span>Cargar Imagen</label>
               </div>
 

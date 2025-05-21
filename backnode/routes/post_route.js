@@ -23,5 +23,6 @@ router.get('/posts/count/:userId', postController.getPostCountByUser);
 router.put("/posts/:id/views", postController.incrementPostViews);
 router.get("/posts/:id/next", verifyToken, postController.getNextPost);
 router.get("/posts/:id/prev", verifyToken, postController.getPrevPost);
+router.get("/profile/:username/posts", verifyToken, postController.getPostsByUsername);
 
 export default router;

@@ -232,38 +232,37 @@ const resetPassword = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { name, birthdate, gender, description, edad } = req.body;
+    const { name, birthdate, gender, description, username } = req.body;
 
-    console.log("EDAD:", edad);
+    // Si se quiere cambiar el username, validar que no exista
+    if (username && username !== req.params.username) {
+      const existingUser = await userModel.findUserByUsername(username);
+      if (existingUser) {
+        return res.status(400).json({ ok: false, msg: "EL NOMBRE DE USUARIO YA ESTÁ REGISTRADO" });
+      }
+    }
 
-    if (edad < 18) {
-      return res.status(400).json({ msg: "MENOR DE EDAD" });
-    }
-    // Verificar que todos los campos necesarios estén presentes
-    if (!name || !birthdate || !gender || !description || !edad) {
-      return res
-        .status(400)
-        .json({ ok: false, msg: "Faltan datos para actualizar el perfil" });
-    }
+    // Construir solo los campos que llegan
+    const updateFields = { name, gender, description };
+    if (birthdate !== undefined) updateFields.birthdate = birthdate;
+    if (username && username !== req.params.username) updateFields.username = username;
 
     // Realizar la actualización
     const updatedUser = await userModel.updateUserByUsername(
       req.params.username,
-      { name, birthdate, gender, description }
+      updateFields
     );
 
-    if (updatedUser.rowCount === 0) {
-      // Si no se encuentra el usuario para actualizar
+    if (!updatedUser || updatedUser.rowCount === 0) {
       return res
         .status(404)
         .json({ ok: false, msg: "Usuario no encontrado para actualizar" });
     }
 
-    // Retornar los datos actualizados
     return res.json({
       ok: true,
       msg: "Perfil actualizado",
-      user: updatedUser.rows[0],
+      user: updatedUser.rows ? updatedUser.rows[0] : updatedUser,
     });
   } catch (error) {
     console.error(error);

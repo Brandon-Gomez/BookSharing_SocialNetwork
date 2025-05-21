@@ -291,8 +291,37 @@ const getPrevPost = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
-}
+};
 
+export const getPostsByUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const offset = (page - 1) * limit;
+
+    // Busca el usuario por username
+    const user = await userModel.findUserByUsername(username);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Busca los posts por user_id
+    const posts = await postModel.getPostsByUserPaginated(user.id, limit, offset);
+    const totalPosts = await postModel.countPostsByUser(user.id);
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    res.json({
+      posts,
+      totalPages,
+      totalPosts,
+      page
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener publicaciones del usuario" });
+  }
+};
 
 export const postController = {
   createMyPost,
@@ -310,5 +339,6 @@ export const postController = {
   getPostsPaginated,
   getTop5PostsOfWeek,
   getNextPost,
-  getPrevPost
+  getPrevPost,
+  getPostsByUsername
 };

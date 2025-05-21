@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-
+    
     <div class="container pb-5 mb-2 mb-md-4">
       <div class="pt-5 mt-md-2">
         <!-- Nuevo grid de artículos -->
@@ -31,7 +31,6 @@
                     {{ post.title }}
                   </RouterLink>
                 </h2>
-
                 <a class=" btn-tag me-2 mb-2" :href="`/category/${post.category_id}`">{{ post.category_name }}</a>
               </div>
               <div class="card-footer d-flex align-items-center fs-xs">

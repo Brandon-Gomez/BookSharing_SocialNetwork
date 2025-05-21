@@ -819,7 +819,7 @@
       <slot />
     </main>
     <!-- Footer-->
-    <footer class="footer pt-5" style="background-color: #19191a;">
+    <footer class="footer pt-5 bg-dark">
       <div class="container pt-2 pb-3">
         <div class="row">
           <div class="col-md-6 text-center text-md-start mb-4">
