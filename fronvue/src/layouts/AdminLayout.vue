@@ -263,7 +263,7 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <a type="button" class="dropdown-item"  data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Cerrar sesión
                                     </a>
@@ -315,7 +315,7 @@
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">
                             Cancelar
                         </button>
-                        <a class="btn btn-primary" href="login.html">Salir</a>
+                        <a type="button" class="btn btn-primary" @click="logout">Salir</a>
                     </div>
                 </div>
             </div>
@@ -326,16 +326,15 @@
 <script>
 import AlertComponent from "@/components/alert_component.vue";
 import eventBus from "@/eventBus.js";
+import { logoutUser } from '@/services/useAuth';
 
 import apiClient from '@/services/ApiService';
 export default {
     name: 'AdminLayout',
-    props: {
-        userName: {
-            type: String,
-            default: ''
-        }
+      components: {
+        AlertComponent,
     },
+
     data() {
         return {
             username: localStorage.getItem('username') || '',
@@ -346,9 +345,13 @@ export default {
             },
         };
     },
-    components: {
-        AlertComponent,
+
+    methods: {
+        logout() {
+           logoutUser(this.$router);
+        },
     },
+  
     async beforeCreate() {
         const token = localStorage.getItem('authToken');
         if (!token) {
