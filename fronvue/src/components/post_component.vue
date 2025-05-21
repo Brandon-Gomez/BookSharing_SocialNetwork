@@ -7,7 +7,6 @@
                         :items="[{ label: 'Inicio', to: '/' }, { label: 'Libros', to: '/posts' }, { label: post.title }]"
                         theme="breadcrumb-dark" />
                 </div>
-
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start align-self-center">
                     <h1 class="h3 mb-0" style="display: flex; align-items: anchor-center">
                         {{ post.title }}
@@ -41,10 +40,18 @@
                     <!-- Gallery-->
                     <h2 class="h4"></h2>
 
-                    <div class="gallery pb-2 text-center" lg-uid="lg0">
+                    <div class="gallery pb-2 text-center position-relative" lg-uid="lg0">
                         <img width="300px"
                             src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
                             alt="Gallery image" />
+                        <div v-if="isCurrentUser" class="position-absolute" style="right: 10px; bottom: 10px; display: flex; gap: 8px;">
+                            <button class="btn btn-warning btn-sm d-flex align-items-center" @click="editarPost">
+                                <i class="ci-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm d-flex align-items-center" @click="eliminarPost">
+                                <i class="ci-trash"></i>
+                            </button>
+                        </div>
                     </div>
                     <!-- Post content-->
                     <p class="mt-2">
@@ -148,7 +155,7 @@
                                                             class="d-flex align-items-center mb-3">
                                                             <a class="flex-shrink-0" :href="`/posts/${post.post_id}`">
                                                                 <img class="rounded"
-                                                                    :src="post.image || 'https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg'"
+                                                                    :src="post.image"
                                                                     width="64" alt="Post image" />
                                                             </a>
                                                             <div class="ps-3">
@@ -321,6 +328,14 @@ export default {
                 // Si el navegador no tiene soporte para la API compartir, le enviamos un mensaje al usuario
                 alert('Lo siento, este navegador no tiene soporte para recursos compartidos.')
             }
+        },
+        editarPost() {
+            // Implementar lógica para editar el post
+            console.log("Editar post:", this.post.id);
+        },
+        eliminarPost() {
+            // Implementar lógica para eliminar el post
+            console.log("Eliminar post:", this.post.id);
         },
     }
 };

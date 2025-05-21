@@ -10,7 +10,8 @@
             style="width: 6.375rem"
           >
             <img
-              class="rounded-circle" :src="userData.user_picture || getUserImage()"
+              class="rounded-circle"
+              :src="getUserImage()"
               :alt="userData.name"
             />
           </div>
@@ -161,16 +162,38 @@
                   >
                     <i class="ci-heart"></i>
                   </button>
-                  <RouterLink
-                    class="blog-entry-thumb"
-                    :to="`/posts/${post.id}`"
-                  >
-                    <img
-                      class="card-img-top"
-                      src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
-                      alt="Post"
-                    />
-                  </RouterLink>
+                  <div style="position: relative;">
+                    <RouterLink
+                      class="blog-entry-thumb"
+                      :to="`/posts/${post.id}`"
+                    >
+                      <img
+                        class="card-img-top"
+                        :src="post.image"
+                        alt="Post"
+                      />
+                    </RouterLink>
+                    <div
+                      v-if="isCurrentUser"
+                      class="position-absolute"
+                      style="right: 10px; bottom: 10px; display: flex; gap: 8px;"
+                    >
+                      <button
+                        class="btn btn-warning btn-sm d-flex align-items-center"
+                        @click="editPost(post)"
+                        title="Editar"
+                      >
+                        <i class="ci-edit"></i>
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm d-flex align-items-center"
+                        @click="deletePost(post)"
+                        title="Eliminar"
+                      >
+                        <i class="ci-trash"></i>
+                      </button>
+                    </div>
+                  </div>
                   <div class="card-body">
                     <h2 class="h6 blog-entry-title">
                       <RouterLink :to="`/posts/${post.id}`">
@@ -331,7 +354,7 @@ export default {
     },
     getUserImage() {
       return (
-        this.userData.user_picture ||
+        this.userData.profile_picture ||
         "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media"
       );
     },
@@ -341,6 +364,27 @@ export default {
 
     goToEditProfile() {
       this.$router.push(`/profile/${this.userData.username}/edit-account`);
+    },
+
+    editPost(post) {
+      // Redirige a la vista de edición del post del usuario
+      this.$router.push(`/posts/${post.id}/edit-post`);
+    },
+    async deletePost(post) {
+      if (confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
+        try {
+          const token = localStorage.getItem('authToken');
+          await apiClient.delete(`/posts/${post.id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          // Recarga las publicaciones después de eliminar
+          this.fetchPosts();
+          alert('Publicación eliminada correctamente');
+        } catch (error) {
+          alert('Error al eliminar la publicación');
+          console.error(error);
+        }
+      }
     },
   },
 
