@@ -3,7 +3,7 @@
     <main class="main" id="top">
       <div class="container-fluid px-0">
         <div class="row vh-100 g-0">
-          <div class="col-lg-6 position-relative d-none d-lg-block" :style="`background-image: url(${require('@/assets/bg-bib.jpeg')}); background-size: cover; background-position: center;`">
+          <div class="col-lg-6 position-relative d-none d-lg-block" :style="`background-image: url(${require('@/assets/bg-bib.jpg')}); background-size: cover; background-position: center;`">
             <div class="bg-holder ">
             </div> 
             <!--/.bg-holder-->
@@ -38,7 +38,7 @@
                     <!-- <label class="form-label fs--1 text-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label> -->
                   <!-- </div> -->
                   <button class="btn btn-primary w-100 mb-3">Iniciar sesión</button>
-                  <div class="text-center"><a class="fs--1 " href="/">¿No tienes cuenta? Registrate</a></div>
+                  <div class="text-center"><a class="fs--1 " href="/register">¿No tienes cuenta? Registrate</a></div>
                 </form>
               </div>
             </div>
