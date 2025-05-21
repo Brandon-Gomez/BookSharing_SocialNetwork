@@ -10,9 +10,8 @@
             style="width: 6.375rem"
           >
             <img
-              class="rounded-circle"
-              :src="userData.profile_picture"
-              alt="Createx Studio"
+              class="rounded-circle" :src="userData.user_picture || getUserImage()"
+              :alt="userData.name"
             />
           </div>
           <div class="ps-3">
@@ -32,11 +31,11 @@
             </div>
           </div>
           <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">{{ follows.followers }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
+            <div class="text-light fs-base mr-2">{{ follows.followers }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Seguidores</span>
             </div>
           </div>
           <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">{{ follows.following }}<span class="text-light fs-ms opacity-60 py-1  ml-2">Publicaciones</span>
+            <div class="text-light fs-base mr-2">{{ follows.following }}<span class="text-light fs-ms opacity-60 py-1  ml-2">Siguiendo</span>
             </div>
           </div>
         </div>
@@ -114,10 +113,10 @@
                         Información personal
                       </a>
                     </li>
-                    <li class="d-lg-none border-top mb-0">
-                      <a
+                    <li class="border-top mb-0">
+                      <a type="button"
                         class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="#"
+                       
                         @click="logout"
                       >
                         <i class="ci-sign-out opacity-60 me-2"></i>
@@ -134,7 +133,7 @@
             <!-- Toolbar-->
 
             <h2
-              class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom"
+              class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom mt-2"
             >
               Publicaciones
             </h2>
@@ -222,6 +221,7 @@
 <script>
 import apiClient from "@/services/ApiService";
 import pagination_component from "./pagination_component.vue";
+import { logoutUser } from '@/services/useAuth.js';
 
 export default {
   components: {
@@ -329,10 +329,14 @@ export default {
         console.error("Error fetching posts:", error);
       }
     },
-
+    getUserImage() {
+      return (
+        this.userData.user_picture ||
+        "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media"
+      );
+    },
     logout() {
-      localStorage.removeItem("authToken");
-      this.$router.push("/");
+        logoutUser(this.$router);
     },
 
     goToEditProfile() {

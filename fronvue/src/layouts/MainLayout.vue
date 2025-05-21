@@ -40,6 +40,7 @@
               autocomplete="off"
               novalidate
               id="signin-tab"
+              @submit.prevent="handleLogin"
             >
               <div class="mb-3">
                 <label class="form-label" for="si-email">Email</label>
@@ -47,6 +48,7 @@
                   class="form-control"
                   type="email"
                   id="si-email"
+                  v-model="loginEmail"
                   placeholder="johndoe@example.com"
                   required
                 />
@@ -61,6 +63,7 @@
                     class="form-control"
                     type="password"
                     id="si-password"
+                    v-model="loginPassword"
                     required
                   />
                   <label
@@ -282,7 +285,10 @@
                   <div class="navbar-tool-icon-box">
                     <i class="navbar-tool-icon ci-heart"></i>
                   </div> </a
-                ><a
+                >
+                <!-- Solo muestra el botón de login si NO está autenticado -->
+                <a
+                  v-if="!isAuthenticated"
                   class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2"
                   href="#signin-modal"
                   data-bs-toggle="modal"
@@ -294,6 +300,19 @@
                     <small>Iniciar Sesión</small>Mi cuenta
                   </div>
                 </a>
+
+                <a :href="`/profile/${username}`"
+                  v-else
+                  class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2"
+                >
+                  <div class="navbar-tool-icon-box">
+                    <i class="navbar-tool-icon ci-user"></i>
+                  </div>
+                  <div class="navbar-tool-text ms-n3">
+                    <small>Mi Perfil</small>
+                  </div>
+                </a>
+
                 <a
                   class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2 text-dark d-none d-lg-block"
                   href="#navbarOffcanvas"
@@ -496,10 +515,7 @@
 </template>
 
 <script>
-// import SearchComponent from '@/components/search_component.vue';
-// import NavComponent from '@/components/navbar_component.vue';
-// Si necesitas decodificar el JWT, puedes usar jwt-decode (opcional)
-// import jwt_decode from "jwt-decode";
+import { loginUser } from '@/services/useAuth.js';
 
 export default {
   components: {
@@ -511,6 +527,10 @@ export default {
       showSearch: false,
       isAuthenticated: false,
       isSidebarOpen: false,
+      loginEmail: '',
+      loginPassword: '',
+      username :'',
+
     };
   },
   methods: {
@@ -520,9 +540,21 @@ export default {
     handleSearch() {
       this.showSearch = !this.showSearch;
     },
+    async handleLogin() {
+      try {
+        await loginUser({
+          email: this.loginEmail,
+          password: this.loginPassword,
+          router: this.$router,
+        }); 
+      } catch (error) {
+        alert('Credenciales incorrectas');
+      }
+    },
     checkAuth() {
       // Obtener el token del localStorage
       const token = localStorage.getItem("authToken");
+       this.username = localStorage.getItem("username");
       if (token) {
         try {
           // Validar si el token aún es válido (opcional, puedes decodificarlo)
@@ -545,10 +577,13 @@ export default {
       } else {
         this.isAuthenticated = false;
       }
+
     },
+     
   },
   mounted() {
     this.checkAuth();
+
   },
 };
 </script>
