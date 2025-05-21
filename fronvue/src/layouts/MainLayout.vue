@@ -280,7 +280,7 @@
               >
                 <a
                   class="navbar-tool d-none d-lg-flex"
-                  href="account-wishlist.html"
+                  href="#"
                   ><span class="navbar-tool-tooltip">Favoritos</span>
                   <div class="navbar-tool-icon-box">
                     <i class="navbar-tool-icon ci-heart"></i>
