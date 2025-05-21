@@ -1,57 +1,247 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card shadow-lg p-4">
-          <div class="card-body text-center">
-            <h2 class="mb-4">Editar perfil</h2>
-            <form @submit.prevent="updateProfile">
-
-              <div class="form-group col-lg-6 col-md-6 col-sm-12 d-flex flex-column mb-4 file-input">
-                <input type="file" class="form-control-file" id="profileImageInput" @change="handleFileUpload">
-                <div class="file-input-preview">
-                  <div v-if="profilePhoto">
-                    <img :src="profilePhoto" alt="Preview" class="preview-image">
+  <div>
+    <div class="page-title-overlap bg-dark pt-4">
+      <div
+        class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2"
+      >
+        <div class="d-flex align-items-center pb-3">
+          <div
+            class="rounded-circle position-relative flex-shrink-0"
+            style="width: 6.375rem"
+          >
+            <img
+              class="rounded-circle"
+              :src="userForm.profile_picture"
+              alt="Createx Studio"
+            />
+          </div>
+          <div class="ps-3">
+            <h3 class="text-light fs-lg mb-0">{{ userForm.name }}</h3>
+            <span class="d-block text-light fs-ms opacity-60 py-1"
+              >@{{ userForm.username }}</span
+            >
+          </div>
+        </div>
+        <!-- Desktop version -->
+        <div class="d-none d-sm-flex">
+          <div class="text-sm-end me-4">
+            <div class="text-light fs-base">
+              {{ countPosts }}
+              <span class="text-muted fs-base pl-1">Publicaciones</span>
+            </div>
+          </div>
+          <div class="text-sm-end me-4">
+            <div class="text-light fs-base">
+              {{ follows.followers
+              }}<span class="text-muted fs-base pl-1">Seguidores</span>
+            </div>
+          </div>
+          <div class="text-sm-end">
+            <div class="text-light fs-base">
+              {{ follows.following
+              }}<span class="text-muted fs-base pl-1">Seguidos</span>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile version -->
+        <div class="d-flex d-sm-none w-100 justify-content-around my-3">
+          <div class="text-center">
+            <div class="text-light fs-6 fw-bold">{{ countPosts }}</div>
+            <div class="text-muted fs-xs">Publicaciones</div>
+          </div>
+          <div class="text-center">
+            <div class="text-light fs-6 fw-bold">{{ follows.followers }}</div>
+            <div class="text-muted fs-xs">Seguidores</div>
+          </div>
+          <div class="text-center">
+            <div class="text-light fs-6 fw-bold">{{ follows.following }}</div>
+            <div class="text-muted fs-xs">Seguidos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container mb-5 pb-3">
+      <div class="bg-light shadow-lg rounded-3 overflow-hidden">
+        <div class="row">
+          <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-5">
+            <div class="d-block d-lg-none p-4">
+              <a
+                class="btn btn-outline-accent d-block"
+                href="#account-menu"
+                data-bs-toggle="collapse"
+                aria-expanded="true"
+                ><i class="ci-menu me-2"></i>Account menu</a
+              >
+            </div>
+            <div class="bg-white rounded-3 shadow-lg pt-1 mb-lg-0">
+              <div class="d-lg-block collapse" id="account-menu">
+                <div class="bg-secondary px-4 py-3">
+                  <h3 class="fs-sm mb-0 text-muted">Cuenta</h3>
+                </div>
+                <ul class="list-unstyled mb-0">
+                  <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                      :href="`/profile/${userForm.username}`"
+                    >
+                      <i class="ci-book opacity-60 me-2"></i>
+                      Publicaciones
+                    </a>
+                  </li>
+                  <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                      href="#"
+                    >
+                      <i class="ci-heart opacity-60 me-2"></i>
+                      Favoritos
+                    </a>
+                  </li>
+                </ul>
+                <div v-if="isCurrentUser">
+                  <div class="bg-secondary px-4 py-3">
+                    <h3 class="fs-sm mb-0 text-muted">Configuración</h3>
                   </div>
-                  <div v-else>
-                    <div class="placeholder-text">Selecciona una imagen</div>
+                  <ul class="list-unstyled mb-0">
+                    <li class="border-bottom mb-0">
+                      <a
+                        type="button"
+                        class="nav-link-style d-flex align-items-center px-4 py-3 active"
+                        @click.prevent="goToEditProfile"
+                      >
+                        <i class="ci-user opacity-60 me-2"></i>
+                        Información personal
+                      </a>
+                    </li>
+                    <li class="d-lg-none border-top mb-0">
+                      <a
+                        class="nav-link-style d-flex align-items-center px-4 py-3"
+                        href="#"
+                        @click="logout"
+                      >
+                        <i class="ci-sign-out opacity-60 me-2"></i>
+                        Cerrar sesión
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+            <h2
+              class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom mt-2"
+            >
+              Modificar perfil
+            </h2>
+            <div class="tab-content mt-4">
+              <div
+                class="tab-pane fade show active"
+                id="profile"
+                role="tabpanel"
+              >
+                <div class="bg-secondary rounded-3 p-4 mb-4">
+                  <div class="d-flex align-items-center">
+                    <img
+                      class="rounded"
+                      :src="profilePhoto || getUserImage()"
+                      width="90"
+                      alt="Foto de perfil"
+                    />
+                    <div class="ps-3">
+                      <input
+                        type="file"
+                        @change="handleFileUpload"
+                        class="form-control form-control-sm mt-2"
+                        accept="image/*"
+                      />
+                      <div class="p mb-0 fs-ms text-muted">
+                        Sube una imagen JPG, GIF o PNG. 300 x 300 recomendado.
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <label class="btn btn-primary btn-rp fw-bold mt-3 fs-5 text-capitalize file-input-button"
-                  for="profileImageInput">
-                  <span class="bi bi-upload me-2"></span>Cargar Imagen</label>
-              </div>
+                <div class="row gx-4 gy-3">
+                  <div class="col-sm-6">
+                    <label class="form-label" for="dashboard-name"
+                      >Nombre</label
+                    >
+                    <input
+                      class="form-control form-control-sm"
+                      type="text"
+                      id="dashboard-name"
+                      v-model="userForm.name"
+                    />
+                  </div>
 
-              <div class="form-group mb-3">
-                <label for="name">Nombre</label>
-                <input type="text" id="name" v-model="profileData.name" class="form-control" />
+                  <div class="col-sm-6">
+                    <label class="form-label" for="dashboard-description"
+                      >Descripción</label
+                    >
+                    <input
+                      class="form-control form-control-sm"
+                      type="text"
+                      id="dashboard-description"
+                      v-model="userForm.description"
+                    />
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label" for="dashboard-username"
+                      >Usuario</label
+                    >
+                    <input
+                      class="form-control form-control-sm"
+                      type="text"
+                      id="dashboard-username"
+                      v-model="userForm.username"
+                    />
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label class="form-label" for="dashboard-gender"
+                      >Género</label
+                    >
+                    <select
+                      class="form-select form-select-sm"
+                      id="dashboard-gender"
+                      v-model="userForm.gender"
+                    >
+                      <option value="">Selecciona género</option>
+                      <option value="M">Masculino</option>
+                      <option value="F">Femenino</option>
+                    </select>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label class="form-label" for="dashboard-password"
+                      >Contraseña</label
+                    >
+                    <input
+                      class="form-control form-control-sm"
+                      type="password"
+                      id="dashboard-password"
+                      v-model="userForm.password"
+                    />
+                  </div>
+
+                  <div class="col-12">
+                    <hr class="mt-2 mb-4" />
+                    <div
+                      class="d-sm-flex justify-content-between align-items-center"
+                    >
+                      <button
+                        class="btn btn-primary mt-3 mt-sm-0"
+                        type="button"
+                        @click="updateUser"
+                      >
+                        Guardar cambios
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group mb-3">
-                <label for="edad">Edad</label>
-                <input type="text" id="name" v-model="profileData.edad" class="form-control" required />
-              </div>
-              <div class="form-group mb-3">
-                <label for="dob">dia</label>
-                <label for="dob">Fecha de Nacimiento</label>
-                <input type="date" id="dob" v-model="profileData.birthdate" class="form-control" />
-              </div>
-              <div class="form-group mb-3">
-                <label for="gender">Género</label>
-                <select id="gender" v-model="profileData.gender" class="form-control">
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
-              <div class="form-group mb-4">
-                <label for="description">Descripción</label>
-                <textarea id="description" v-model="profileData.description" class="form-control" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary w-100">
-                Guardar cambios
-              </button>
-            </form>
-          </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -59,77 +249,142 @@
 </template>
 
 <script>
-import apiClient from '@/services/ApiService';
+import apiClient from "@/services/ApiService";
 
 export default {
+  components: {},
   data() {
     return {
-      profileData: {
-        name: '',
-        birthdate: '',
-        gender: '',
-        description: '',
-        edad: ''
+      isCurrentUser: false,
+      countPosts: 0,
+      userForm: {
+        id: "",
+        name: "",
+        description: "",
+        username: "",
+        password: "",
+        gender: "",
+        
       },
-
-      form: {
-        photo: []
+      originalUsername: "", // <-- Agrega esto
+      profilePhoto: null,
+      profileImageFile: null,
+      publications: 0,
+      follows: {
+        isFollowing: false,
+        followers: 0,
+        following: 0,
       },
-      profilePhoto: [],
     };
   },
-  mounted() {
-    this.profileData = JSON.parse(localStorage.getItem('profileData'));
-    this.profileData.birthdate = this.formatDate(this.profileData.birthdate)
+   mounted() {
+   this.fetchUser();
   },
   methods: {
-    async updateProfile() {
-      const token = localStorage.getItem('authToken');
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.profileImageFile = file;
+        this.profilePhoto = URL.createObjectURL(file);
+      }
+    },
+    async fetchUser() {
+      try {
+        const token = localStorage.getItem("authToken");
+        const username = this.$route.params.username;
+        const response = await apiClient.get(`/profile/${username}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        this.userForm = {
+          id: response.data.user.id,
+          name: response.data.user.name,
+          username: response.data.user.username,
+          description: response.data.user.description || "",
+          gender: response.data.user.gender || "",
+          profile_picture: response.data.user.profile_picture,
+          
+        };
+        this.originalUsername = response.data.user.username; // <-- Guarda el username original
+        this.isCurrentUser = response.data.isCurrentUser;
+
+        const res = await apiClient.get(`/posts/count/${response.data.user.id}`);
+        this.countPosts = res.data.post_count;
+
+          // Seguidores
+          const resFollowers = await apiClient.get(
+            `/follow/followers/count/${response.data.user.id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          this.follows.followers = resFollowers.data.followerCount || 0;
+
+          // Seguidos
+          const resFollowing = await apiClient.get(
+            `/follow/following/count/${response.data.user.id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          this.follows.following = resFollowing.data.followingCount || 0;
+  
+      } catch (error) {
+        console.error(
+          "Error al obtener el usuario:",
+          error.response?.data || error
+        );
+        alert("Error al obtener los datos del usuario.");
+      }
+    },
+    async updateUser() {
+      const token = localStorage.getItem("authToken");
       if (token) {
         try {
-          const response = await apiClient.put(`/profile/${this.profileData.username}/edit-account`, this.profileData, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          console.log('Profile updated successfully:', response.data);
-          
-          if (this.form.photo.length > 0) {
-            const formData = new FormData();
-            formData.append('photo', this.form.photo[0]);
-            const responsePhoto = await apiClient.post(`/upload/profile`, formData, {
+          // Copia el userForm para no modificar el original
+          const userData = { ...this.userForm };
+          // Si el username no cambió, elimínalo del objeto a enviar
+          if (userData.username === this.originalUsername) {
+            delete userData.username;
+          }
+          await apiClient.put(
+            `/profile/${this.userForm.id}`,
+            userData,
+            {
               headers: {
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data',
-              }
-            });
-            console.log('Profile photo updated successfully:', responsePhoto.data);
-          }
-          this.$router.push(`/profile/${this.profileData.username}`).then(() => {
-            window.location.reload();
-          });
+              },
+            }
+          );
 
+          if (this.profileImageFile) {
+            const formData = new FormData();
+            formData.append("photo", this.profileImageFile);
+            await apiClient.post(`/upload/profile`, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+              },
+            });
+          }
         } catch (error) {
-          console.error('Error updating profile:', error);
+          console.error("Error updating profile:", error);
         }
       }
     },
-    formatDate(dateString) {
-      if (!dateString) dateString = "2000-01-02"
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
-      const day = String(date.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
-      return `${year}-${month}-${day}`;
+ 
+    getUserImage() {
+      return (
+        this.userForm.profile_picture ||
+        "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media"
+      );
     },
-    handleFileUpload(event) {
-      const files = Array.from(event.target.files);
-      this.form.photo = files; // Almacena las imágenes seleccionadas
-      this.profilePhoto = files.map((file) => ({
-        name: file.name,
-        previewURL: URL.createObjectURL(file),
-      }));
-    }
+    logout() {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("profileData");
+      this.$router.push("/login");
+    },
   },
 };
 </script>
@@ -138,7 +393,6 @@ export default {
 .file-input {
   position: relative;
   width: 100%;
-  /* Permitir que el contenedor ocupe el ancho completo */
 }
 
 .file-input input[type="file"] {
@@ -146,36 +400,25 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  /* Ocupa todo el ancho del contenedor */
   height: 100%;
-  /* Ocupa toda la altura del contenedor */
   opacity: 0;
-  /* Ocultar el input */
   cursor: pointer;
-  /* Cambiar el cursor al pasar sobre el área de carga */
 }
 
 .file-input-preview {
   display: flex;
   flex-wrap: wrap;
-  /* Permitir que los elementos se ajusten en múltiples filas */
   gap: 10px;
-  /* Espacio entre elementos */
   margin-top: 10px;
-  /* Espacio entre el input y la vista previa */
 }
 
 .preview-item {
   display: flex;
   align-items: center;
   max-width: 100%;
-  /* Asegurar que no se desborde */
   flex: 1 1 calc(33.33% - 10px);
-  /* Flexbox para ajustar el tamaño */
   min-width: 80px;
-  /* Ancho mínimo para los elementos */
   box-sizing: border-box;
-  /* Incluir padding y border en el tamaño total */
 }
 
 .preview-image {
@@ -183,17 +426,13 @@ export default {
   height: 80px;
   object-fit: cover;
   border-radius: 5px;
-  /* Bordes redondeados para las imágenes */
 }
 
 .preview-filename {
   margin-left: 10px;
   overflow: hidden;
-  /* Ocultar texto que se desborde */
   text-overflow: ellipsis;
-  /* Mostrar puntos suspensivos para el texto largo */
   white-space: nowrap;
-  /* Evitar que el texto se divida en varias líneas */
 }
 
 .placeholder-text {
@@ -202,18 +441,15 @@ export default {
   text-align: center;
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
   .preview-item {
     flex: 1 1 calc(50% - 10px);
-    /* Dos elementos en pantallas más pequeñas */
   }
 }
 
 @media (max-width: 480px) {
   .preview-item {
     flex: 1 1 100%;
-    /* Un solo elemento en pantallas muy pequeñas */
   }
 }
 </style>

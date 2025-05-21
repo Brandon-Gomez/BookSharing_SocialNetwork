@@ -5,37 +5,37 @@
             <form @submit.prevent="updateUser" class="mt-4">
                 <div class="form-group mb-3">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" v-model="userData.email" class="form-control"
+                    <input type="email" id="email" v-model="userData.email" class="form-control form-control-sm"
                         placeholder="Correo electrónico" required />
                 </div>
                 <div class="form-group mb-3">
                     <label for="password">Contraseña (dejar vacío para no cambiar)</label>
-                    <input type="password" id="password" v-model="userData.password" class="form-control"
+                    <input type="password" id="password" v-model="userData.password" class="form-control form-control-sm"
                         placeholder="Contraseña" />
                 </div>
                 <div class="form-group mb-3">
                     <label for="username">Nombre de Usuario</label>
-                    <input type="text" id="username" v-model="userData.username" class="form-control"
+                    <input type="text" id="username" v-model="userData.username" class="form-control form-control-sm"
                         placeholder="Nombre de usuario" required />
                 </div>
                 <div class="form-group mb-3">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" v-model="userData.name" class="form-control"
+                    <input type="text" id="name" v-model="userData.name" class="form-control form-control-sm"
                         placeholder="Nombre completo" required />
                 </div>
                 <div class="form-group mb-3">
                     <label for="birthdate">Fecha de Nacimiento</label>
-                    <input type="date" id="birthdate" v-model="userData.birthdate" class="form-control"
+                    <input type="date" id="birthdate" v-model="userData.birthdate" class="form-control form-control-sm"
                         placeholder="Fecha de nacimiento" required />
                 </div>
                 <div class="form-group mb-3">
                     <label for="description">Descripción</label>
-                    <textarea id="description" v-model="userData.description" class="form-control"
+                    <textarea id="description" v-model="userData.description" class="form-control form-control-sm"
                         placeholder="Descripción"></textarea>
                 </div>
                 <div class="form-group mb-3">
                     <label for="is_admin">Rol</label>
-                    <select id="is_admin" v-model="userData.is_admin" class="form-control"
+                    <select id="is_admin" v-model="userData.is_admin" class="form-control form-control-sm"
                         v-on:select="userData.is_admin">
                         <option :value="false">Usuario</option>
                         <option :value="true">Administrador</option>

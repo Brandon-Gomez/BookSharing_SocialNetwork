@@ -4,32 +4,32 @@
         <form @submit.prevent="createPost" class="mt-4 w-50">
             <div class="form-group mb-3">
                 <label for="title">Título</label>
-                <input type="text" id="title" v-model="postData.title" class="form-control"
+                <input type="text" id="title" v-model="postData.title" class="form-control form-control-sm"
                     placeholder="Título de la publicación" required />
             </div>
             <div class="form-group mb-3">
                 <label for="description">Descripción</label>
-                <textarea id="description" v-model="postData.description" class="form-control" placeholder="Descripción"
+                <textarea id="description" v-model="postData.description" class="form-control form-control-sm" placeholder="Descripción"
                     required></textarea>
             </div>
             <div class="form-group mb-3">
                 <label for="image">Imagen</label>
-                <input type="file" id="image" @change="onImageChange" class="form-control" accept="image/*" />
+                <input type="file" id="image" @change="onImageChange" class="form-control form-control-sm" accept="image/*" />
             </div>
             <div class="form-group mb-3">
                 <label for="pdf">Archivo PDF</label>
-                <input type="file" id="pdf" @change="onPdfChange" class="form-control" accept="application/pdf" />
+                <input type="file" id="pdf" @change="onPdfChange" class="form-control form-control-sm" accept="application/pdf" />
             </div>
             <div class="form-group mb-3">
                 <label for="category">Categoría</label>
-                <select id="category" v-model="postData.category_id" class="form-control" required>
+                <select id="category" v-model="postData.category_id" class="form-control form-control-sm" required>
                     <option value="" disabled>Selecciona una categoría</option>
                     <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                 </select>
             </div>
             <div class="form-group mb-3">
                 <label for="user">Usuario</label>
-                <select id="user" v-model="postData.user_id" class="form-control" required>
+                <select id="user" v-model="postData.user_id" class="form-control form-control-sm" required>
                     <option value="" disabled>Selecciona un usuario</option>
                     <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
                 </select>

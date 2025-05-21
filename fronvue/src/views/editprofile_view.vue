@@ -1,16 +1,19 @@
 <template>
-    <div>
+  <div>
+    <MainLayout>
       <EditProfileComponent />
-    </div>
-  </template>
-  
-  <script>
-  import EditProfileComponent from '../components/editprofile_component.vue'; // Importar el componente
-  
-  export default {
-    components: {
-      EditProfileComponent
-    }
-  };
-  </script>
-  
+    </MainLayout>
+  </div>
+</template>
+
+<script>
+import EditProfileComponent from '../components/editprofile_component.vue'; // Importar el componente
+import MainLayout from '@/layouts/MainLayout.vue'; // Importar el layout principal
+
+export default {
+  components: {
+    EditProfileComponent,
+    MainLayout,
+  }
+};
+</script>

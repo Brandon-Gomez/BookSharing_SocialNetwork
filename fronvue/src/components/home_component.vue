@@ -2,28 +2,27 @@
 
   <MainLayout>
 
-    <div class="bg-secondary py-4">
+    <div class="bg-dark py-4">
       <div class="container d-lg-flex justify-content-start py-2 py-lg-3">
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-          <h1 class="h3 mb-0">Explora</h1>
+          <h1 class="h3 mb-0 text-light">Explora libros</h1>
         </div>
       </div>
     </div>
-    
+
     <div class="container pb-5 mb-2 mb-md-4">
       <div class="pt-5 mt-md-2">
         <!-- Nuevo grid de artículos -->
         <div class="library-grid">
           <article class="library-item" v-for="(post) in posts" :key="post.post_id">
             <div class="card">
+
               <button data-v-336ea70c="" class="btn-wishlist btn-sm position-absolute" type="button"
                 data-bs-toggle="tooltip" data-bs-placement="left" title="Me gusta"
                 style="top: 0.5rem; right: 0.5rem; z-index: 2; background: rgba(255, 255, 255, 0.7); border-radius: 50%;"><i
                   data-v-336ea70c="" class="ci-heart"></i></button>
               <RouterLink class="blog-entry-thumb" :to="`posts/${post.post_id}`">
-                <img class="card-img-top"
-                  src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
-                  alt="Post">
+                <img class="card-img-top" :src="post.image" alt="Post">
               </RouterLink>
               <div class="card-body">
                 <h2 class="h6 blog-entry-title">
@@ -35,7 +34,7 @@
               </div>
               <div class="card-footer d-flex align-items-center fs-xs">
                 <RouterLink class="blog-entry-meta-link" :to="`/profile/${post.username}`">
-                  {{ post.username }}
+                  @{{ post.username }}
                 </RouterLink>
                 <div class="ms-auto text-nowrap">
                   <a class="blog-entry-meta-link text-nowrap" href="#">

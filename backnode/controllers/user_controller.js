@@ -232,20 +232,38 @@ const resetPassword = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { name, birthdate, gender, description, username } = req.body;
+    const {
+      id,
+      name,
+      username,
+      description,
+      gender,
+      profile_picture,
+      password,
+    } = req.body;
 
     // Si se quiere cambiar el username, validar que no exista
     if (username && username !== req.params.username) {
       const existingUser = await userModel.findUserByUsername(username);
       if (existingUser) {
-        return res.status(400).json({ ok: false, msg: "EL NOMBRE DE USUARIO YA ESTÁ REGISTRADO" });
+        return res
+          .status(400)
+          .json({ ok: false, msg: "EL NOMBRE DE USUARIO YA ESTÁ REGISTRADO" });
       }
     }
 
     // Construir solo los campos que llegan
     const updateFields = { name, gender, description };
     if (birthdate !== undefined) updateFields.birthdate = birthdate;
-    if (username && username !== req.params.username) updateFields.username = username;
+    if (profile_picture) updateFields.profile_picture = profile_picture;
+    if (password) {
+      const salt = await bcryptjs.genSalt(7);
+      const hashedPassword = await bcryptjs.hash(password, salt);
+      updateFields.password = hashedPassword;
+    }
+
+    if (username && username !== req.params.username)
+      updateFields.username = username;
 
     // Realizar la actualización
     const updatedUser = await userModel.updateUserByUsername(
@@ -356,7 +374,9 @@ const deleteUser = async (req, res) => {
     const { userId } = req.params;
 
     const deletedUser = await userModel.deleteUser(userId);
-    return res.status(200).json({ ok: true, msg: "USUARIO ELIMINADO", userId: deletedUser });
+    return res
+      .status(200)
+      .json({ ok: true, msg: "USUARIO ELIMINADO", userId: deletedUser });
     if (!deletedUser) {
       return res.status(404).json({ ok: false, msg: "USUARIO NO ENCONTRADO" });
     }
@@ -389,10 +409,18 @@ const getUserById = async (req, res) => {
 const updateUserById = async (req, res) => {
   try {
     const { userId } = req.params;
-    let { email, password, username, name, birthdate, description, is_admin } = req.body;
+    let { email, password, username, name, birthdate, description, is_admin } =
+      req.body;
 
     // Solo encripta y agrega la contraseña si viene en el body
-    let dataToUpdate = { email, username, name, birthdate, description, is_admin };
+    let dataToUpdate = {
+      email,
+      username,
+      name,
+      birthdate,
+      description,
+      is_admin,
+    };
 
     if (password && password.trim() !== "") {
       const salt = await bcryptjs.genSalt(7);
@@ -414,7 +442,50 @@ const updateUserById = async (req, res) => {
   }
 };
 
-export const getUsersPaginated = async (req, res) => {
+const updateProfileById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, password, gender, username } = req.body;
+
+    let hashedPassword = null;
+    if (password && password.trim() !== "") {
+      const salt = await bcryptjs.genSalt(7);
+      hashedPassword = await bcryptjs.hash(password, salt);
+    } else {
+      const user = await userModel.getUserById(id);
+      if (!user) {
+        return res.status(404).json({ ok: false, msg: "Usuario no encontrado" });
+      }
+      hashedPassword = user.password;
+    }
+
+    const updatedUser = await userModel.updateProfileById(
+      id,
+      name,
+      description,
+      hashedPassword,
+      gender,
+      username
+    );
+
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .json({ ok: false, msg: "Usuario no encontrado para actualizar" });
+    }
+
+    return res
+      .status(200)
+      .json({ ok: true, msg: "Nombre actualizado", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ ok: false, msg: "Error al actualizar el nombre" });
+  }
+};
+
+const getUsersPaginated = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
   const offset = (page - 1) * limit;
@@ -428,7 +499,7 @@ export const getUsersPaginated = async (req, res) => {
       page,
       totalPages,
       total,
-      users
+      users,
     });
   } catch (error) {
     console.error(error);
@@ -443,7 +514,7 @@ export const userController = {
   profile,
   generateResetToken,
   resetPassword,
-  updateProfile,
+  updateProfileById,
   searchUserBy,
   getUserProfileWithPostCount,
   getAllUsers,

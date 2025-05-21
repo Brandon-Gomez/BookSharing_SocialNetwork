@@ -19,5 +19,5 @@ router.delete('/users/:userId', verifyToken, userController.deleteUser);
 router.get('/users/paginated', verifyToken, userController.getUsersPaginated);
 router.get('/users/:userId', verifyToken, userController.getUserById);
 router.put('/users/:userId', verifyToken, userController.updateUserById);
-router.put('/profile/:username', verifyToken, userController.updateProfile);
+router.put('/profile/:id', verifyToken, userController.updateProfileById);
 export default router;

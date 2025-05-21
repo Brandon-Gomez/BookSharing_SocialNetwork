@@ -246,7 +246,7 @@ const getPostsPaginated = async (limit, offset, category_id = null) => {
     params = [limit, offset];
   }
 
-  query += ` ORDER BY posts.id ASC LIMIT $1 OFFSET $2`;
+  query += ` ORDER BY posts.id DESC LIMIT $1 OFFSET $2`;
 
   const result = await db.query(query, params);
   return result.rows;

@@ -17,8 +17,6 @@ const createUser = async ({ email, password, username, termsAccepted }) => {
   return rows[0];
 };
 
-
-
 const findUserByEmail = async (email) => {
   const query = {
     text: `
@@ -168,16 +166,22 @@ const isAdmin = async (userId) => {
   `;
   const result = await db.query(query, [userId]);
   return result.rows[0].is_admin;
-}
+};
 
 const getAllUsers = async () => {
   const query = "SELECT * FROM users ORDER BY id ASC";
   const result = await db.query(query);
   return result.rows;
-}
+};
 
 const createUserWithDetails = async ({
- email, password, username, name, birthdate, description, is_admin
+  email,
+  password,
+  username,
+  name,
+  birthdate,
+  description,
+  is_admin,
 }) => {
   const query = {
     text: `
@@ -203,8 +207,8 @@ const deleteUser = async (userId) => {
   };
 
   const { rowCount } = await db.query(query);
-  return rowCount > 0; 
-}
+  return rowCount > 0;
+};
 
 const updateUserById = async (userId, data) => {
   try {
@@ -274,10 +278,9 @@ const findUserById = async (userId) => {
         `,
     values: [userId],
   };
-  const { rows
-  } = await db.query(query);
+  const { rows } = await db.query(query);
   return rows[0];
-}
+};
 
 const countTotalUsers = async () => {
   const query = `SELECT COUNT(*) AS total FROM users;`;
@@ -296,7 +299,102 @@ const getUsersPaginated = async (offset, limit) => {
   return result.rows;
 };
 
+// const updateProfileById = async (userId, data) => {
+//   try {
+//     const fields = [];
+//     const values = [];
+//     let idx = 1;
 
+//     if (data.name !== undefined) {
+//       fields.push(`name = $${idx++}`);
+//       values.push(data.name);
+//     }
+//     if (data.username !== undefined) {
+//       fields.push(`username = $${idx++}`);
+//       values.push(data.username);
+//     }
+//     if (data.description !== undefined) {
+//       fields.push(`description = $${idx++}`);
+//       values.push(data.description);
+//     }
+//     if (data.gender !== undefined) {
+//       fields.push(`gender = $${idx++}`);
+//       values.push(data.gender);
+//     }
+//     if (data.profile_picture !== undefined) {
+//       fields.push(`profile_picture = $${idx++}`);
+//       values.push(data.profile_picture);
+//     }
+//     if (data.password !== undefined) {
+//       fields.push(`password = $${idx++}`);
+//       values.push(data.password);
+//     }
+
+//     if (fields.length === 0) {
+//       throw new Error("No hay campos para actualizar");
+//     }
+
+//     values.push(userId);
+
+//     const query = `
+//       UPDATE users SET ${fields.join(", ")}
+//       WHERE id = $${idx}
+//       RETURNING *
+//     `;
+
+//     const result = await db.query(query, values);
+
+//     if (result.rowCount === 0) {
+//       throw new Error("Usuario no encontrado para actualización");
+//     }
+//     return result.rows[0];
+//   } catch (error) {
+//     console.error("Error en la actualización del perfil:", error);
+//     throw error;
+//   }
+// };
+
+const updateProfileById = async (id, name, description, password, gender, username) => {
+  let fields = [];
+  let values = [];
+  let idx = 1;
+
+  if (name !== undefined) {
+    fields.push(`name = $${idx++}`);
+    values.push(name);
+  }
+  if (description !== undefined) {
+    fields.push(`description = $${idx++}`);
+    values.push(description);
+  }
+  if (password !== undefined) {
+    fields.push(`password = $${idx++}`);
+    values.push(password);
+  }
+  if (gender !== undefined) {
+    fields.push(`gender = $${idx++}`);
+    values.push(gender);
+  }
+  if (username !== undefined) {
+    fields.push(`username = $${idx++}`);
+    values.push(username);
+  }
+
+  if (fields.length === 0) {
+    throw new Error("No hay campos para actualizar");
+  }
+
+  values.push(id);
+
+  const query = `
+    UPDATE users
+    SET ${fields.join(", ")}
+    WHERE id = $${idx}
+    RETURNING *;
+  `;
+  const result = await db.query(query, values);
+  return result;
+};
 export const userModel = {
   findUserById,
   createUser,
@@ -318,4 +416,5 @@ export const userModel = {
   updateUserById,
   countTotalUsers,
   getUsersPaginated,
+  updateProfileById,
 };
