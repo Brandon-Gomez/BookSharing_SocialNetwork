@@ -154,6 +154,8 @@
             <h2
               class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom mt-2"
             >
+            
+
               Publicaciones
             </h2>
             <!-- grid books -->

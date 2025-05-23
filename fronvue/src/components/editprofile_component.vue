@@ -355,41 +355,49 @@ export default {
         );
       }
     },
-    async updateUser() {
-      const token = localStorage.getItem("authToken");
-      if (token) {
-        try {
-          // Copia el userForm para no modificar el original
-          const userData = { ...this.userForm };
-          // Si el username no cambió, elimínalo del objeto a enviar
-          if (userData.username === this.originalUsername) {
-            delete userData.username;
-          }
-          await apiClient.put(
-            `/profile/${this.userForm.id}`,
-            userData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+async updateUser() {
+  const token = localStorage.getItem("authToken");
+  if (token) {
+    try {
+      // Copia el userForm para no modificar el original
+      const userData = { ...this.userForm };
+      // Si el username no cambió, elimínalo del objeto a enviar
+      if (userData.username === this.originalUsername) {
+        delete userData.username;
+      }
+      await apiClient.put(
+        `/profile/${this.userForm.id}`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-          if (this.profileImageFile) {
-            const formData = new FormData();
-            formData.append("photo", this.profileImageFile);
-            await apiClient.post(`/upload/profile`, formData, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
-              },
-            });
-          }
-        } catch (error) {
-          console.error("Error updating profile:", error);
+      if (this.profileImageFile) {
+        const formData = new FormData();
+        formData.append("photo", this.profileImageFile);
+        const res = await apiClient.post(`/upload/profile`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        // Actualiza la imagen en el frontend si el backend devuelve la URL
+        if (res.data && res.data.photoUrl) {
+          this.userForm.profile_picture = res.data.photoUrl;
+          this.profilePhoto = res.data.photoUrl;
         }
       }
-    },
+      // Opcional: feedback al usuario
+      alert("Perfil actualizado correctamente");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Error al actualizar el perfil");
+    }
+  }
+},
  
     getUserImage() {
       return (
