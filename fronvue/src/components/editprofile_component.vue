@@ -11,14 +11,17 @@
           >
             <img
               class="rounded-circle"
-              :src="userForm.profile_picture"
-              alt="Createx Studio"
+              :src="getUserImage()" 
+              alt="Imagen de perfil"
             />
           </div>
           <div class="ps-3">
             <h3 class="text-light fs-lg mb-0">{{ userForm.name }}</h3>
             <span class="d-block text-light fs-ms opacity-60 py-1"
               >@{{ userForm.username }}</span
+            >
+              <span class="d-block text-light fs-ms py-1 w-75" style="max-width: 450px">
+              {{ userForm.description }}</span
             >
           </div>
         </div>
@@ -84,6 +87,24 @@
                       class="nav-link-style d-flex align-items-center px-4 py-3"
                       :href="`/profile/${userForm.username}`"
                     >
+                      <i class="ci-user-circle opacity-60 me-2"></i>
+                      Seguidores
+                    </a>
+                  </li>
+                  <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                      :href="`/profile/${userForm.username}`"
+                    >
+                      <i class="ci-user-circle opacity-60 me-2"></i>
+                      Seguidos
+                    </a>
+                  </li>
+                  <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                      :href="`/profile/${userForm.username}`"
+                    >
                       <i class="ci-book opacity-60 me-2"></i>
                       Publicaciones
                     </a>
@@ -125,7 +146,7 @@
               </div>
             </div>
           </aside>
-          <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+          <section class="container-fluid col-lg-8 pt-lg-4 pb-4 mb-3">
             <h2
               class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom mt-2"
             >

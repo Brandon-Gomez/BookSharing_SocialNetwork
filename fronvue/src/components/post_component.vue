@@ -41,9 +41,7 @@
                     <h2 class="h4"></h2>
 
                     <div class="gallery pb-2 text-center position-relative" lg-uid="lg0">
-                        <img width="300px"
-                            src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
-                            alt="Gallery image" />
+                        <img width="300px" :src="post.image" alt="Libro imagen" />
                         <div v-if="isCurrentUser" class="position-absolute" style="right: 10px; bottom: 10px; display: flex; gap: 8px;">
                             <button class="btn btn-warning btn-sm d-flex align-items-center" @click="editarPost">
                                 <i class="ci-edit"></i>
@@ -54,12 +52,8 @@
                         </div>
                     </div>
                     <!-- Post content-->
-                    <p class="mt-2">
-                        "Cien años de soledad" narra la historia de la familia Buendía,
-                        desde su fundación en el pueblo de Macondo hasta su declive y
-                        desaparición. A lo largo de siete generaciones, los Buendía
-                        experimentan amores imposibles, tragedias, guerras y una maldición
-                        que los condena a una profunda soledad.
+                    <p class="mt-4">
+                        {{ post.description }}
                     </p>
 
                     <!-- ver pdf button -->

@@ -81,6 +81,23 @@
                   <h3 class="fs-sm mb-0 text-muted">Cuenta</h3>
                 </div>
                 <ul class="list-unstyled mb-0">
+                    <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                    >
+                      <i class="ci-user-circle opacity-60 me-2"></i>
+                      Seguidores
+                    </a>
+                  </li>
+                  <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                      
+                    >
+                      <i class="ci-user-circle opacity-60 me-2"></i>
+                      Seguidos
+                    </a>
+                  </li>
                   <li class="border-bottom mb-0">
                     <a
                       class="nav-link-style d-flex align-items-center px-4 py-3 active"

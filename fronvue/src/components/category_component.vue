@@ -51,9 +51,11 @@
                                     style="top: 0.5rem; right: 0.5rem; z-index: 2; background: rgba(255, 255, 255, 0.7); border-radius: 50%;"><i
                                         data-v-336ea70c="" class="ci-heart"></i></button>
                                 <RouterLink class="blog-entry-thumb" :to="`posts/${post.post_id}`">
-                                    <img class="card-img-top"
-                                        src="https://tunovela.es/wp-content/uploads/Cien-anos-de-soledad-de-Gabriel-Garcia-Marquez-resumen-y-analisis.jpg"
-                                        alt="Post">
+                                    <img
+                                        class="card-img-top"
+                                        :src="post.image"
+                                        :alt="post.title"
+                                    >
                                 </RouterLink>
                                 <div class="card-body">
                                     <h2 class="h6 blog-entry-title">

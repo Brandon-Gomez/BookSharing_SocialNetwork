@@ -205,6 +205,9 @@
                     <li class="nav-item">
                     <a class="nav-link" :href="`/profile/${username}`">Mi Perfil</a>
                     </li>
+                    <li class="nav-item">
+                    <a type="button" class="nav-link" @click="logout()" >Cerrar sesión</a>
+                    </li>
                 </ul>
         </div>
       </div>
@@ -323,7 +326,7 @@
               <a class="d-inline-block align-middle mt-n2 me-2" href="#"
                 ><img
                   class="d-block"
-                  src="../../dist/img/LogoRM.b5d6692e.png"
+                  src="../../dist/img/logo2.png"
                   width="117"
                   alt="Readmate"
               /></a>
@@ -425,7 +428,7 @@
 </template>
 
 <script>
-import { loginUser } from '@/services/useAuth.js';
+import { loginUser, logoutUser} from '@/services/useAuth.js';
 
 export default {
   components: {
@@ -488,6 +491,10 @@ export default {
       }
 
     },
+
+logout() {
+  logoutUser(this.$router);
+},
      
   },
   mounted() {

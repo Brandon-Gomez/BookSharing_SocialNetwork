@@ -1,6 +1,5 @@
 import apiClient from './ApiService';
-
-export async function loginUser({ email, password, router }) {
+const loginUser = async ({ email, password, router }) => {
   try {
     const response = await apiClient.post('/login', { email, password });
     const username = response.data.username;
@@ -19,11 +18,13 @@ export async function loginUser({ email, password, router }) {
     console.error('Error en el login:', error.response);
     throw error;
   }
-}
+};
 
-export function logoutUser(router) {
+const logoutUser = (router) => {
   localStorage.removeItem('authToken');
   localStorage.removeItem('isAdmin');
   localStorage.removeItem('username');
   router.push('/').then(() => window.location.reload());
-}
+};
+
+export { loginUser, logoutUser };
