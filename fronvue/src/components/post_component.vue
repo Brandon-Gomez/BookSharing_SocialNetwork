@@ -23,7 +23,10 @@
                         <div class="d-flex align-items-center fs-sm mb-2">
                             <a class="blog-entry-meta-link" :href="`/profile/${post.username}`">
                                 <div class="blog-entry-author-ava">
-                                    <img src="../../dist/img/blog/meta/02.jpg" alt="Foto" />
+                                    <img
+                                        :src="post.profile_picture || 'https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media'"
+                                        alt="Foto"
+                                    />
                                 </div>
                                 {{ post.username }}
                             </a><span class="blog-entry-meta-divider"></span><a class="blog-entry-meta-link" href="#">{{
