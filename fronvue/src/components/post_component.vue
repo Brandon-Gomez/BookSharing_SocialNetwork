@@ -4,7 +4,7 @@
             <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <breadcrumb_component
-                        :items="[{ label: 'Inicio', to: '/' }, { label: 'Libros', to: '/posts' }, { label: post.title }]"
+                        :items="[{ label: 'Inicio', to: '/' }, { label: post.title }]"
                         theme="breadcrumb-dark" />
                 </div>
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start align-self-center">
