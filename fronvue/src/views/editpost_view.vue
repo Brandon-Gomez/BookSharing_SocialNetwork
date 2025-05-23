@@ -14,8 +14,6 @@
       EditPostComponent,
     },
 
-
-
   };
   </script>
   

@@ -109,7 +109,7 @@
             </div>
           </aside>
           <!-- Content-->
-          <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
+          <section class="container-fluid col-lg-8 pt-lg-4 pb-4 mb-3">
             <!-- Toolbar-->
 
             <h2 class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom mt-2">
@@ -124,6 +124,16 @@
               <div class="form-group my-2">
                 <label for="description">Descripción</label>
                 <textarea id="description" v-model="newPost.description" class="form-control"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="category">Categoría</label>
+                <select id="category" v-model="newPost.category_id" class="form-control form-control-sm">
+                  <option value="" disabled selected>Selecciona una categoría</option>
+                  <option v-for="category in categories" :key="category.id" :value="category.id">
+                    {{ category.name }}
+                  </option>
+                </select>
               </div>
 
               <div class="form-group my-2">
@@ -163,6 +173,8 @@ export default {
 
   data() {
     return {
+
+      categories: [],
       userData: {
         id: "",
         email: "",
@@ -295,12 +307,13 @@ export default {
 
         formData.append('title', this.newPost.title);
         formData.append('description', this.newPost.description);
+        formData.append('category_id', this.newPost.category_id);
         // formData.append('images', this.newPost.images);
         // formData.append('pdf', this.newPost.pdf_file);
 
         // Añadir la imagen solo si se seleccionó una nueva
-        if (this.newPost.images) {
-          formData.append('images', this.newPost.images);
+        if (this.newPost.image) {
+          formData.append('images', this.newPost.image);
         }
 
         // Añadir el PDF solo si se seleccionó uno nuevo
@@ -352,11 +365,28 @@ export default {
         }
       }
     },
+    // get categories from api
+  async fetchCategories() {
+    try {
+      const response = await apiClient.get('/categories',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+      this.categories = response.data;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   },
+  },
+  
 
   async mounted() {
     await this.fetchPost(),
+      await this.fetchCategories(),
       this.fetchUser();
+
   },
 };
 </script>

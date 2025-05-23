@@ -1,43 +1,36 @@
 <template>
   <div>
-    
+
     <div class="page-title-overlap bg-dark pt-4">
       <div
-        class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2"
-      >
+        class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2">
         <div class="d-flex align-items-center pb-3">
-          <div
-            class="rounded-circle position-relative flex-shrink-0"
-            style="width: 6.375rem"
-          >
-            <img
-              class="rounded-circle"
-              :src="getUserImage()"
-              :alt="userData.name"
-            />
+          <div class="rounded-circle position-relative flex-shrink-0" style="width: 6.375rem">
+            <img class="rounded-circle" :src="getUserImage()" :alt="userData.name" />
           </div>
           <div class="ps-3">
             <h3 class="text-light fs-lg mb-0">{{ userData.name }}</h3>
-            <span class="d-block text-light fs-ms opacity-60 py-1"
-              >@{{ userData.username }}</span>
+            <span class="d-block text-light fs-ms opacity-60 py-1">@{{ userData.username }}</span>
             <span class="d-block text-light fs-ms py-1 w-75" style="max-width: 450px">
-              {{ userData.description }}</span
-            >
+              {{ userData.description }}</span>
 
           </div>
         </div>
         <!-- Desktop version -->
-        <div class="d-none d-sm-flex"> 
+        <div class="d-none d-sm-flex">
           <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">{{ countPosts }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
+            <div class="text-light fs-base mr-2">{{ countPosts }}<span
+                class="text-light fs-ms opacity-60 py-1 ml-2">Publicaciones</span>
             </div>
           </div>
           <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">{{ follows.followers }}<span class="text-light fs-ms opacity-60 py-1 ml-2">Seguidores</span>
+            <div class="text-light fs-base mr-2">{{ follows.followers }}<span
+                class="text-light fs-ms opacity-60 py-1 ml-2">Seguidores</span>
             </div>
           </div>
           <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">{{ follows.following }}<span class="text-light fs-ms opacity-60 py-1  ml-2">Siguiendo</span>
+            <div class="text-light fs-base mr-2">{{ follows.following }}<span
+                class="text-light fs-ms opacity-60 py-1  ml-2">Siguiendo</span>
             </div>
           </div>
         </div>
@@ -47,7 +40,7 @@
             <div class="text-light fs-6 fw-bold">{{ countPosts }}</div>
             <div class="text-light fs-ms opacity-60 py-1">Publicaciones</div>
           </div>
-          
+
           <div class="text-center">
             <div class="text-light fs-6 fw-bold">{{ follows.followers }}</div>
             <div class="text-light fs-ms opacity-60 py-1">Seguidores</div>
@@ -67,13 +60,8 @@
           <!-- Sidebar-->
           <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-5">
             <div class="d-block d-lg-none p-4">
-              <a
-                class="btn btn-outline-accent d-block"
-                href="#account-menu"
-                data-bs-toggle="collapse"
-                aria-expanded="true"
-                ><i class="ci-menu me-2"></i>Menu de cuenta</a
-              >
+              <a class="btn btn-outline-accent d-block" href="#account-menu" data-bs-toggle="collapse"
+                aria-expanded="true"><i class="ci-menu me-2"></i>Menu de cuenta</a>
             </div>
             <div class="bg-white rounded-3 shadow-lg pt-1 mb-lg-0">
               <div class="d-lg-block collapse" id="account-menu">
@@ -81,37 +69,26 @@
                   <h3 class="fs-sm mb-0 text-muted">Cuenta</h3>
                 </div>
                 <ul class="list-unstyled mb-0">
-                    <li class="border-bottom mb-0">
-                    <a
-                      class="nav-link-style d-flex align-items-center px-4 py-3"
-                    >
+                  <li class="border-bottom mb-0">
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3">
                       <i class="ci-user-circle opacity-60 me-2"></i>
                       Seguidores
                     </a>
                   </li>
                   <li class="border-bottom mb-0">
-                    <a
-                      class="nav-link-style d-flex align-items-center px-4 py-3"
-                      
-                    >
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3">
                       <i class="ci-user-circle opacity-60 me-2"></i>
                       Seguidos
                     </a>
                   </li>
                   <li class="border-bottom mb-0">
-                    <a
-                      class="nav-link-style d-flex align-items-center px-4 py-3 active"
-                      href="#"
-                    >
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="#">
                       <i class="ci-book opacity-60 me-2"></i>
                       Publicaciones
                     </a>
                   </li>
                   <li class="border-bottom mb-0">
-                    <a
-                      class="nav-link-style d-flex align-items-center px-4 py-3"
-                      href="#"
-                    >
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3" href="#">
                       <i class="ci-heart opacity-60 me-2"></i>
                       Favoritos
                     </a>
@@ -123,21 +100,14 @@
                   </div>
                   <ul class="list-unstyled mb-0">
                     <li class="border-bottom mb-0">
-                      <a
-                        type="button"
-                        class="nav-link-style d-flex align-items-center px-4 py-3"
-                        @click.prevent="goToEditProfile"
-                      >
+                      <a type="button" class="nav-link-style d-flex align-items-center px-4 py-3"
+                        @click.prevent="goToEditProfile">
                         <i class="ci-user opacity-60 me-2"></i>
                         Información personal
                       </a>
                     </li>
                     <li class="border-top mb-0">
-                      <a type="button"
-                        class="nav-link-style d-flex align-items-center px-4 py-3"
-                       
-                        @click="logout"
-                      >
+                      <a type="button" class="nav-link-style d-flex align-items-center px-4 py-3" @click="logout">
                         <i class="ci-sign-out opacity-60 me-2"></i>
                         Cerrar sesión
                       </a>
@@ -150,66 +120,39 @@
           <!-- Content-->
           <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
             <!-- Toolbar-->
+            <div class="container d-flex justify-content-between align-items-center mb-4">
+              <h2 class="h3 mb-0">Publicaciones</h2>
+              <button class="btn btn-success btn-sm" @click="$router.push(`/profile/${userData.username}/create-post`)">
+                Crear publicación
+              </button>
+            </div>
 
-            <h2
-              class="h3 pt-2 pb-4 mb-0 text-center text-sm-start border-bottom mt-2"
-            >
-            
-
-              Publicaciones
-            </h2>
             <!-- grid books -->
             <div v-if="posts.length > 0" class="container mb-2 mb-md-4 library-grid py-3">
-              <article
-                class="library-item"
-                v-for="post in posts"
-                :key="post.id"
-              >
+              <article class="library-item" v-for="post in posts" :key="post.id">
                 <div class="card">
-                  <button
-                    class="btn-wishlist btn-sm position-absolute"
-                    type="button"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="left"
-                    title="Me gusta"
-                    style="
+                  <button class="btn-wishlist btn-sm position-absolute" type="button" data-bs-toggle="tooltip"
+                    data-bs-placement="left" title="Me gusta" style="
                       top: 0.5rem;
                       right: 0.5rem;
                       z-index: 2;
                       background: rgba(255, 255, 255, 0.7);
                       border-radius: 50%;
-                    "
-                  >
+                    ">
                     <i class="ci-heart"></i>
                   </button>
                   <div style="position: relative;">
-                    <RouterLink
-                      class="blog-entry-thumb"
-                      :to="`/posts/${post.id}`"
-                    >
-                      <img
-                        class="card-img-top"
-                        :src="post.image"
-                        alt="Post"
-                      />
+                    <RouterLink class="blog-entry-thumb" :to="`/posts/${post.id}`">
+                      <img class="card-img-top" :src="post.image" alt="Post" />
                     </RouterLink>
-                    <div
-                      v-if="isCurrentUser"
-                      class="position-absolute"
-                      style="right: 10px; bottom: 10px; display: flex; gap: 8px;"
-                    >
-                      <button
-                        class="btn btn-warning btn-sm d-flex align-items-center"
-                        @click="editPost(post)"
-                        title="Editar"
-                      >
+                    <div v-if="isCurrentUser" class="position-absolute"
+                      style="right: 10px; bottom: 10px; display: flex; gap: 8px;">
+                      <button class="btn btn-warning btn-sm d-flex align-items-center" @click="editPost(post)"
+                        title="Editar">
                         <i class="ci-edit"></i>
                       </button>
-                      <button
-                        class="btn btn-danger btn-sm d-flex align-items-center"
-                        @click="deletePost(post)"
-                        title="Eliminar"
-                      >
+                      <button class="btn btn-danger btn-sm d-flex align-items-center" @click="deletePost(post)"
+                        title="Eliminar">
                         <i class="ci-trash"></i>
                       </button>
                     </div>
@@ -220,11 +163,7 @@
                         {{ post.title }}
                       </RouterLink>
                     </h2>
-                    <a
-                      class="btn-tag me-2 mb-2"
-                      :href="`/category/${post.category_id}`"
-                      >{{ post.category_name }}</a
-                    >
+                    <a class="btn-tag me-2 mb-2" :href="`/category/${post.category_id}`">{{ post.category_name }}</a>
                   </div>
                   <div class="card-footer d-flex align-items-center fs-xs">
                     {{
@@ -252,11 +191,8 @@
               <p class="text-center mt-4">No hay publicaciones para mostrar.</p>
             </div>
             <!-- Pagination-->
-            <pagination_component 
-              v-model="page" v-if="posts.length > 0"
-              :totalPages="totalPages"
-              @update:modelValue="onPageChange"
-            />
+            <pagination_component v-model="page" v-if="posts.length > 0" :totalPages="totalPages"
+              @update:modelValue="onPageChange" />
           </section>
         </div>
       </div>
@@ -347,11 +283,11 @@ export default {
           );
           this.follows.following = resFollowing.data.followingCount || 0;
         }
-          // cantidad de publicaciones
-          const res = await apiClient.get(`/posts/count/${user.id}`);
-          this.countPosts = res.data.post_count;
+        // cantidad de publicaciones
+        const res = await apiClient.get(`/posts/count/${user.id}`);
+        this.countPosts = res.data.post_count;
 
-        
+
       } catch (error) {
         console.error(
           "Error al obtener el usuario:",
@@ -388,7 +324,7 @@ export default {
       );
     },
     logout() {
-        logoutUser(this.$router);
+      logoutUser(this.$router);
     },
 
     goToEditProfile() {

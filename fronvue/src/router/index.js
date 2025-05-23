@@ -8,6 +8,7 @@ import ProfileView from "../views/profile_view.vue";
 import EditProfileView from "../views/editprofile_view.vue";
 import PostView from "../views/post_view.vue";
 import EditPostView from "../views/editpost_view.vue";
+import CreatePostView from "../views/createpost_view.vue";
 import LikeView from "../views/like_view.vue";
 import PdfPreviewView from "../views/pdfpreview_view.vue";
 import FollowView from "../views/follow_view.vue";
@@ -67,6 +68,12 @@ const userRoutes = [
     props: true
   },
   {
+    path : '/profile/:username/create-post',
+    name: 'CreatePost',
+    component: CreatePostView,
+    props: true,
+  },
+  {
     path: '/profile/:username/edit-account',
     name: 'EditProfile',
     component: EditProfileView,
@@ -109,6 +116,7 @@ const userRoutes = [
     component: CategoryView,
     props: true
   },
+  
 
 ];
 
