@@ -59,14 +59,10 @@
                         {{ post.description }}
                     </p>
 
-                    <!-- ver pdf button -->
-
-                    <!-- Post tags + sharing-->
                     <div class="d-flex flex-wrap justify-content-between pb-4 mb-1">
                         <div class="mt-2 me-3">
                             <PdfPreview v-if="post.pdf_file" :pdfUrl="post.pdf_file" :postId="post.id" />
-                            <button class="btn-wishlist btn-sm ml-3" type="button" data-bs-toggle="tooltip"
-                                data-bs-placement="left" title="Añadir a favoritos"><i class="ci-heart"></i></button>
+                            <LikeComponent v-if="post.id" :postId="String(post.id)" />
                         </div>
                         <div class="mt-3">
                             <span
@@ -193,8 +189,11 @@
 import apiClient from "../services/ApiService.js";
 import PdfPreview from "@/components/pdfpreview_component.vue";
 import breadcrumb_component from "./breadcrumb_component.vue";
+import LikeComponent from "@/components/like_component.vue";
 
 export default {
+    components: { PdfPreview, breadcrumb_component , LikeComponent },
+
     data() {
         return {
             categories: [],
@@ -301,7 +300,6 @@ export default {
 
     },
 
-    components: { PdfPreview, breadcrumb_component },
 
     methods: {
         btnCompartir() {
