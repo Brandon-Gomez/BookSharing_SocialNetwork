@@ -1,11 +1,10 @@
 <template>
-  <div class="search-bar">
     <input
       type="text"
       v-model="searchQuery"
       @input="searchUser"
       placeholder="Buscar usuario..."
-      class="form-control"
+      class="form-control rounded-end pe-5"
     />
     <ul v-if="users.length" class="list-group mt-2">
       <li 
@@ -16,7 +15,6 @@
         {{ user.username }} ({{ user.name }})
       </li>
     </ul>
-  </div>
 </template>
 
 <script>
