@@ -278,7 +278,6 @@ export default {
     logout() {
       logoutUser(this.$router);
     },
- 
     goToEditProfile() {
       this.$router.push(`/profile/${this.userData.username}/edit-account`);
     },
