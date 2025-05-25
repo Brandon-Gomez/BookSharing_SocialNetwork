@@ -29,7 +29,9 @@
             </div>
             <div class="text-end ml-3">
               <div class="text-light fs-base">{{ follows.following }}</div>
-              <div class="text-light fs-ms opacity-60 py-1">Siguiendo</div>
+              <div class="text-light fs-ms opacity-60 py-1">
+                <a type="button" data-bs-toggle="modal" data-bs-target="#followingModal">Siguiendo</a>
+              </div>
             </div>
           </div>
           <div class="text-center mt-2" v-if="!isCurrentUser">
@@ -168,6 +170,47 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal para "Siguiendo" -->
+      <div class="modal fade" id="followingModal" tabindex="-1" style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document" style="max-width: 400px; max-height: 400px">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title">Siguiendo</h6>
+              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body fs-sm">
+              <div class="row">
+                <div class="col-12">
+                  <ul class="list-unstyled mb-0">
+                    <li v-for="user in follows.following_list" :key="user.id" class="mb-2">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <a :href="`/profile/${user.username}`" class="nav-link-style d-flex align-items-center">
+                            <img :src="user.profile_picture || 'https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media'"
+                              alt="" width="50" height="50" class="rounded-circle me-2" />
+                            <div class="d-flex flex-column">
+                              <span>@{{ user.username }}</span>
+                              <span class="text-muted">{{ user.name }}</span>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <!-- Se muestra el botón solo si el usuario no es el actual -->
+                          <button v-if="user.id != currentUserId" class="btn btn-secondary btn-sm"
+                            @click="toggleFollowingFollow(user.id)">
+                            {{ user.isFollowed ? "Dejar de seguir" : "Seguir" }}
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -198,6 +241,7 @@ export default {
         followers: [],
         followers_count: 0,
         following: 0,
+        following_list: [] // nueva propiedad para la lista de usuarios a los que se sigue
       },
       countPosts: 0,
       profileImageFile: null,
@@ -258,6 +302,7 @@ export default {
 
           // Llamamos a fetchFollowers para obtener la lista completa de seguidores
           await this.fetchFollowers();
+          await this.fetchFollowing();
         }
 
         // Cantidad de publicaciones
@@ -302,6 +347,25 @@ export default {
       }
     },
 
+    async fetchFollowing() {
+      try {
+        const token = localStorage.getItem("authToken");
+        const resFollowingList = await apiClient.get(`/follow/following/${this.userData.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(resFollowingList.data); 
+        // Se asume que el endpoint retorna la lista en resFollowingList.data
+        this.follows.following_list = resFollowingList.data || [];
+        // Para cada usuario se marca que ya se sigue
+        for (let user of this.follows.following_list) {
+          user.isFollowed = true;
+        }
+        this.follows.following = this.follows.following_list.length;
+      } catch (error) {
+        console.error("Error al obtener los seguidos:", error.response?.data || error);
+      }
+    },
+
     async toggleFollowerFollow(followerId) {
       const token = localStorage.getItem("authToken");
       // Se localiza el seguidor en la lista
@@ -320,8 +384,36 @@ export default {
           await apiClient.post(`/follow`, { followed_id: followerId }, { headers: { Authorization: `Bearer ${token}` } });
           follower.isFollowed = true;
         }
+        await this.fetchFollowers();
+        await this.fetchFollowing();
       } catch (error) {
         console.error("Error al cambiar el estado de seguimiento:", error);
+      }
+    },
+
+    async toggleFollowingFollow(userId) {
+      const token = localStorage.getItem("authToken");
+      // Se localiza el usuario en la lista de seguidos
+      const user = this.follows.following_list.find(u => u.id === userId);
+      if (!user) return;
+      try {
+        if (user.isFollowed) {
+          // Dejar de seguir
+          await apiClient.delete(`/follow/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            data: { followed_id: userId },
+          });
+          user.isFollowed = false;
+        } else {
+          // Seguir
+          await apiClient.post(`/follow`, { followed_id: userId }, { headers: { Authorization: `Bearer ${token}` } });
+          user.isFollowed = true;
+        }
+        await this.fetchFollowing();
+        await this.fetchFollowers();
+
+      } catch (error) {
+        console.error("Error al cambiar el estado de seguimiento:", error.response?.data || error);
       }
     },
 
@@ -383,6 +475,7 @@ export default {
         }
         // Actualiza la lista de seguidores
         await this.fetchFollowers();
+        await this.fetchFollowing();
       } catch (error) {
         console.error("Error al seguir/dejar de seguir:", error);
       }

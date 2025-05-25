@@ -274,7 +274,7 @@
               <div
                 class="navbar-toolbar d-flex flex-shrink-0 align-items-center"
               >
-                <a class="navbar-tool d-none d-lg-flex" :href="`/profile/${username}`"
+                <a class="navbar-tool d-none d-lg-flex" :href="`/profile/${username}/likes`"
                   ><span class="navbar-tool-tooltip">Favoritos</span>
                   <div class="navbar-tool-icon-box">
                     <i class="navbar-tool-icon ci-heart"></i>

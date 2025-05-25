@@ -44,7 +44,7 @@ const getFollowers = async (userId) => {
   // Obtener la lista de seguidos
   const getFollowing = async (userId)  => {
     const query = `
-      SELECT u.id, u.name, u.profile_picture
+      SELECT u.id, u.name, u.profile_picture, u.username
       FROM follows f
       JOIN users u ON u.id = f.followed_id
       WHERE f.follower_id = $1;
