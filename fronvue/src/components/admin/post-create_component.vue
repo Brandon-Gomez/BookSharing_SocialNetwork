@@ -31,7 +31,7 @@
                 <label for="user">Usuario</label>
                 <select id="user" v-model="postData.user_id" class="form-control form-control-sm" required>
                     <option value="" disabled>Selecciona un usuario</option>
-                    <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+                    <option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }}</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Crear Publicación</button>

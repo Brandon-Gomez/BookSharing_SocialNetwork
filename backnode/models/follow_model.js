@@ -25,17 +25,21 @@ import { db } from "../database/connection_db.js";
   };
 
   // Obtener la lista de seguidores
-  const getFollowers = async (userId) => {
+const getFollowers = async (userId) => {
     const query = `
-    SELECT u.id, u.name, u.profile_picture 
-    FROM follows f
-    JOIN users u ON u.id = f.follower_id
-    WHERE f.followed_id = $1;
-  `;
+        SELECT 
+            u.id, 
+            u.username, 
+            u.name, 
+            u.profile_picture
+        FROM follows f
+        JOIN users u ON u.id = f.follower_id
+        WHERE f.followed_id = $1;
+    `;
     const values = [userId];
     const result = await db.query(query, values);
     return result.rows;
-  };
+};
 
   // Obtener la lista de seguidos
   const getFollowing = async (userId)  => {
