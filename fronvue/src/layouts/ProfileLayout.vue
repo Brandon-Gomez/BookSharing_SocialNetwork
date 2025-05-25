@@ -156,10 +156,10 @@
                         </div>
                         <div class="d-flex align-items-center">
                           <!-- Se muestra el botón solo si el seguidor no es el usuario actual -->
-                          <button v-if="follower.id != currentUserId" class="btn btn-secondary btn-sm"
-                            @click="toggleFollowerFollow(follower.id)">
-                            {{ follower.isFollowed ? "Dejar de seguir" : "Seguir" }}
-                          </button>
+<button v-if="follower.id != currentUserId" class="btn btn-secondary btn-sm"
+  @click="toggleFollowUser(follower.id, follower.isFollowed)">
+  {{ follower.isFollowed ? "Dejar de seguir" : "Seguir" }}
+</button>
                         </div>
                       </div>
                     </li>
@@ -198,7 +198,7 @@
                         <div class="d-flex align-items-center">
                           <!-- Se muestra el botón solo si el usuario no es el actual -->
                           <button v-if="user.id != currentUserId" class="btn btn-secondary btn-sm"
-                            @click="toggleFollowingFollow(user.id)">
+                            @click="toggleFollowUser(user.id, user.isFollowed)">
                             {{ user.isFollowed ? "Dejar de seguir" : "Seguir" }}
                           </button>
                         </div>
@@ -351,70 +351,54 @@ export default {
       try {
         const token = localStorage.getItem("authToken");
         const resFollowingList = await apiClient.get(`/follow/following/${this.userData.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(resFollowingList.data); 
-        // Se asume que el endpoint retorna la lista en resFollowingList.data
         this.follows.following_list = resFollowingList.data || [];
-        // Para cada usuario se marca que ya se sigue
-        for (let user of this.follows.following_list) {
-          user.isFollowed = true;
+        if (this.userData.id.toString() === this.currentUserId) {
+            // Si es el perfil propio, se marca que se sigue a todos.
+            this.follows.following_list.forEach(user => {
+                user.isFollowed = true;
+            });
+        } else {
+            // Si es otro perfil, comprobamos la relación para cada usuario.
+            for (let user of this.follows.following_list) {
+                try {
+                    const resCheck = await apiClient.get(`/follow/check/${user.id}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                        params: { currentUserId: this.currentUserId }
+                    });
+                    user.isFollowed = resCheck.data.isFollowing === true || resCheck.data.isFollowing === 1;
+                } catch (error) {
+                    user.isFollowed = false;
+                }
+            }
         }
         this.follows.following = this.follows.following_list.length;
       } catch (error) {
         console.error("Error al obtener los seguidos:", error.response?.data || error);
       }
     },
-
-    async toggleFollowerFollow(followerId) {
-      const token = localStorage.getItem("authToken");
-      // Se localiza el seguidor en la lista
-      const follower = this.follows.followers.find(f => f.id === followerId);
-      if (!follower) return;
-      try {
-        if (follower.isFollowed) {
-          // Desfollow
-          await apiClient.delete(`/follow/${followerId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-            data: { followed_id: followerId },
-          });
-          follower.isFollowed = false;
-        } else {
-          // Follow
-          await apiClient.post(`/follow`, { followed_id: followerId }, { headers: { Authorization: `Bearer ${token}` } });
-          follower.isFollowed = true;
+   
+    async toggleFollowUser(userId, isFollowed) {
+        const token = localStorage.getItem("authToken");
+        try {
+            if (isFollowed) {
+                const res = await apiClient.delete(`/follow/${userId}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: { followed_id: userId }
+                });
+                console.log(res);
+            } else {
+                await apiClient.post(`/follow`, { followed_id: userId }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            }
+            // Actualiza ambas listas después de la acción
+            await this.fetchFollowers();
+            await this.fetchFollowing();
+        } catch (error) {
+            console.error("Error al cambiar el estado de seguimiento:", error);
         }
-        await this.fetchFollowers();
-        await this.fetchFollowing();
-      } catch (error) {
-        console.error("Error al cambiar el estado de seguimiento:", error);
-      }
-    },
-
-    async toggleFollowingFollow(userId) {
-      const token = localStorage.getItem("authToken");
-      // Se localiza el usuario en la lista de seguidos
-      const user = this.follows.following_list.find(u => u.id === userId);
-      if (!user) return;
-      try {
-        if (user.isFollowed) {
-          // Dejar de seguir
-          await apiClient.delete(`/follow/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-            data: { followed_id: userId },
-          });
-          user.isFollowed = false;
-        } else {
-          // Seguir
-          await apiClient.post(`/follow`, { followed_id: userId }, { headers: { Authorization: `Bearer ${token}` } });
-          user.isFollowed = true;
-        }
-        await this.fetchFollowing();
-        await this.fetchFollowers();
-
-      } catch (error) {
-        console.error("Error al cambiar el estado de seguimiento:", error.response?.data || error);
-      }
     },
 
     getUserImage() {

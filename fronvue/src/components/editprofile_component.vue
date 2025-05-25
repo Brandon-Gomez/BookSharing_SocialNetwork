@@ -91,6 +91,7 @@
                     <input
                       class="form-control form-control-sm"
                       type="password"
+                      autocomplete="current-password"
                       id="dashboard-password"
                       v-model="userForm.password"
                     />

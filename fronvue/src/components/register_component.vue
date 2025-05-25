@@ -36,7 +36,8 @@
                 
                   <div class="mb-3 text-start">
                     <label class="form-label" for="email">Contraseña</label>
-                    <input class="form-control" id="email" type="password" required placeholder="Contraseña" v-model="password">
+                    <input class="form-control" id="email" type="password" required placeholder="Contraseña"
+                    autocomplete="new-password" v-model="password">
                   </div>
                 
                 <div class="form-check mb-3"> 

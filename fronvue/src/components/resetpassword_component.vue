@@ -6,8 +6,12 @@
       </div>
       <form @submit.prevent="resetPassword">
         <div>
-          <input type="password" v-model="newPassword" id="newPassword" class="fadeIn second" placeholder="Nueva Contraseña" required />
-          <input type="password" v-model="confirmPassword" id="confirmPassword" class="fadeIn third" placeholder="Confirmar Contraseña" required />
+          <input type="password" v-model="newPassword" id="newPassword" class="fadeIn second" placeholder="Nueva Contraseña"
+          autocomplete="new-password"
+           required />
+          <input type="password" 
+          autocomplete="new-password"
+          v-model="confirmPassword" id="confirmPassword" class="fadeIn third" placeholder="Confirmar Contraseña" required />
           <input type="submit" class="fadeIn fourth" value="Restablecer Contraseña">
         </div>
       </form>

@@ -11,7 +11,9 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" v-model="userData.password" class="form-control form-control-sm"
+                    <input type="password" 
+                    autocomplete="new-password"
+                    id="password" v-model="userData.password" class="form-control form-control-sm"
                         placeholder="Contraseña" required />
                 </div>
                 <div class="form-group mb-3">

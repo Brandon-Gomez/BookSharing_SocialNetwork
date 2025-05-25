@@ -26,7 +26,9 @@
                 
                   <div class="mb-3 text-start">
                     <label class="form-label" for="email">Contraseña</label>
-                    <input class="form-control" id="email" type="password" placeholder="Contraseña" v-model="loginPassword">
+                    <input class="form-control" id="email" type="password"
+                    autocomplete="current-password"
+                     placeholder="Contraseña" v-model="loginPassword">
                   </div>
                 
                   <button class="btn btn-primary w-100 mb-3">Iniciar sesión</button>

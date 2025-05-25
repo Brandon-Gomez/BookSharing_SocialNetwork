@@ -12,7 +12,7 @@
     <div v-if="posts.length > 0" class="container mb-2 mb-md-4 library-grid py-3">
       <article class="library-item" v-for="post in posts" :key="post.id">
         <div class="card">
-          <like_component :postId="post.id" customClass="btn-wishlist btn-sm position-absolute" :customStyle="{
+            <like_component :postId="post.id.toString()" customClass="btn-wishlist btn-sm position-absolute" :customStyle="{
             top: '0.5rem',
             right: '0.5rem',
             zIndex: 2,

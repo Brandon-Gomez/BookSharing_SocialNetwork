@@ -153,6 +153,7 @@
                   <input
                     class="form-control"
                     type="password"
+                    autoComplete="new-password"
                     id="su-password-confirm"
                     required
                   />
@@ -266,8 +267,7 @@
                     class="list-group-item list-group-item-action"
                     @click="goToProfile(user.username)"
                     style="cursor:pointer"
-                  >
-                    {{ user.username }} ({{ user.name }})
+                  >@{{ user.username }} ({{ user.name }})
                   </li>
                 </ul>
               </div>
@@ -349,8 +349,7 @@
                     :key="user.id"
                     class="list-group-item list-group-item-action"
                     @click="goToProfile(user.username)"
-                  >
-                    {{ user.username }} ({{ user.name }})
+                  >@{{ user.username }} ({{ user.name }})
                   </li>
                 </ul>
                 <ul class="navbar-nav w-100 justify-content-around mt-3">
