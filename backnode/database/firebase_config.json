@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "booksharing-socialnetwork",
+  "private_key_id": "6b6a857ddc306ca67e24acdab6e300f7b0d9af30",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC8UKhEb64zCi7E\nHfAXfzK7DtPyUM2xX996rr/OfA7pOv8VxcBIVxRhTQUnD/aULEYs+mCovcd9UtjN\nH6SD9M3/hrV5AyJaHGBDrJudhHuWALI7PMb57zPxBwIhS2puTuG//nc53WOCANqU\n3Hx85jLWD3Fe1wkpqvg1fUglY/vI9KQj/8dmJ6ZDyxXslUy28ra0Io94eeCfxtB4\nKdGKNMftYWsZGtlFuPxtrLYCinQF/AtI3WAI0QeKR21p8z7sqwijExOheLi7c+q1\nMIl7KK4lB6se9x9pXynYpGlOWnawg6zqCkYZ9vs5yuW5CESL/ofM62bp98hXy1K7\nvIFEQKVBAgMBAAECggEACG2+b6cQBPjPtGIip5U/OrV53GlWy470Ub7AlwgLzXn2\nhjhJAvPi1aK84vgJRq3fS46+r3l5vwJA8e1t+k9avl/T1OFvCC7SSt/O7J32v3Vd\n2jOTibGggYlEGc67qh7zERoyppm3enoko8UP+Acq/1RxnpfBW+bAdU8bi5DjaXsg\ns6Ww5AmkTp1FDCufiDhEkra6cfL/dH/OJ8OGH6td1/vsGtJBomS+Jr92UM7PKmCs\nUS5ypUCIozE4tmlVQsvbcSmZUPtuTjlB7gPmZ8e76IO/slNVIF2tACd4dZauV9FL\nJIDZG23oo/eIASfJiT2p5euWKqEDMMF2Ems6U/bygQKBgQDiUoIt5XRIR5+A24Bj\ngdVWGz5nZg4e1k/gfGuODdfeOEDS6cGXYpKv2R7H5q/vBYTOrF1WMYTCE1dOkW9f\ns0l9etR44IHz1chl0wecznG6UzAnvB+SUokIS0/4q/P2ScdegfiMfNYjzlQ+YQrm\n7AjWxdWhUXiMJogU1APjSqMcYwKBgQDVAkVZWhRiYm7A7S7i0jkeeaZ/wEI1fw5x\npmshscKZW1+KGSZd38ziYn5cZeEJyRc7++jlrZhTGmIMfgnVyZMJFwxaECRyInMv\niTb3wdKOy1r8VvD3WwOCjlYD+YPykZbPwy7Kse1JSt3e59VVn1TV84XSjSo/S9pi\nVmLKuqrvCwKBgQC5jVHjlSLP+8C+4beSXajtzqpMFbTv/V9BumBn99uK+m3TPgkV\nN6DyAT2mQPDvM4Qd+d0QRMsGXtsOtFguiwxujxzR+acxpY2GRg0Qt4UwcPGjMi5k\nRbzJiw2G4FvFCdomFsMTU2oxswEIn4FTsCLTCyHJ/8SoixK4mNaTK+cs5wKBgQCo\nuLbDssVotL0zlevIgGn8CLHoiRook66WORKsysfwf17q3Ub1npsESq36dDxPavg7\nbCsrGlkIomI9sOwLajJMRfRjtluYCE+ivJZMozssHknAjQErfO0H0cSyO0bXsZh6\nkwkSRuNEZcfek1X5D068dbtvbp+jKWse73wrRra0xwKBgD5X4uZrWizEbZmUvpSK\noDAEyQiJOfYitGkQmj9hnCzc7oYBo2jHAf7cwQ2Zljusaahw5N7DI5MWNw4xnT8P\nRr0ZTCry3w+L2/fS3Bt1OfOnC1oislrGqGBKVEDqQenPymy5VPlYi/g5HqTCeZge\nKoVq1RXcEf/tsamJDCpkhnNJ\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-szzgu@booksharing-socialnetwork.iam.gserviceaccount.com",
+  "client_id": "113244637375301862160",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-szzgu%40booksharing-socialnetwork.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
