@@ -196,31 +196,28 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 
-                <i class="ci ci-home mr-1 "></i>
+                <i class="ci-home mr-1 "></i>
                 Inicio</a>
             </li>
            
              <li class="nav-item">
               <a class="nav-link" :href="`/profile/${username}`">
-                  <i class="ci ci-user mr-1 "></i>
+                  <i class="ci-user mr-1 "></i>
                 Mi Perfil</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" :href="`/profile/${username}/likes`">
-                 <i class="ci ci-heart mr-1 "></i>
+                 <i class="ci-heart mr-1 "></i>
                 Favoritos</a>
             </li>
              <li class="nav-item">
               <a class="nav-link" href="/category/15">
                 
-                <i class="ci ci-menu mr-1 "></i>
+                <i class="align-middle ci-menu mr-1 "></i>
                 Categorias</a>
             </li>
-           
-            <li class="nav-item">
-              
-              <a type="button" class="nav-link" @click="logout()"
-                >
+            <li class="nav-item border-top">
+              <a type="button" class="nav-link" @click="logout()">
                 <i class="ci-sign-out mr-1 "></i>
                 Cerrar sesión</a 
               >
@@ -358,18 +355,28 @@
                 </ul>
                 <ul class="navbar-nav w-100 justify-content-around mt-3">
                   <li class="nav-item">
-                    <a class="nav-link" href="/">Inicio</a>
+                    <a class="nav-link d-flex align-items-center" href="/" style="gap: 8px;">
+                      <i class="ci ci-home"></i>
+                      <span>Inicio</span>
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/category/15">Categorías</a>
+                    <a class="nav-link d-flex align-items-center" :href="`/profile/${username}`" style="gap: 8px;">
+                      <i class="ci ci-user"></i>
+                      <span>Mi Perfil</span>
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/likes">Favoritos</a>
+                    <a class="nav-link d-flex align-items-center" :href="`/profile/${username}/likes`" style="gap: 8px;">
+                      <i class="ci ci-heart"></i>
+                      <span>Favoritos</span>
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" :href="`/profile/${username}`"
-                      >Mi Perfil</a
-                    >
+                    <a class="nav-link d-flex align-items-center" href="/category/15" style="gap: 8px;">
+                      <i class="ci ci-menu"></i>
+                      <span>Categorías</span>
+                    </a>
                   </li>
                 </ul>
               </div>

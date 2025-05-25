@@ -3,7 +3,7 @@
     <!-- Toolbar-->
     <div class="container d-flex justify-content-between align-items-center mb-4">
       <h2 class="h3 mb-0">Publicaciones</h2>
-      <button class="btn btn-success btn-sm d-none d-lg-block" @click="$router.push(`/profile/${userData.username}/create-post`)">
+      <button v-if="isCurrentUser" class="btn btn-success btn-sm d-none d-lg-block" @click="$router.push(`/profile/${userData.username}/create-post`)">
         Crear publicación
       </button>
     </div>
@@ -68,7 +68,7 @@
       <div class="container text-center">
         <p class=" mt-4">No hay publicaciones para mostrar.</p>
 
-       <button class="btn btn-success btn-sm" @click="$router.push(`/profile/${userData.username}/create-post`)">
+       <button class="btn btn-success btn-sm d-lg-none" @click="$router.push(`/profile/${userData.username}/create-post`)">
         Crear publicación
       </button>
       </div>

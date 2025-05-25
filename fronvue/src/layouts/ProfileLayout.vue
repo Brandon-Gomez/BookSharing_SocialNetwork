@@ -226,7 +226,6 @@ export default {
           },
         });
         let user = response.data.user;
-        // Formatea la fecha para el input date
         if (user.birthdate) {
           user.birthdate = user.birthdate.split("T")[0];
         }
@@ -255,6 +254,19 @@ export default {
             }
           );
           this.follows.following = resFollowing.data.followingCount || 0;
+
+          // <-- AGREGA ESTA PARTE -->
+          // Consultar si el usuario autenticado ya sigue a este perfil
+          if (!this.isCurrentUser) {
+            const resIsFollowing = await apiClient.get(
+              `/follow/check/${user.id}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            this.follows.isFollowing = resIsFollowing.data.isFollowing;
+          }
+          // <--------------------->
         }
         // cantidad de publicaciones
         const res = await apiClient.get(`/posts/count/${user.id}`);
@@ -300,6 +312,36 @@ export default {
           alert("Error al eliminar la publicación");
           console.error(error);
         }
+      }
+    },
+    async toggleFollow() {
+      try {
+        const token = localStorage.getItem("authToken");
+        const userId = this.userData.id;
+        const action = this.follows.isFollowing ? "unfollow" : "follow";
+      
+        if (action === "follow") {
+          await apiClient.post(
+            `/follow`,
+            { followed_id: userId },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          this.follows.isFollowing = true;
+          this.follows.followers += 1;
+        } else {
+          await apiClient.delete(`/follow/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            data: { followed_id: userId }, // algunos clientes requieren esto, pero tu backend solo usa el param
+          });
+          this.follows.isFollowing = false;
+          this.follows.followers -= 1;
+        }
+      } catch (error) {
+        console.error("Error al seguir/dejar de seguir:", error);
       }
     },
   },
