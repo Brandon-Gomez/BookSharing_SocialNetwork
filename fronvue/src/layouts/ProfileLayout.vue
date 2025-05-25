@@ -143,19 +143,20 @@
                     <li v-for="follower in follows.followers" :key="follower.id" class="mb-2">
                       <div class="d-flex justify-content-between">
                         <div>
-                            <a :href="`/profile/${follower.username}`"
-                            class="nav-link-style d-flex align-items-center">
-                            <img :src="follower.profile_picture || 'https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media' " alt="" width="50" height="50"
-                              class="rounded-circle me-2" />
+                          <a :href="`/profile/${follower.username}`" class="nav-link-style d-flex align-items-center">
+                            <img :src="follower.profile_picture || 'https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media'"
+                              alt="" width="50" height="50" class="rounded-circle me-2" />
                             <div class="d-flex flex-column">
                               <span>@{{ follower.username }}</span>
                               <span class="text-muted">{{ follower.name }}</span>
                             </div>
-                            </a>
+                          </a>
                         </div>
                         <div class="d-flex align-items-center">
-                          <button v-if="isCurrentUser" class="btn btn-secondary btn-sm" @click="toggleFollow(follower.id)">
-                            {{ follows.isFollowing ? "Eliminar" : "Seguir" }}
+                          <!-- Se muestra el botón solo si el seguidor no es el usuario actual -->
+                          <button v-if="follower.id != currentUserId" class="btn btn-secondary btn-sm"
+                            @click="toggleFollowerFollow(follower.id)">
+                            {{ follower.isFollowed ? "Dejar de seguir" : "Seguir" }}
                           </button>
                         </div>
                       </div>
@@ -176,7 +177,6 @@ import apiClient from "@/services/ApiService";
 import { logoutUser } from "@/services/useAuth.js";
 
 export default {
-  components: {},
   data() {
     return {
       page: 1,
@@ -189,10 +189,10 @@ export default {
         username: "",
         birthdate: "",
         description: "",
-        user_picture: "",
+        profile_picture: "",
       },
+      // se usa para determinar si el perfil mostrado es el del usuario logeado (no es el caso para este listado)
       isCurrentUser: null,
-      publications: 0,
       follows: {
         isFollowing: false,
         followers: [],
@@ -204,6 +204,17 @@ export default {
       profilePhoto: null, // Para la vista previa
       posts: [],
     };
+  },
+
+  computed: {
+    currentUserId() {
+      const userData = localStorage.getItem("userData");
+      if (userData) {
+        // Convertimos el id a string para asegurar la comparación posterior
+        return JSON.parse(userData).id.toString();
+      }
+      return "";
+    },
   },
 
   methods: {
@@ -264,12 +275,53 @@ export default {
         const resFollowers = await apiClient.get(`/follow/followers/${this.userData.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // Aseguramos asignar el array correcto; se asume que el array está en resFollowers.data.data
-        this.follows.followers = (resFollowers.data && resFollowers.data) || [];
-        // Actualizamos el contador de seguidores
+        this.follows.followers = resFollowers.data || [];
         this.follows.followers_count = this.follows.followers.length;
+        // Para cada seguidor se consulta si el usuario logueado ya lo sigue
+        for (let follower of this.follows.followers) {
+          // Si el seguidor es el usuario actual, no se consulta el endpoint
+          if (follower.id.toString() === this.currentUserId) {
+            follower.isFollowed = false;
+            continue;
+          }
+          try {
+            // Se asume que el endpoint /follow/check acepta currentUserId como parámetro
+            const resCheck = await apiClient.get(`/follow/check/${follower.id}`, {
+              headers: { Authorization: `Bearer ${token}` },
+              params: { currentUserId: this.currentUserId }
+            });
+            const followed = resCheck.data.isFollowing === true || resCheck.data.isFollowing === 1;
+            follower.isFollowed = followed;
+          } catch (error) {
+            follower.isFollowed = false;
+
+          }
+        }
       } catch (error) {
         console.error("Error al obtener los seguidores:", error.response?.data || error);
+      }
+    },
+
+    async toggleFollowerFollow(followerId) {
+      const token = localStorage.getItem("authToken");
+      // Se localiza el seguidor en la lista
+      const follower = this.follows.followers.find(f => f.id === followerId);
+      if (!follower) return;
+      try {
+        if (follower.isFollowed) {
+          // Desfollow
+          await apiClient.delete(`/follow/${followerId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            data: { followed_id: followerId },
+          });
+          follower.isFollowed = false;
+        } else {
+          // Follow
+          await apiClient.post(`/follow`, { followed_id: followerId }, { headers: { Authorization: `Bearer ${token}` } });
+          follower.isFollowed = true;
+        }
+      } catch (error) {
+        console.error("Error al cambiar el estado de seguimiento:", error);
       }
     },
 
