@@ -18,6 +18,13 @@
                   <p class="text-700">Crea tu cuenta hoy</p>
                 </div>
                 <form @submit.prevent="registerUser">
+
+                  <!-- nombre completo -->
+                   <div class="mb-3 text-start">
+                    <label class="form-label " for="name">Nombre completo</label>
+                    <input class="form-control" id="name" type="text" placeholder="Brandon Gomez" v-model="name" required>
+                  </div>
+
                   <div class="mb-3 text-start">
                     <label class="form-label" for="name">Nombre de usuario</label>
                     <input class="form-control" id="name" type="text" placeholder="brandon_123" v-model="username" required>
@@ -59,6 +66,7 @@
         username: '',
         password: '',
         terminos: false,
+        name: ''
       };
     },
     methods: {
@@ -68,10 +76,9 @@
             email: this.email,
             username: this.username,
             password: this.password,
-            termsAccepted: this.terminos
+            termsAccepted: this.terminos,
+            name: this.name
           });
-          console.log('Registered:', response.data);
-
           localStorage.setItem('authToken', response.data.token);
           alert("USUARIO REGISTRADO CORRECTAMENTE");
           this.$router.push('/login');

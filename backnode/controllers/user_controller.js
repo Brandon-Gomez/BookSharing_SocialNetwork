@@ -5,7 +5,7 @@ import { postModel } from "../models/post_model.js";
 
 const registerUser = async (req, res) => {
   try {
-    const { username, email, password, termsAccepted } = req.body;
+    const { name, username, email, password, termsAccepted } = req.body;
 
     // Verificar si el usuario aceptó los términos
     if (!termsAccepted) {
@@ -49,6 +49,7 @@ const registerUser = async (req, res) => {
 
     //crear usuario
     const newUser = await userModel.createUser({
+      name: name,
       email,
       password: hashedPassword,
       username,
