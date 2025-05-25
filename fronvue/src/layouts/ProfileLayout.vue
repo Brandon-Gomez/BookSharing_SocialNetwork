@@ -44,6 +44,15 @@
             <div class="text-light fs-6 fw-bold">{{ countPosts }}</div>
             <div class="text-light fs-ms opacity-60 py-1">Publicaciones</div>
           </div>
+
+          <div class="text-center">
+            <div class="text-light fs-6 fw-bold">{{ follows.followers_count }}</div>
+            <div class="text-light fs-ms opacity-60 py-1">Seguidores</div>
+          </div>
+          <div class="text-center">
+            <div class="text-light fs-6 fw-bold">{{ follows.following }}</div>
+            <div class="text-light fs-ms opacity-60 py-1">Seguidos</div>
+          </div>
         </div>
 
         <!-- seguir usuario buton -->
@@ -58,7 +67,7 @@
       <div class="bg-light shadow-lg rounded-3 overflow-hidden">
         <div class="row">
           <!-- Sidebar-->
-          <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-4">
+          <aside class="col-lg-4 pt-2 pt-lg-0 pe-xl-4">
             <div class="d-block d-lg-none p-4">
               <a class="btn btn-outline-accent d-block" href="#account-menu" data-bs-toggle="collapse"
                 aria-expanded="true"><i class="ci-menu me-2"></i>Menu cuenta</a>
@@ -83,7 +92,7 @@
                       Favoritos
                     </router-link>
                   </li>
-               
+                 
                 </ul>
                 <div v-if="isCurrentUser">
                   <div class="bg-secondary px-4 py-3">
