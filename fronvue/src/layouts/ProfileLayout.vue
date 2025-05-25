@@ -145,7 +145,7 @@
                         <div>
                             <a :href="`/profile/${follower.username}`"
                             class="nav-link-style d-flex align-items-center">
-                            <img :src="follower.profile_picture" alt="" width="50" height="50"
+                            <img :src="follower.profile_picture || 'https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media' " alt="" width="50" height="50"
                               class="rounded-circle me-2" />
                             <div class="d-flex flex-column">
                               <span>@{{ follower.username }}</span>
@@ -154,7 +154,7 @@
                             </a>
                         </div>
                         <div class="d-flex align-items-center">
-                          <button class="btn btn-secondary btn-sm" @click="toggleFollow(follower.id)">
+                          <button v-if="isCurrentUser" class="btn btn-secondary btn-sm" @click="toggleFollow(follower.id)">
                             {{ follows.isFollowing ? "Eliminar" : "Seguir" }}
                           </button>
                         </div>
