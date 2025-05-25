@@ -80,7 +80,7 @@
                             data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" data-bs-html="true"
                             :data-bs-content="`<div class='d-flex align-items-center'><img src='${prevPost.image || 'img/blog/navigation/01.jpg'}' width='60' class='rounded' alt='Post thumb'><div class='ps-3'><h6 class='fs-sm fw-semibold mb-0'>${prevPost.title || ''}</h6><span class='d-block fs-xs text-muted'>by ${prevPost.username || ''}</span></div></div>`"
                             data-bs-original-title="" title="">
-                            <i class="ci-arrow-left me-2"></i><span class="d-none d-sm-inline">Ant</span>
+                            <i class="ci-arrow-left me-2"></i><span class="d-none d-sm-inline">Anterior</span>
                         </a>
                         <a class="entry-navigation-link" v-else disabled style="pointer-events: none; opacity: 0.5;">
                             <i class="ci-arrow-left me-2"></i><span class="d-none d-sm-inline">Ant</span>
@@ -93,7 +93,7 @@
                             data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" data-bs-html="true"
                             :data-bs-content="`<div class='d-flex align-items-center'><img src='${nextPost.image || 'img/blog/navigation/02.jpg'}' width='60' class='rounded' alt='Post thumb'><div class='ps-3'><h6 class='fs-sm fw-semibold mb-0'>${nextPost.title || ''}</h6><span class='d-block fs-xs text-muted'>by ${nextPost.username || ''}</span></div></div>`"
                             data-bs-original-title="" title="">
-                            <span class="d-none d-sm-inline">Sig</span><i class="ci-arrow-right ms-2"></i>
+                            <span class="d-none d-sm-inline">Siguiente</span><i class="ci-arrow-right ms-2"></i>
                         </a>
                         <a class="entry-navigation-link" v-else disabled style="pointer-events: none; opacity: 0.5;">
                             <span class="d-none d-sm-inline">Sig</span><i class="ci-arrow-right ms-2"></i>

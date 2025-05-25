@@ -227,8 +227,8 @@ const incrementPostViews = async (req, res) => {
 
 const getPostsPaginated = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
-  const offset = (page - 1) * limit;
+  const limit = parseInt(req.query.limit, 10) || 6;
+  const offset = (parseInt(req.query.page, 10) - 1) * limit;
   const categoryId = req.query.category_id || null;
 
   try {
@@ -293,7 +293,7 @@ const getPrevPost = async (req, res) => {
   }
 };
 
-export const getPostsByUsername = async (req, res) => {
+const getPostsByUsername = async (req, res) => {
   try {
     const { username } = req.params;
     const page = parseInt(req.query.page) || 1;
@@ -323,6 +323,33 @@ export const getPostsByUsername = async (req, res) => {
   }
 };
 
+const getPostsLikedPaginated = async (req, res) => {
+  const username = req.params.username;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 6;
+  const offset = (page - 1) * limit;
+
+  try {
+    const postsResult = await postModel.getPostsLikedPaginated(username, limit, offset);
+const posts = postsResult.rows;
+const debug = postsResult.debug;
+
+    const totalPosts = await postModel.countPostsLiked(username);
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    res.json({
+      posts,
+      totalPages,
+      totalPosts,
+      page,
+      debug // Esto te mostrará el query y los parámetros en la respuesta
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener publicaciones del usuario" });
+  }
+};
+
 export const postController = {
   createMyPost,
   editPost,
@@ -340,5 +367,6 @@ export const postController = {
   getTop5PostsOfWeek,
   getNextPost,
   getPrevPost,
-  getPostsByUsername
+  getPostsByUsername,
+  getPostsLikedPaginated
 };

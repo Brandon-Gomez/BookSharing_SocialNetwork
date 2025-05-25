@@ -330,6 +330,50 @@ const getPostsByUserPaginated = async (userId, limit, offset) => {
   return result.rows;
 };
 
+// getPostsLikedPaginated
+const getPostsLikedPaginated = async (username, limit, offset) => {
+  const query = `
+    SELECT 
+      posts.*,
+      users.username,
+      categories.name AS category_name,
+      categories.description AS category_description,
+      COALESCE(likes_count.total_likes, 0) AS total_likes
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    JOIN categories ON posts.category_id = categories.id
+    LEFT JOIN (
+      SELECT post_id, COUNT(*) AS total_likes
+      FROM likes
+      GROUP BY post_id
+    ) AS likes_count ON posts.id = likes_count.post_id
+    WHERE posts.id IN (
+      SELECT post_id
+      FROM likes
+      WHERE user_id = (SELECT id FROM users WHERE username = $1)
+    )
+    ORDER BY posts.created_at DESC, posts.id DESC
+    LIMIT $2 OFFSET $3
+  `;
+  // Devuelve también el query y los parámetros
+  const result = await db.query(query, [username, limit, offset]);
+  return { rows: result.rows, debug: { query, params: [username, limit, offset] } };
+};
+
+const countPostsLiked = async (username) => {
+  const query = `
+    SELECT COUNT(*) AS total_posts
+    FROM posts
+    WHERE id IN (
+      SELECT post_id
+      FROM likes
+      WHERE user_id = (SELECT id FROM users WHERE username = $1)
+    );
+  `;
+  const result = await db.query(query, [username]);
+  return result.rows[0].total_posts;
+};
+
 export const postModel = {
   addPost,
   editPost,
@@ -351,5 +395,7 @@ export const postModel = {
   getNextPost,
   getPrevPost,
   countPostsByCategory,
-  getPostsByUserPaginated
+  getPostsByUserPaginated,
+  getPostsLikedPaginated,
+  countPostsLiked
 };

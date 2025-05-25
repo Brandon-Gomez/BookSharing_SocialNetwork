@@ -25,4 +25,6 @@ router.get("/posts/:id/next", verifyToken, postController.getNextPost);
 router.get("/posts/:id/prev", verifyToken, postController.getPrevPost);
 router.get("/profile/:username/posts", verifyToken, postController.getPostsByUsername);
 
+router.get("/posts/user/liked/:username", verifyToken, postController.getPostsLikedPaginated);
+
 export default router;

@@ -9,7 +9,7 @@ import EditProfileView from "../views/editprofile_view.vue";
 import PostView from "../views/post_view.vue";
 import EditPostView from "../views/editpost_view.vue";
 import CreatePostView from "../views/createpost_view.vue";
-import LikeView from "../views/like_view.vue";
+import LikesProfileView from "../views/likesprofile_view.vue";
 import PdfPreviewView from "../views/pdfpreview_view.vue";
 import FollowView from "../views/follow_view.vue";
 import AdminDashboardView from '../views/admin/dashboard_view.vue';
@@ -99,10 +99,9 @@ const userRoutes = [
     meta: { requiresAuth: true, requiresAdmin: false }
   },
   {
-    path: '/likes',
-    name: 'LikeView',
-    component: LikeView,
-    meta: { requiresAuth: true, requiresAdmin: false }
+    path: '/profile/:username/likes',
+    name: 'LikesProfile',
+    component: LikesProfileView,
   },
   {
     path: '/follow',

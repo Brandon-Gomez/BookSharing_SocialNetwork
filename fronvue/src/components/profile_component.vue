@@ -88,7 +88,7 @@
                     </a>
                   </li>
                   <li class="border-bottom mb-0">
-                    <a class="nav-link-style d-flex align-items-center px-4 py-3" href="#">
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3" :href="`/profile/${userData.username}/likes`">
                       <i class="ci-heart opacity-60 me-2"></i>
                       Favoritos
                     </a>
@@ -131,16 +131,17 @@
             <div v-if="posts.length > 0" class="container mb-2 mb-md-4 library-grid py-3">
               <article class="library-item" v-for="post in posts" :key="post.id">
                 <div class="card">
-                  <button class="btn-wishlist btn-sm position-absolute" type="button" data-bs-toggle="tooltip"
-                    data-bs-placement="left" title="Me gusta" style="
-                      top: 0.5rem;
-                      right: 0.5rem;
-                      z-index: 2;
-                      background: rgba(255, 255, 255, 0.7);
-                      border-radius: 50%;
-                    ">
-                    <i class="ci-heart"></i>
-                  </button>
+                   <like_component
+                :postId="post.id "
+                customClass="btn-wishlist btn-sm position-absolute"
+                :customStyle="{
+                  top: '0.5rem',
+                  right: '0.5rem',
+                  zIndex: 2,
+                  background: 'rgba(255, 255, 255, 0.7)',
+                  borderRadius: '50%',
+                }"
+              />
                   <div style="position: relative;">
                     <RouterLink class="blog-entry-thumb" :to="`/posts/${post.id}`">
                       <img class="card-img-top" :src="post.image" alt="Post" />
@@ -204,10 +205,12 @@
 import apiClient from "@/services/ApiService";
 import pagination_component from "./pagination_component.vue";
 import { logoutUser } from '@/services/useAuth.js';
+import like_component from "./like_component.vue";
 
 export default {
   components: {
     pagination_component,
+    like_component,
   },
   data() {
     return {
@@ -358,22 +361,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.library-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.library-item .card {
-  height: 100%;
-  max-width: 250px;
-  margin: 0 auto;
-}
-
-.card-img-top {
-  height: 300px;
-  object-fit: cover;
-}
-</style>
