@@ -102,6 +102,7 @@ export default {
                 formData.append("description", this.postData.description);
                 formData.append("category_id", this.postData.category_id);
                 formData.append("user_id", this.postData.user_id);
+
                 if (this.image) formData.append("images", this.image);
                 if (this.pdf) formData.append("pdf", this.pdf);
 

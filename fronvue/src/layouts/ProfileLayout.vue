@@ -37,7 +37,12 @@
             </div>
             <div class="text-end ml-3">
               <div class="text-light fs-base">{{ follows.followers }}</div>
-              <div class="text-light fs-ms opacity-60 py-1">Seguidores</div>
+              <div class="text-light fs-ms opacity-60 py-1">
+                <a type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#followersModal"
+                  >Seguidores</a>
+              </div>
             </div>
             <div class="text-end ml-3">
               <div class="text-light fs-base">{{ follows.following }}</div>
@@ -45,9 +50,11 @@
             </div>
           </div>
           <div class="text-center mt-2" v-if="!isCurrentUser">
-            <button class="btn btn-secondary btn-sm align-middle"
-              @click="toggleFollow">
-              {{ follows.isFollowing ? 'Dejar de seguir' : 'Seguir' }}
+            <button
+              class="btn btn-secondary btn-sm align-middle"
+              @click="toggleFollow"
+            >
+              {{ follows.isFollowing ? "Dejar de seguir" : "Seguir" }}
             </button>
           </div>
         </div>
@@ -70,13 +77,10 @@
 
         <!-- seguir usuario buton -->
         <div class="d-lg-none">
-          <button
-            class="btn btn-secondary btn-sm"
-            @click="toggleFollow">
-            {{ follows.isFollowing ? 'Dejar de seguir' : 'Seguir' }}
+          <button class="btn btn-secondary btn-sm" @click="toggleFollow">
+            {{ follows.isFollowing ? "Dejar de seguir" : "Seguir" }}
           </button>
         </div>
-
       </div>
     </div>
     <div class="container mb-5 pb-3">
@@ -99,7 +103,6 @@
                   <h3 class="fs-sm mb-0 text-muted">Cuenta</h3>
                 </div>
                 <ul class="list-unstyled mb-0">
-                 
                   <li class="border-bottom mb-0">
                     <router-link
                       :to="`/profile/${userData.username}/`"
@@ -116,11 +119,11 @@
                       class="nav-link-style d-flex align-items-center px-4 py-3"
                       active-class="active"
                     >
-                    <i class="ci-heart opacity-60 me-2"></i>
+                      <i class="ci-heart opacity-60 me-2"></i>
                       Favoritos
                     </router-link>
                   </li>
-                 <li class="border-bottom mb-0">
+                  <li class="border-bottom mb-0">
                     <a
                       class="nav-link-style d-flex align-items-center px-4 py-3"
                     >
@@ -143,13 +146,14 @@
                   </div>
                   <ul class="list-unstyled mb-0">
                     <li class="border-bottom mb-0">
-                        <router-link
+                      <router-link
                         :to="`/profile/${userData.username}/edit-account`"
                         class="nav-link-style d-flex align-items-center px-4 py-3"
-                        active-class="active">
+                        active-class="active"
+                      >
                         <i class="ci-user opacity-60 me-2"></i>
                         Información personal
-                        </router-link>
+                      </router-link>
                     </li>
                     <li class="border-top mb-0">
                       <a
@@ -170,6 +174,83 @@
           <section class="col-lg-8 pt-lg-4 pb-4 mb-3">
             <slot></slot>
           </section>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- Botón para abrir el modal -->
+
+      <!-- Modal -->
+      <div class="modal fade"
+        id="followersModal"
+        tabindex="-1"
+        style="display: none"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-scrollable"
+          role="document"
+          style="max-width: 400px; max-height: 400px"
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title">Seguidores</h6>
+              <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body fs-sm">
+              <div class="row">
+                <div class="col-12">
+                  <ul class="list-unstyled mb-0">
+                    <li
+                      v-for="follower in followers"
+                      :key="follower.id"
+                      class="mb-2"
+                    >
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <router-link
+                            :to="`/profile/${follower.username}`"
+                            class="nav-link-style d-flex align-items-center"
+                            active-class="active"
+                          >
+                            <img
+                              :src="follower.image"
+                              alt=""
+                              width="50"
+                              height="50"
+                              class="rounded-circle me-2"
+                            />
+                            <div class="d-flex flex-column">
+                              <span>@{{ follower.username }}</span>
+                              <span class="text-muted">{{
+                                follower.name
+                              }}</span>
+                            </div>
+                          </router-link>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <button
+                            class="btn btn-secondary btn-sm"
+                            @click="toggleFollow(follower.id)"
+                          >
+                            {{
+                              follows.isFollowing ? "Dejar de seguir" : "Seguir"
+                            }}
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -203,6 +284,127 @@ export default {
         followers: 0,
         following: 0,
       },
+      followers: [
+        {
+          id: 1,
+          name: "Juan Pérez",
+          username: "juanperez",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 2,
+          name: "María López",
+          username: "marialopez",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+        {
+          id: 3,
+          name: "Carlos García",
+          username: "carlosgarcia",
+          image:
+            "https://firebasestorage.googleapis.com/v0/b/booksharing-socialnetwork.appspot.com/o/profile%2Fdefault.jpg?alt=media", // Imagen por defecto
+        },
+      ],
       countPosts: 0,
       profileImageFile: null,
       profilePhoto: null, // Para la vista previa
@@ -219,7 +421,8 @@ export default {
     async fetchUser() {
       try {
         const token = localStorage.getItem("authToken");
-        const username = this.$route.params.username || localStorage.getItem("username");
+        const username =
+          this.$route.params.username || localStorage.getItem("username");
         const response = await apiClient.get(`/profile/${username}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -319,7 +522,7 @@ export default {
         const token = localStorage.getItem("authToken");
         const userId = this.userData.id;
         const action = this.follows.isFollowing ? "unfollow" : "follow";
-      
+
         if (action === "follow") {
           await apiClient.post(
             `/follow`,
