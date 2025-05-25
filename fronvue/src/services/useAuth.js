@@ -8,7 +8,7 @@ const loginUser = async ({ email, password, router }) => {
     localStorage.setItem('authToken', response.data.token);
     localStorage.setItem('isAdmin', is_admin);
     localStorage.setItem('username', username);
-
+    localStorage.setItem('userData', JSON.stringify(response.data.userData));
     if (is_admin) {
       router.push(`/admin/dashboard`).then(() => window.location.reload());
     } else {
@@ -24,6 +24,7 @@ const logoutUser = (router) => {
   localStorage.removeItem('authToken');
   localStorage.removeItem('isAdmin');
   localStorage.removeItem('username');
+  localStorage.removeItem('userData');
   router.push('/').then(() => window.location.reload());
 };
 

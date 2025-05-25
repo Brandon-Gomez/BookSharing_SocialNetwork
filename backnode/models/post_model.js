@@ -75,6 +75,7 @@ const getPostById = async (postId) => {
     SELECT 
       posts.*, 
       users.username,
+      users.profile_picture,
       users.id AS user_id,
       categories.name AS category_name,
       categories.description AS category_description,

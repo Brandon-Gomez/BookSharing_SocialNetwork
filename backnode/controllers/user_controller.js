@@ -104,6 +104,15 @@ const loginUser = async (req, res) => {
       token,
       username: user.username,
       is_admin: user.is_admin,
+      userData: {
+        // id: user.id,
+        // email: user.email,
+        // username: user.username,
+        // name: user.name,
+        // birthdate: user.birthdate,
+        // description: user.description,
+        profile_picture: user.profile_picture,
+      },
     });
   } catch (error) {
     console.log(error);

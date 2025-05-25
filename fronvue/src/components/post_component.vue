@@ -215,6 +215,10 @@ export default {
             error: null,
             nextPost: null,
             prevPost: null,
+            userData: {
+                profile_picture: "",
+            },
+
         };
     },
     async beforeMount() {
@@ -235,6 +239,7 @@ export default {
                     },
                 }
             );
+            console.log(response.data);
 
             // formatea en español 2025-05-19T16:53:10.117Z a una fecha legible
             const date = new Date(response.data.created_at);
@@ -242,7 +247,6 @@ export default {
             const formattedDate = date.toLocaleDateString("es-ES", options);
             this.post = response.data;
             this.post.created_at = formattedDate;
-            // this.loading = false;
         } catch (err) {
             this.$router.push("/");
         }
