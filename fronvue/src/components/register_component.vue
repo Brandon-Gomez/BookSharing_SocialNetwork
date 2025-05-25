@@ -76,7 +76,7 @@
           alert("USUARIO REGISTRADO CORRECTAMENTE");
           this.$router.push('/login');
         } catch (error) {
-          console.error('Error en el registro:', error.response.data);
+          console.error('Error en el registro:', error.response);
         }
       }
     }

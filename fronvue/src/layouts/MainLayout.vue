@@ -194,20 +194,35 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav w-100 justify-content-around">
             <li class="nav-item">
-              <a class="nav-link" href="/">Inicio</a>
+              <a class="nav-link" href="/">
+                
+                <i class="ci ci-home mr-1 "></i>
+                Inicio</a>
+            </li>
+           
+             <li class="nav-item">
+              <a class="nav-link" :href="`/profile/${username}`">
+                  <i class="ci ci-user mr-1 "></i>
+                Mi Perfil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/category/15">Categorias</a>
+              <a class="nav-link" :href="`/profile/${username}/likes`">
+                 <i class="ci ci-heart mr-1 "></i>
+                Favoritos</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/likes">Favoritos</a>
+             <li class="nav-item">
+              <a class="nav-link" href="/category/15">
+                
+                <i class="ci ci-menu mr-1 "></i>
+                Categorias</a>
             </li>
+           
             <li class="nav-item">
-              <a class="nav-link" :href="`/profile/${username}`">Mi Perfil</a>
-            </li>
-            <li class="nav-item">
+              
               <a type="button" class="nav-link" @click="logout()"
-                >Cerrar sesión</a
+                >
+                <i class="ci-sign-out mr-1 "></i>
+                Cerrar sesión</a 
               >
             </li>
           </ul>
@@ -262,7 +277,7 @@
               <div
                 class="navbar-toolbar d-flex flex-shrink-0 align-items-center"
               >
-                <a class="navbar-tool d-none d-lg-flex" href="#"
+                <a class="navbar-tool d-none d-lg-flex" :href="`/profile/${username}`"
                   ><span class="navbar-tool-tooltip">Favoritos</span>
                   <div class="navbar-tool-icon-box">
                     <i class="navbar-tool-icon ci-heart"></i>
@@ -460,7 +475,7 @@
     <!-- Toolbar for handheld devices (Default)-->
     <div class="handheld-toolbar">
       <div class="d-table table-layout-fixed w-100">
-        <a class="d-table-cell handheld-toolbar-item" href="#"
+        <a class="d-table-cell handheld-toolbar-item" :href="`/profile/${username}/likes`"
           ><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span
           ><span class="handheld-toolbar-label">Favoritos</span></a
         ><a

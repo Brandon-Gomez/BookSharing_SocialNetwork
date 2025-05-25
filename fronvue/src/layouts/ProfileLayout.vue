@@ -29,30 +29,26 @@
           </div>
         </div>
         <!-- Desktop version -->
-        <div class="d-none d-sm-flex">
-          <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">
-              {{ countPosts
-              }}<span class="text-light fs-ms opacity-60 py-1 ml-2"
-                >Publicaciones</span
-              >
+        <div class="d-none d-sm-flex flex-column align-items-end">
+          <div class="d-flex">
+            <div class="text-end">
+              <div class="text-light fs-base">{{ countPosts }}</div>
+              <div class="text-light fs-ms opacity-60 py-1">Publicaciones</div>
+            </div>
+            <div class="text-end ml-3">
+              <div class="text-light fs-base">{{ follows.followers }}</div>
+              <div class="text-light fs-ms opacity-60 py-1">Seguidores</div>
+            </div>
+            <div class="text-end ml-3">
+              <div class="text-light fs-base">{{ follows.following }}</div>
+              <div class="text-light fs-ms opacity-60 py-1">Siguiendo</div>
             </div>
           </div>
-          <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">
-              {{ follows.followers
-              }}<span class="text-light fs-ms opacity-60 py-1 ml-2"
-                >Seguidores</span
-              >
-            </div>
-          </div>
-          <div class="text-sm-end me-2">
-            <div class="text-light fs-base mr-2">
-              {{ follows.following
-              }}<span class="text-light fs-ms opacity-60 py-1 ml-2"
-                >Siguiendo</span
-              >
-            </div>
+          <div class="text-center mt-2" v-if="!isCurrentUser">
+            <button class="btn btn-secondary btn-sm align-middle"
+              @click="toggleFollow">
+              {{ follows.isFollowing ? 'Dejar de seguir' : 'Seguir' }}
+            </button>
           </div>
         </div>
         <!-- Mobile version -->
@@ -71,6 +67,16 @@
             <div class="text-light fs-ms opacity-60 py-1">Seguidos</div>
           </div>
         </div>
+
+        <!-- seguir usuario buton -->
+        <div class="d-lg-none">
+          <button
+            class="btn btn-secondary btn-sm"
+            @click="toggleFollow">
+            {{ follows.isFollowing ? 'Dejar de seguir' : 'Seguir' }}
+          </button>
+        </div>
+
       </div>
     </div>
     <div class="container mb-5 pb-3">
@@ -84,31 +90,16 @@
                 href="#account-menu"
                 data-bs-toggle="collapse"
                 aria-expanded="true"
-                ><i class="ci-menu me-2"></i>Menu de cuenta</a
+                ><i class="ci-menu me-2"></i>Menu cuenta</a
               >
             </div>
-            <div class="bg-white rounded-3 shadow-lg pt-1 mb-lg-0">
+            <div class="bg-white rounded-3 shadow-lg pt-1 mb-lg-0 mb-4">
               <div class="d-lg-block collapse" id="account-menu">
                 <div class="bg-secondary px-4 py-3">
                   <h3 class="fs-sm mb-0 text-muted">Cuenta</h3>
                 </div>
                 <ul class="list-unstyled mb-0">
-                  <li class="border-bottom mb-0">
-                    <a
-                      class="nav-link-style d-flex align-items-center px-4 py-3"
-                    >
-                      <i class="ci-user-circle opacity-60 me-2"></i>
-                      Seguidores
-                    </a>
-                  </li>
-                  <li class="border-bottom mb-0">
-                    <a
-                      class="nav-link-style d-flex align-items-center px-4 py-3"
-                    >
-                      <i class="ci-user-circle opacity-60 me-2"></i>
-                      Seguidos
-                    </a>
-                  </li>
+                 
                   <li class="border-bottom mb-0">
                     <router-link
                       :to="`/profile/${userData.username}/`"
@@ -129,7 +120,22 @@
                       Favoritos
                     </router-link>
                   </li>
-                
+                 <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                    >
+                      <i class="ci-user-circle opacity-60 me-2"></i>
+                      Seguidores
+                    </a>
+                  </li>
+                  <li class="border-bottom mb-0">
+                    <a
+                      class="nav-link-style d-flex align-items-center px-4 py-3"
+                    >
+                      <i class="ci-user-circle opacity-60 me-2"></i>
+                      Seguidos
+                    </a>
+                  </li>
                 </ul>
                 <div v-if="isCurrentUser">
                   <div class="bg-secondary px-4 py-3">

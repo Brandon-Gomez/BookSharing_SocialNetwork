@@ -15,12 +15,12 @@ const registerUser = async (req, res) => {
     }
 
     //verificar condiciones de la contraseña
-    const isValidPassword = userModel.validatePassword(password);
-    if (!isValidPassword) {
-      return res
-        .status(400)
-        .json({ error: "PASSWORD DOES NOT MEET REQUIREMENTS" });
-    }
+    // const isValidPassword = userModel.validatePassword(password);
+    // if (!isValidPassword) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "PASSWORD DOES NOT MEET REQUIREMENTS" });
+    // }
 
     //verificar si hay campos incompletos
     if (!username || !password || !email) {
