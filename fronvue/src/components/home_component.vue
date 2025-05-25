@@ -29,22 +29,7 @@
                   borderRadius: '50%',
                 }"
               />
-              <!-- <button
-                class="btn-wishlist btn-sm position-absolute"
-                type="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="left"
-                title="Me gusta"
-                style="
-                  top: 0.5rem;
-                  right: 0.5rem;
-                  z-index: 2;
-                  background: rgba(255, 255, 255, 0.7);
-                  border-radius: 50%;
-                "
-              >
-                <i class="ci-heart"></i>
-              </button> -->
+            
               <RouterLink
                 class="blog-entry-thumb"
                 :to="`posts/${post.post_id}`"
