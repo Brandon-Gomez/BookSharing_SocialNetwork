@@ -131,7 +131,7 @@ export default {
     },
   },
 
-  mounted() {
+  beforeMount() {
     this.getPostsPaginated();
   },
 };
