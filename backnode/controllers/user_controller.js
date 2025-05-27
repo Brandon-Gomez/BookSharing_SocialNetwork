@@ -464,7 +464,9 @@ const updateProfileById = async (req, res) => {
     } else {
       const user = await userModel.getUserById(id);
       if (!user) {
-        return res.status(404).json({ ok: false, msg: "Usuario no encontrado" });
+        return res
+          .status(404)
+          .json({ ok: false, msg: "Usuario no encontrado" });
       }
       hashedPassword = user.password;
     }
@@ -517,6 +519,54 @@ const getUsersPaginated = async (req, res) => {
   }
 };
 
+// Google Authentication create user if not exists
+const googleAuth = async (req, res) => {
+
+  const { email, name, imageUrl } = req.body;
+
+  try {
+    // Verificar si el usuario ya existe
+    let user = await userModel.findUserByEmail(email);
+    if (!user) {
+      // Si no existe, crear un nuevo usuario
+      user = await userModel.createUser({
+        email,
+        password: null, // No se requiere contraseña para usuarios de Google
+        username: email.split("@")[0], // Usar la parte del correo antes del '@' como username,
+        termsAccepted: true, // Asumimos que aceptó los términos al registrarse con Google
+        name,
+        is_google_user : true, // Marcar como usuario de Google
+        profile_picture : imageUrl,
+      });
+    }
+
+    // Crear token JWT
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRATION }
+    );
+
+    return res.status(200).json({
+      ok: true,
+      msg: "USUARIO AUTENTICADO CON GOOGLE",
+      token,
+      username: user.username,
+      userData: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        name: user.name,
+        profile_picture: user.profile_picture,
+      },
+      is_admin: user.is_admin,
+    });
+  } catch (error) {
+    console.error("Error en Google Auth:", error);
+    return res.status(500).json({ ok: false, msg: "ERROR SERVER GOOGLE AUTH", error: error.message });
+  }
+};
+
 export const userController = {
   registerUser,
   loginUser,
@@ -533,4 +583,5 @@ export const userController = {
   getUserById,
   updateUserById,
   getUsersPaginated,
+  googleAuth,
 };

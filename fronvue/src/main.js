@@ -7,14 +7,12 @@ import BootstrapVue3 from 'bootstrap-vue-3'
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import 'font-awesome/css/font-awesome.css';
-import GoogleSignInPlugin from "vue3-google-signin"
-
+import vue3GoogleLogin from 'vue3-google-login'
 
 // import { initializeApp } from 'firebase/app';
 // import firebaseConfig from './config/firebase_config';
-App.use(GoogleSignInPlugin, {
-  clientId: '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',
-});
 
-createApp(App).use(router).use(BootstrapVue3).mount('#app')
+createApp(App).use(router).use(BootstrapVue3).use(vue3GoogleLogin, {
+  clientId: '689183023842-2okkdh88brksrmsvjm9s0fnc6v7s05ld.apps.googleusercontent.com',
+}).mount('#app')
 // initializeApp(firebaseConfig.firebaseConfig);

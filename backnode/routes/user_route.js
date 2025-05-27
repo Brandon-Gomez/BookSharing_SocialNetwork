@@ -5,6 +5,7 @@ import { userModel } from "../models/user_model.js"; // Asegúrate de importar e
 
 const router = Router()
 
+router.post('/googleAuth', userController.googleAuth);
 router.post('/register', userController.registerUser)
 router.post('/login', userController.loginUser)
 // router.post('/logout', userController.logoutUser)

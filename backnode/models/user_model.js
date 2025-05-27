@@ -3,14 +3,14 @@
 import { db } from "../database/connection_db.js";
 import bcryptjs from "bcryptjs";
 
-const createUser = async ({email, password, username, termsAccepted, name }) => {
+const createUser = async ({email, password = "", username, termsAccepted, name, is_google_user = false, profile_picture = ""}) => {
   const query = {
     text: `
-        INSERT INTO users (email, password, username, terms_accepted, name)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO users (email, password, username, terms_accepted, name, is_google_user, profile_picture)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING email, username, id
         `,
-    values: [email, password, username, termsAccepted, name,],
+    values: [email, password, username, termsAccepted, name, is_google_user, profile_picture],
   };
 
   const { rows } = await db.query(query);
