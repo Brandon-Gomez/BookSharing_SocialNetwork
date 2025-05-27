@@ -5,7 +5,7 @@
         class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center pt-2">
         <div class="d-flex align-items-center pb-3">
           <div class="rounded-circle position-relative flex-shrink-0" style="width: 6.375rem">
-            <img class="rounded-circle" :src="getUserImage()" :alt="userData.name" />
+            <img class="rounded-circle" :src="getUserImage()" :alt="userData.name" referrerpolicy="no-referrer"/>
           </div>
           <div class="ps-3">
             <h3 class="text-light fs-lg mb-0">{{ userData.name }}</h3>
@@ -310,7 +310,7 @@ export default {
         this.countPosts = res.data.post_count;
       } catch (error) {
         console.error("Error al obtener el usuario:", error.response?.data || error);
-        alert("Error al obtener los datos del usuario.");
+        this.$router.push("/");
       }
     },
 
