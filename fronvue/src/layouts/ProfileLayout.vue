@@ -156,10 +156,10 @@
                         </div>
                         <div class="d-flex align-items-center">
                           <!-- Se muestra el botón solo si el seguidor no es el usuario actual -->
-<button v-if="follower.id != currentUserId" class="btn btn-secondary btn-sm"
-  @click="toggleFollowUser(follower.id, follower.isFollowed)">
-  {{ follower.isFollowed ? "Dejar de seguir" : "Seguir" }}
-</button>
+                        <button v-if="follower.id != currentUserId" class="btn btn-secondary btn-sm"
+                          @click="toggleFollowUser(follower.id, follower.isFollowed)">
+                          {{ follower.isFollowed ? "Dejar de seguir" : "Seguir" }}
+                        </button>
                         </div>
                       </div>
                     </li>
@@ -222,10 +222,6 @@ import { logoutUser } from "@/services/useAuth.js";
 export default {
   data() {
     return {
-      page: 1,
-      totalPages: 0,
-      postsPerPage: 6,
-
       userData: {
         id: "",
         name: "",
@@ -262,10 +258,6 @@ export default {
   },
 
   methods: {
-    onPageChange(n) {
-      this.page = n;
-      this.fetchPosts();
-    },
 
     async fetchUser() {
       try {
@@ -412,26 +404,7 @@ export default {
     goToEditProfile() {
       this.$router.push(`/profile/${this.userData.username}/edit-account`);
     },
-    editPost(post) {
-      // Redirige a la vista de edición del post del usuario
-      this.$router.push(`/posts/${post.id}/edit-post`);
-    },
-    async deletePost(post) {
-      if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
-        try {
-          const token = localStorage.getItem("authToken");
-          await apiClient.delete(`/posts/${post.id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          // Recarga las publicaciones después de eliminar
-          this.fetchPosts();
-          alert("Publicación eliminada correctamente");
-        } catch (error) {
-          alert("Error al eliminar la publicación");
-          console.error(error);
-        }
-      }
-    },
+
     async toggleFollow() {
       try {
         const token = localStorage.getItem("authToken");
