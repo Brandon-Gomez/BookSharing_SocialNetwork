@@ -175,7 +175,7 @@ export default {
           "Error al obtener el usuario:",
           error.response?.data || error
         );
-        alert("Error al obtener los datos del usuario.");
+        // alert("Error al obtener los datos del usuario.");
       }
     },
 
@@ -235,8 +235,10 @@ export default {
     },
   },
 
-  mounted() {
-    this.fetchUser(), this.fetchPosts();
+  async mounted() {
+    this.fetchUser(); 
+    this.fetchPosts();
   },
+
 };
 </script>

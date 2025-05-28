@@ -401,9 +401,7 @@ export default {
       }
     },
     goToProfile(username) {
-      this.$router.push(`/profile/${username}`);
-      this.users = [];
-      this.searchQuery = "";
+      window.location.href = `/profile/${username}`;
     },
     handleClickOutside(event) {
       const container = this.$refs.searchContainer;
