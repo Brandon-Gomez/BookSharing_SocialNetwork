@@ -275,7 +275,6 @@ export default {
           headers: { Authorization: `Bearer ${token}` },
         });
         let user = response.data.user;
-
         if (user.birthdate) {
           user.birthdate = user.birthdate.split("T")[0];
         }

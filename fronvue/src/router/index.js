@@ -24,9 +24,8 @@ import AdminPostCreateView from '../views/admin/post-create_view.vue';
 import AdminPostEditView from '../views/admin/post-edit_view.vue';
 import AdminCategoriesList from '../views/admin/categories-list_view.vue';
 
-
-// Rutas para visitantes (no autenticados)
-const visitorRoutes = [
+const routes = [
+  // Rutas para visitantes (no autenticados)
   {
     path: '/login',
     name: 'Login',
@@ -50,11 +49,9 @@ const visitorRoutes = [
     name: 'ResetPassword',
     component: ResetPassword,
     meta: { requiresAuth: false, requiresAdmin: false, onlyVisitor: true }
-  }
-];
+  },
 
-// Rutas para usuarios autenticados (no admin)
-const userRoutes = [
+  // Rutas para usuarios autenticados (no admin)
   {
     path: '/',
     name: 'Home',
@@ -67,7 +64,7 @@ const userRoutes = [
     props: true
   },
   {
-    path : '/profile/:username/create-post',
+    path: '/profile/:username/create-post',
     name: 'CreatePost',
     component: CreatePostView,
     props: true,
@@ -111,15 +108,12 @@ const userRoutes = [
     props: true
   },
   {
-    path : '/categories',
+    path: '/categories',
     name: 'CategoriesView',
     component: CategoriesView,
-  }
+  },
 
-];
-
-// Rutas para administradores
-const adminRoutes = [
+  // Rutas para administradores
   {
     path: '/admin/dashboard',
     name: 'AdminDashboard',
@@ -141,7 +135,6 @@ const adminRoutes = [
     component: AdminUserEditView,
     props: true
   },
-  // post
   {
     path: '/admin/posts-list',
     name: 'AdminPostsList',
@@ -159,22 +152,17 @@ const adminRoutes = [
     props: true
   },
   {
-  path: '/admin/categories-list',
-  name: 'AdminCategoriesList',
-  component: AdminCategoriesList
-}
-];
+    path: '/admin/categories-list',
+    name: 'AdminCategoriesList',
+    component: AdminCategoriesList,
+  },
 
-// Unimos todas las rutas
-const routes = [
-  ...visitorRoutes,
-  ...userRoutes,
-  ...adminRoutes,
   // Redirección por defecto
-  { path: '/:pathMatch(.*)*', 
+  { 
+    path: '/:pathMatch(.*)*', 
     name: 'Page404',
     component: Page404,
-   }
+  }
 ];
 
 const router = createRouter({
