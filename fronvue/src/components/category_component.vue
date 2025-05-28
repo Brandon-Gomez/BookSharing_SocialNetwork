@@ -6,7 +6,7 @@
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <BreadCrumbComponent :items="[
                         { label: 'Inicio', to: '/' },
-                        { label: 'Categorías', to: '/category/' + category?.id },
+                        { label: 'Categorías', to: '/categories' },
                         { label: category?.name || 'Categoría' }
                     ]" theme="breadcrumb-light" />
                 </div>
@@ -41,15 +41,23 @@
                     </div>
                 </aside>
                 <!-- Content  -->
-                <section class="col-lg-8">
+                <section  class="col-lg-8">
                     <!-- Nuevo grid de artículos -->
-                    <div class="library-grid">
+                    <div v-if="posts.length > 0"  class="library-grid">
                         <article class="library-item" v-for="(post) in posts" :key="post.post_id">
                             <div class="card">
-                                <button data-v-336ea70c="" class="btn-wishlist btn-sm position-absolute" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="left" title="Añadir a favoritos"
-                                    style="top: 0.5rem; right: 0.5rem; z-index: 2; background: rgba(255, 255, 255, 0.7); border-radius: 50%;"><i
-                                        data-v-336ea70c="" class="ci-heart"></i></button>
+
+                               <LikeComponent :postId="post.post_id "
+                                customClass="btn-wishlist btn-sm position-absolute"
+                                :customStyle="{
+                                top: '0.5rem',
+                                right: '0.5rem',
+                                zIndex: 2,
+                                background: 'rgba(255, 255, 255, 0.7)',
+                                borderRadius: '50%',
+                                }"
+                                />
+                               
                                 <RouterLink class="blog-entry-thumb" :to="`posts/${post.post_id}`">
                                     <img
                                         class="card-img-top"
@@ -83,13 +91,16 @@
                                 </div>
                             </div>
                         </article>
-                    </div>
 
-                    <hr class="my-3" />
+                    </div>
+                    <div v-else class="text-center ">
+                        <p class="fs-lg text-light ">No hay publicaciones en esta categoría.</p>
+                    </div>
                     <!-- Pagination-->
                     <pagination-component v-if="totalPages > 1" v-model="page" :totalPages="totalPages"
                         @update:modelValue="onPageChange" />
                 </section>
+               
             </div>
         </div>
     </div>
@@ -99,9 +110,10 @@
 import apiClient from "@/services/ApiService";
 import PaginationComponent from "@/components/pagination_component.vue";
 import BreadCrumbComponent from "@/components/breadcrumb_component.vue";
+import LikeComponent from "./like_component.vue";
 
 export default {
-    components: { PaginationComponent, BreadCrumbComponent },
+    components: { PaginationComponent, BreadCrumbComponent, LikeComponent },
     data() {
         return {
             category: null,

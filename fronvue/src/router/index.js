@@ -12,6 +12,9 @@ import CreatePostView from "../views/createpost_view.vue";
 import LikesProfileView from "../views/likesprofile_view.vue";
 import PdfPreviewView from "../views/pdfpreview_view.vue";
 import FollowView from "../views/follow_view.vue";
+import CategoryView from '../views/category_view.vue';
+import Page404 from '../views/404_view.vue';
+import CategoriesView from '../views/categories_view.vue';
 import AdminDashboardView from '../views/admin/dashboard_view.vue';
 import AdminUsersListView from '../views/admin/users-list_view.vue';
 import AdminUserCreateView from '../views/admin/user-create_view.vue';
@@ -20,9 +23,7 @@ import AdminPostsListView from '../views/admin/posts-list_view.vue';
 import AdminPostCreateView from '../views/admin/post-create_view.vue';
 import AdminPostEditView from '../views/admin/post-edit_view.vue';
 import AdminCategoriesList from '../views/admin/categories-list_view.vue';
-import CategoryView from '../views/category_view.vue';
 
-import Page404 from '../views/404_view.vue';
 
 // Rutas para visitantes (no autenticados)
 const visitorRoutes = [
@@ -58,13 +59,11 @@ const userRoutes = [
     path: '/',
     name: 'Home',
     component: HomeView,
-    meta: { requiresAuth: true, requiresAdmin: false }
   },
   {
     path: '/profile/:username',
     name: 'Profile',
     component: ProfileView,
-    meta: { requiresAuth: true, requiresAdmin: false },
     props: true
   },
   {
@@ -77,14 +76,12 @@ const userRoutes = [
     path: '/profile/:username/edit-account',
     name: 'EditProfile',
     component: EditProfileView,
-    meta: { requiresAuth: true, requiresAdmin: false },
     props: true
   },
   {
     path: '/posts/:postId',
     name: 'PostView',
     component: PostView,
-    meta: { requiresAuth: true, requiresAdmin: false }
   },
   {
     path: '/posts/:postId/edit-post',
@@ -96,7 +93,6 @@ const userRoutes = [
     path: '/pdf-preview',
     name: 'PdfPreview',
     component: PdfPreviewView,
-    meta: { requiresAuth: true, requiresAdmin: false }
   },
   {
     path: '/profile/:username/likes',
@@ -107,7 +103,6 @@ const userRoutes = [
     path: '/follow',
     name: 'FollowView',
     component: FollowView,
-    meta: { requiresAuth: true, requiresAdmin: false }
   },
   {
     path: '/category/:categoryId',
@@ -115,7 +110,11 @@ const userRoutes = [
     component: CategoryView,
     props: true
   },
-  
+  {
+    path : '/categories',
+    name: 'CategoriesView',
+    component: CategoriesView,
+  }
 
 ];
 
@@ -125,25 +124,21 @@ const adminRoutes = [
     path: '/admin/dashboard',
     name: 'AdminDashboard',
     component: AdminDashboardView,
-    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/users-list',
     name: 'AdminUsersList',
     component: AdminUsersListView,
-    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/user-create',
     name: 'AdminUserCreate',
     component: AdminUserCreateView,
-    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/user-edit/:userId',
     name: 'AdminUserEdit',
     component: AdminUserEditView,
-    meta: { requiresAuth: true, requiresAdmin: true },
     props: true
   },
   // post
@@ -151,19 +146,16 @@ const adminRoutes = [
     path: '/admin/posts-list',
     name: 'AdminPostsList',
     component: AdminPostsListView,
-    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/post-create',
     name: 'AdminPostCreate',
     component: AdminPostCreateView,
-    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/post-edit/:postId',
     name: 'AdminPostEdit',
     component: AdminPostEditView,
-    meta: { requiresAuth: true, requiresAdmin: true },
     props: true
   },
   {
@@ -182,40 +174,12 @@ const routes = [
   { path: '/:pathMatch(.*)*', 
     name: 'Page404',
     component: Page404,
-    meta: { requiresAuth: false, requiresAdmin: false }
    }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
-});
-
-// Aquí puedes mejorar el guard para usar los meta correctamente
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('authToken');
-  console.log('Token:', token);
-  // Aquí puedes decodificar el token y verificar roles si lo necesitas
-
-  // Solo visitantes
-  // if (to.meta.onlyVisitor && token) {
-  //   return next({ name: 'Home' });
-  // }
-
-  // Rutas que requieren autenticación
-  // if (to.meta.requiresAuth && !token) {
-  //   return next({ name: 'Login' });
-  // }
-
-  // Rutas que requieren admin
-  if (to.meta.requiresAdmin) {
-    // Aquí deberías verificar si el usuario es admin (por ejemplo, decodificando el token)
-    // Si no es admin, redirige a Home
-    // Ejemplo:
-    // if (!decoded.isAdmin) return next({ name: 'Home' });
-  }
-
-  next();
 });
 
 export default router;
