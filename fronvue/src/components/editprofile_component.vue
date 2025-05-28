@@ -84,7 +84,7 @@
                     </select>
                   </div>
 
-                  <div class="col-sm-6">
+                  <div class="col-sm-6" v-if="!userForm.is_google_user">
                     <label class="form-label" for="dashboard-password"
                       >Contraseña</label
                     >
@@ -133,7 +133,7 @@ export default {
         username: "",
         password: "",
         gender: "",
-        
+        is_google_user: false,
       },
       originalUsername: "", // <-- Agrega esto
       profilePhoto: null,
@@ -173,7 +173,7 @@ export default {
           description: response.data.user.description || "",
           gender: response.data.user.gender || "",
           profile_picture: response.data.user.profile_picture,
-          
+          is_google_user: response.data.user.is_google_user || false,
         };
         this.originalUsername = response.data.user.username; // <-- Guarda el username original
         this.isCurrentUser = response.data.isCurrentUser;

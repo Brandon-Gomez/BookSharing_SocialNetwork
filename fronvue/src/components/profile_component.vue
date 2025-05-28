@@ -235,8 +235,10 @@ export default {
     },
   },
 
-  mounted() {
-    this.fetchUser(), this.fetchPosts();
+  async mounted() {
+    this.fetchUser(); 
+    this.fetchPosts();
   },
+
 };
 </script>
