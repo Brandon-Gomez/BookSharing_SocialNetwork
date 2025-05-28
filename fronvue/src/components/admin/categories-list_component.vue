@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Categorías</h2>
-            <button class="btn btn-primary " @click="showForm = true; editCategory = null;">Crear Categoría</button>
+            <button class="btn btn-success " @click="showForm = true; editCategory = null;">Crear Categoría</button>
         </div>
         <table class="table table-striped">
             <thead>

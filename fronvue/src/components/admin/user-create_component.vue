@@ -46,7 +46,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                <button type="submit" class="btn btn-success">Crear Usuario</button>
                 <button type="button" class="btn btn-secondary ml-3" @click="cancel">
                     Cancelar
                 </button>

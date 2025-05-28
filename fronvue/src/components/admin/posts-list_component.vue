@@ -2,7 +2,7 @@
     <div class="container-fluid ">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Publicaciones</h2>
-            <button class="btn btn-primary" @click="createMyPost">Crear Publicación</button>
+            <button class="btn btn-success  " @click="createMyPost">Crear Publicación</button>
         </div>
         <table class="table table-striped align-middle">
             <thead>

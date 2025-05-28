@@ -50,4 +50,9 @@ const googleAuth = async ({ email, name, imageUrl, router }) => {
   }
 };
 
-export { loginUser, logoutUser, googleAuth };
+// check if user is logged in
+const isLoggedIn = () => {
+  return !!localStorage.getItem('authToken') && !!localStorage.getItem('username');
+};
+
+export { loginUser, logoutUser, googleAuth, isLoggedIn };

@@ -34,7 +34,7 @@
                     <option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }}</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Crear Publicación</button>
+            <button type="submit" class="btn btn-success">Crear Publicación</button>
             <button type="button" class="btn btn-secondary ml-3" @click="cancel">
                 Cancelar
             </button>

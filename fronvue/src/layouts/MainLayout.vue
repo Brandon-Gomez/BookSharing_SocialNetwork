@@ -24,9 +24,10 @@
             </li>
            
              <li class="nav-item">
-              <a class="nav-link" :href="`/profile/${username}`">
-                  <i class="ci-user mr-1 "></i>
-                Mi Perfil</a>
+              <a v-if="!isAdmin" class="nav-link" :href="`/profile/${username}`">
+                  <i class="ci-user mr-1 "></i>Mi Perfil</a>
+              <a v-else class="nav-link" href="/admin/dashboard">
+                  <i class="ci-user mr-1 "></i>Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" :href="`/profile/${username}/likes`">
@@ -102,24 +103,8 @@
                     <i class="navbar-tool-icon ci-heart"></i>
                   </div>
                 </a>
-                <!-- Solo muestra el botón de login si NO está autenticado -->
-                <a
-                  v-if="!isAuthenticated"
-                  class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2"
-                  href="#signin-modal"
-                  data-bs-toggle="modal"
-                >
-                  <div class="navbar-tool-icon-box">
-                    <i class="navbar-tool-icon ci-user"></i>
-                  </div>
-                  <div class="navbar-tool-text ms-n3">
-                    <small>Iniciar Sesión</small>Mi cuenta
-                  </div>
-                </a>
-
-                <a
+                <a v-if="!isAdmin"
                   :href="`/profile/${username}`"
-                  v-else
                   class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2"
                 >
                   <div class="navbar-tool-icon-box">
@@ -128,6 +113,16 @@
                   <div class="navbar-tool-text ms-n3">
                     <small>Mi Perfil</small>
                     <span v-if="username">{{ username }}</span>
+                  </div>
+                </a>
+
+                <a v-else href="/admin/dashboard" class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2">
+                  <div class="navbar-tool-icon-box">
+                    <i class="navbar-tool-icon ci-user"></i>
+                  </div>
+                  <div class="navbar-tool-text ms-n3">
+                    <small>Admin</small>
+                    <span>Dashboard</span>
                   </div>
                 </a>
 
@@ -325,8 +320,9 @@
 </template>
 
 <script>
-import { loginUser, logoutUser } from "@/services/useAuth.js";
+import { loginUser, logoutUser, isLoggedIn } from "@/services/useAuth.js";
 import apiClient from "@/services/ApiService";
+import * as jwt from "jwt-decode";
 export default {
   components: {
   },
@@ -334,6 +330,7 @@ export default {
     return {
       showSearch: false,
       isAuthenticated: false,
+      isAdmin: "",
       isSidebarOpen: false,
       loginEmail: "",
       loginPassword: "",
@@ -361,26 +358,19 @@ export default {
       }
     },
     checkAuth() {
-      // Obtener el token del localStorage
-      const token = localStorage.getItem("authToken");
-      this.username = localStorage.getItem("username");
 
-      if (token) {
+      if (isLoggedIn()) {
         try {
-          // Validar si el token aún es válido (opcional, puedes decodificarlo)
-          // const decoded = jwt_decode(token);
-          // // Verifica si el token ha expirado (opcionalmente, usando el campo 'exp' del JWT)
-          // const currentTime = Math.floor(Date.now() / 1000);
-          // if (decoded.exp < currentTime) {
-          //   this.isAuthenticated = false;
-          //   localStorage.removeItem('authToken'); // Limpiar token si está expirado
-          //   return;
-          // }
-
-          // Si el token es válido y no ha expirado, el usuario está autenticado
+          const token = localStorage.getItem("authToken");
+          const decoded = jwt.jwtDecode(token);
+          if (decoded.exp < Date.now() / 1000) {
+            throw new Error("Token expirado");
+          }
+          this.username = localStorage.getItem("username");
           this.isAuthenticated = true;
+          this.isAdmin = decoded.is_admin;
         } catch (error) {
-          localStorage.removeItem("authToken");
+          logoutUser(this.$router);
         }
       } else {
         this.$router.push("/login");
@@ -403,6 +393,8 @@ export default {
     goToProfile(username) {
       window.location.href = `/profile/${username}`;
     },
+
+    // Maneja el clic fuera del contenedor de búsqueda para cerrar la lista de usuarios
     handleClickOutside(event) {
       const container = this.$refs.searchContainer;
       const containerMobile = this.$refs.searchContainerMobile;

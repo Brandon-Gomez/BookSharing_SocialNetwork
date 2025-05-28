@@ -274,8 +274,8 @@ export default {
         const response = await apiClient.get(`/profile/${username}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         let user = response.data.user;
+
         if (user.birthdate) {
           user.birthdate = user.birthdate.split("T")[0];
         }

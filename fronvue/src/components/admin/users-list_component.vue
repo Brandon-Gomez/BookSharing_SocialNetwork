@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2>Lista de Usuarios</h2>
-      <button class="btn btn-primary" @click="createUser">Crear Usuario</button>
+      <button class="btn btn-success" @click="createUser">Crear Usuario</button>
     </div>
     <table class="table table-striped">
       <thead>
