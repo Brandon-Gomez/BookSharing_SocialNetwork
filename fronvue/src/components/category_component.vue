@@ -43,7 +43,7 @@
                 <!-- Content  -->
                 <section  class="col-lg-8">
                     <!-- Nuevo grid de artículos -->
-                    <div v-if="posts.length > 0"  class="library-grid">
+                    <div v-if="posts.length > 0" class="library-grid">
                         <article class="library-item" v-for="(post) in posts" :key="post.post_id">
                             <div class="card">
 
